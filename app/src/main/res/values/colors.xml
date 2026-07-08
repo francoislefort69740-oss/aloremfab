@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary_100">#FAD5D1</color>
+    <color name="primary_500">#E63C2B</color>
+    <color name="primary_700">#B82F22</color>
+
+    <color name="secondary_color">#263238</color>
+    <color name="primary_color">#E63C2B</color>
+    <color name="accent_color">#00BCD4</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="background">#F5F6F8</color>
+    <color name="success">#2E7D32</color>
+    <color name="advertising">#F9A825</color>
+
 </resources>

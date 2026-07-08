@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">ALOREM QUALITY</string>
+    <string name="hello_world">HELLO WORLD !</string>
+    <string name="accent_color">ACCENT COLOR</string>
+    <string name="success_color">SUCCESS COLOR</string>
+    <string name="primary_color">PRIMARY COLOR</string>
+    <string name="advertising_color">ADVERTISING COLOR</string>
+    <string name="primary_100">PRIMARY 100</string>
+    <string name="primary_500">PRIMARY 500</string>
+    <string name="primary_700">PRIMARY 700</string>
 </resources>
