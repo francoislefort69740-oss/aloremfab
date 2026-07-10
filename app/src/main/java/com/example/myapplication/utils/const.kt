@@ -14,7 +14,8 @@ const val JOHN_DOE_ID = 0
 const val USER_ID = 1
 
 //CREATE USER FRAGMENT
-const val CREATE_USER_TAG = "CREATE_USER_TAG"
+const val MENU_TAG = "MENU_TAG"
+const val REGISTRATION_TAG = "REGISTRATION_TAG"
 
 //AQ Summary
 const val AQ_SUMMARY_TAG = "AQ_SUMMARY_TAG"
