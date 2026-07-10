@@ -17,9 +17,9 @@ class MainFragment : BaseFragment() {
     }
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
-        val userNameTextView = view.findViewById<TextView>(R.id.textView)
+        val userNameTextView = view.findViewById<TextView>(R.id.userTitle_menu)
         val userEditText = view.findViewById<TextView>(R.id.userSpace)
-        val userButton = view.findViewById<TextView>(R.id.userChangeBtn)
+        val userButton = view.findViewById<TextView>(R.id.userChangeBtn_menu)
 
         var firstName = ""
         var email = ""
@@ -43,9 +43,5 @@ class MainFragment : BaseFragment() {
                 viewModel.getUser(1)
             }
         }
-    }
-
-    private fun testDatabase() {
-
     }
 }

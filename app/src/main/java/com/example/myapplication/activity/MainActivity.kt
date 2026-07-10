@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.fragment.MainFragment
+import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.utils.MAIN_TAG
 
 class MainActivity : BaseActivity() {
@@ -28,7 +29,7 @@ class MainActivity : BaseActivity() {
     override fun getActivityId(): Int = R.layout.activity_main
     override fun getViewId(): Int = R.id.main
     override fun getFragmentLayout(): Int = R.id.main_activity_fragmentlayout
-    override fun getFragment(): Fragment = MainFragment.newInstance()
+    override fun getFragment(): Fragment = MenuFragment.newInstance()
 
     override fun childBody(savedInstanceState: Bundle?) {
         enableEdgeToEdge()

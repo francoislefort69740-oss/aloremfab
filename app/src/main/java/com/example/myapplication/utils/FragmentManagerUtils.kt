@@ -3,9 +3,11 @@ package com.example.myapplication.utils
 import android.util.Log
 import androidx.fragment.app.FragmentManager
 import com.example.myapplication.fragment.MainFragment
+import com.example.myapplication.fragment.MenuFragment
 
 fun fragmentManagerBusinessByTAG(tag: String, supportFragmentManager: FragmentManager, fragmentLayout: Int, obj: Any? = null) = when(tag) {
-    MAIN_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, MainFragment.newInstance(), MAIN_TAG).commit()/*
+    MAIN_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, MenuFragment.newInstance(), MAIN_TAG).commit()
+    /*
     CREATE_USER_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, CreateUserFragment.newInstance(), CREATE_USER_TAG).commit()
     AQ_SUMMARY_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, AQSummaryFragment.newInstance(), AQ_SUMMARY_TAG).commit()
     CREATION_AQ_TAG ->
