@@ -18,9 +18,30 @@ class MainFragment : BaseFragment() {
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
         val userNameTextView = view.findViewById<TextView>(R.id.textView)
-        viewModel.getUser(0)
+        val userEditText = view.findViewById<TextView>(R.id.userSpace)
+        val userButton = view.findViewById<TextView>(R.id.userChangeBtn)
+
+        var firstName = ""
+        var email = ""
+        var name = ""
+
+        viewModel.getUser(1)
+
+        userButton.setOnClickListener {
+            firstName = userEditText.text.toString()
+            viewModel.updateUser(firstName = firstName, name = name, email = email)
+        }
+
         viewModel.getUserLiveData().observe(this){ response ->
             userNameTextView.text = response.firstName
+            name = response.lastName
+            email = response.email
+        }
+
+        viewModel.updateUserLiveData().observe(this){ response ->
+            if (response) {
+                viewModel.getUser(1)
+            }
         }
     }
 
