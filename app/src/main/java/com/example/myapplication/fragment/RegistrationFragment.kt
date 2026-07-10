@@ -7,6 +7,7 @@ import com.example.myapplication.R
 import com.example.myapplication.callback.RegistrationInterface
 import com.example.myapplication.utils.REGISTRATION_TAG
 import com.example.myapplication.viewmodel.MainViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
 
@@ -22,7 +23,9 @@ class RegistrationFragment : BaseFragment() {
     }
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
-        val i = 0
+        view.findViewById<FloatingActionButton>(R.id.registration_exit).setOnClickListener {
+            mCallback?.loadMenuFragment()
+        }
     }
 
     /**

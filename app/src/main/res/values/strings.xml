@@ -15,4 +15,9 @@
     <string name="email_menu">email :</string>"
     <string name="grv_menu">GRV</string>
     <string name="change_user_menu">Editeur utilisateur</string>
+
+    <string name="mettre_a_jour_registration">MAJ</string>
+    <string name="nouveau_utilisateur_registration">NOUVEAU</string>
+    <string name="liste_utilisateur_registration">LISTE</string>
+    <string name="supprimer_registration">SUPPRIMER</string>
 </resources>

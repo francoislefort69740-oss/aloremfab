@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.MainFragment">
+    tools:context=".fragment.MenuFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
@@ -28,12 +28,19 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.80"/>
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.32"/>
+
         <ImageView
             android:id="@+id/imageView_ALOREM"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/full_logo_alorem"
-            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintDimensionRatio="3:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,16 +48,15 @@
         <TextView
             android:id="@+id/userTitle_menu"
             android:layout_width="wrap_content"
-            android:textSize="40sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="@string/utilisateur_menu"
             android:textAlignment="center"
             android:textColor="@color/black"
+            android:textSize="40sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_ALOREM" />
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_3" />
 
 
         <TextView
