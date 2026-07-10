@@ -20,4 +20,6 @@
     <string name="nouveau_utilisateur_registration">NOUVEAU</string>
     <string name="liste_utilisateur_registration">LISTE</string>
     <string name="supprimer_registration">SUPPRIMER</string>
+    <string name="utilisateur_actif_registration">UTILISATEUR ACTIF</string>
+
 </resources>

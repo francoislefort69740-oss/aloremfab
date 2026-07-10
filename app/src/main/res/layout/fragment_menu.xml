@@ -15,28 +15,28 @@
         tools:context=".activity.MainActivity">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_1"
+            android:id="@+id/menu_guideline_1_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.65"/>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_2"
+            android:id="@+id/menu_guideline_2_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.80"/>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_3"
+            android:id="@+id/menu_guideline_3_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.32"/>
 
         <ImageView
-            android:id="@+id/imageView_ALOREM"
+            android:id="@+id/imageView_ALOREM_registration"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/full_logo_alorem"
@@ -56,11 +56,11 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/menu_guideline_3" />
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_3_registration" />
 
 
         <TextView
-            android:id="@+id/nameTitle_menu"
+            android:id="@+id/nameTitle_registration"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
 
 
         <TextView
-            android:id="@+id/forenameTitle_menu"
+            android:id="@+id/forenameTitle_registration"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,11 +81,11 @@
             android:text="@string/prenom_menu"
             android:textAlignment="center"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/nameTitle_menu"
-            app:layout_constraintTop_toBottomOf="@+id/nameTitle_menu" />
+            app:layout_constraintStart_toStartOf="@+id/nameTitle_registration"
+            app:layout_constraintTop_toBottomOf="@+id/nameTitle_registration" />
 
         <TextView
-            android:id="@+id/emailTitle_menu"
+            android:id="@+id/emailTitle_registration"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,29 +93,29 @@
             android:text="@string/email_menu"
             android:textAlignment="center"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/nameTitle_menu"
-            app:layout_constraintTop_toBottomOf="@+id/forenameTitle_menu" />
+            app:layout_constraintStart_toStartOf="@+id/nameTitle_registration"
+            app:layout_constraintTop_toBottomOf="@+id/forenameTitle_registration" />
 
         <TextView
-            android:id="@+id/nameMenu_menu"
+            android:id="@+id/nameMenu_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:textAlignment="center"
             android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/forenameTitle_menu"
+            app:layout_constraintStart_toEndOf="@+id/forenameTitle_registration"
             app:layout_constraintTop_toBottomOf="@+id/userTitle_menu" />
 
         <TextView
-            android:id="@+id/forenameMenu_menu"
+            android:id="@+id/forenameMenu_registration"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="@+id/nameMenu_menu"
-            app:layout_constraintTop_toBottomOf="@+id/nameTitle_menu" />
+            app:layout_constraintStart_toStartOf="@+id/nameMenu_registration"
+            app:layout_constraintTop_toBottomOf="@+id/nameTitle_registration" />
 
         <TextView
             android:id="@+id/emailMenu_menu"
@@ -124,8 +124,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="@+id/forenameMenu_menu"
-            app:layout_constraintTop_toBottomOf="@+id/forenameTitle_menu" />
+            app:layout_constraintStart_toStartOf="@+id/forenameMenu_registration"
+            app:layout_constraintTop_toBottomOf="@+id/forenameTitle_registration" />
 
         <ImageView
             android:id="@+id/GRVControlBtn_menu"
@@ -134,11 +134,11 @@
             android:background="@drawable/iaphotologo"
             android:padding="30dp"
             android:src="@drawable/baseline_factory_24"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/menu_guideline_1" />
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_registration" />
 
         <Button
             android:id="@+id/userChangeBtn_menu"

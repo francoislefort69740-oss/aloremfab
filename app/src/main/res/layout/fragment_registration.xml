@@ -14,7 +14,7 @@
         tools:context=".activity.MainActivity">
 
         <ImageView
-            android:id="@+id/imageView_ALOREM"
+            android:id="@+id/imageView_ALOREM_registration"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/full_logo_alorem"
@@ -24,34 +24,34 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_3"
+            android:id="@+id/menu_guideline_3_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.35"/>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_1"
+            android:id="@+id/menu_guideline_1_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.75"/>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_2"
+            android:id="@+id/menu_guideline_2_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.85"/>
 
         <Button
-            android:id="@+id/newUser_menu"
+            android:id="@+id/newUser_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/primary_color"
             android:padding="10dp"
             android:text="@string/nouveau_utilisateur_registration"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
             app:layout_constraintEnd_toStartOf="@+id/updateUser_menu"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -62,9 +62,9 @@
             android:backgroundTint="@color/primary_color"
             android:padding="10dp"
             android:text="@string/mettre_a_jour_registration"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
             app:layout_constraintEnd_toStartOf="@+id/listUser_menu"
-            app:layout_constraintStart_toEndOf="@+id/newUser_menu" />
+            app:layout_constraintStart_toEndOf="@+id/newUser_registration" />
 
         <Button
             android:id="@+id/listUser_menu"
@@ -73,7 +73,7 @@
             android:backgroundTint="@color/primary_color"
             android:padding="10dp"
             android:text="@string/liste_utilisateur_registration"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
             app:layout_constraintEnd_toStartOf="@+id/deleteUser_menu"
             app:layout_constraintStart_toEndOf="@+id/updateUser_menu" />
 
@@ -84,7 +84,7 @@
             android:backgroundTint="@color/primary_color"
             android:padding="10dp"
             android:text="@string/supprimer_registration"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/listUser_menu" />
 

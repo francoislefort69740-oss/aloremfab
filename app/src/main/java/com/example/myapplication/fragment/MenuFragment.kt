@@ -38,8 +38,8 @@ class MenuFragment : BaseFragment() {
     }
 
     private fun getObservation(view: View){
-        val userNameTextView = view.findViewById<TextView>(R.id.nameMenu_menu)
-        val userForenameTextView = view.findViewById<TextView>(R.id.forenameMenu_menu)
+        val userNameTextView = view.findViewById<TextView>(R.id.nameMenu_registration)
+        val userForenameTextView = view.findViewById<TextView>(R.id.forenameMenu_registration)
         val userEmailTextView = view.findViewById<TextView>(R.id.emailMenu_menu)
 
         viewModel.getUserLiveData().observe(this){ response ->

@@ -26,7 +26,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_ALOREM" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView_ALOREM_registration" />
 
         <TextView
             android:id="@+id/textView2"
@@ -51,7 +51,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
-            android:id="@+id/nameTitle_menu"
+            android:id="@+id/nameTitle_registration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <ImageView
-            android:id="@+id/imageView_ALOREM"
+            android:id="@+id/imageView_ALOREM_registration"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/full_logo_alorem"
@@ -83,7 +83,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/forenameTitle_menu"
+            android:id="@+id/forenameTitle_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -93,7 +93,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameTitle_menu" />
+            app:layout_constraintTop_toBottomOf="@+id/nameTitle_registration" />
 
         <TextView
             android:id="@+id/textView6"
@@ -106,7 +106,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/forenameTitle_menu" />
+            app:layout_constraintTop_toBottomOf="@+id/forenameTitle_registration" />
 
         <TextView
             android:id="@+id/textView7"
