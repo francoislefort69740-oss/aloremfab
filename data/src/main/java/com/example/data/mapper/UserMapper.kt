@@ -1,6 +1,8 @@
 package com.example.data.mapper
 
+import com.example.data.database.entities.ActiveIdLocal
 import com.example.data.database.entities.UserLocal
+import com.example.domain.model.ActiveIdBusiness
 import com.example.domain.model.UserBusiness
 import kotlin.collections.forEach
 
@@ -27,6 +29,19 @@ object UserMapper {
         }
         return result
     }
+
+    // ACTIVE ID
+
+    fun activeIdBusinessToLocal(activeIdBusiness: ActiveIdBusiness): ActiveIdLocal = ActiveIdLocal(
+        uid = activeIdBusiness.uid,
+        activeId = activeIdBusiness.activeId
+    )
+
+    fun activeIdLocalToBusiness(activeIdLocal: ActiveIdLocal): ActiveIdBusiness = ActiveIdBusiness(
+        uid = activeIdLocal.uid,
+        activeId = activeIdLocal.activeId
+    )
+
 
 
 }

@@ -3,11 +3,13 @@ package com.example.myapplication.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.callback.RegistrationInterface
+import com.example.myapplication.model.User
 import com.example.myapplication.recycler.RegistrationUserListAdapter
 import com.example.myapplication.utils.REGISTRATION_TAG
 import com.example.myapplication.viewmodel.MainViewModel
@@ -41,10 +43,14 @@ class RegistrationFragment : BaseFragment() {
 
     private fun loadUserList(view: View){
         viewModel.getUsersLiveData().observe(this){ resumeUsersList ->
-            mAdapter = RegistrationUserListAdapter(resumeUsersList) { userId ->
+            mAdapter = RegistrationUserListAdapter(resumeUsersList.first) { userId ->
                 Toast.makeText(context, "User $userId deleted", Toast.LENGTH_SHORT).show()
             }
             recyclerView.adapter = mAdapter
+
+            view.findViewById<TextView>(R.id.nameMenu_registration).text = resumeUsersList.first[resumeUsersList.second].lastName
+            view.findViewById<TextView>(R.id.forenameMenu_registration).text = resumeUsersList.first[resumeUsersList.second].firstName
+            view.findViewById<TextView>(R.id.emailMenu_menu).text = resumeUsersList.first[resumeUsersList.second].email
         }
 
         recyclerView.layoutManager = LinearLayoutManager(view.context)

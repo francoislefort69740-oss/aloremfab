@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.ResultOf
 import com.example.domain.interactor.DomainInteractor
 import com.example.domain.model.ErrorBusiness
-import com.example.domain.model.UserBusiness
 import com.example.myapplication.mapper.FrontUserMapper
 import com.example.myapplication.model.User
 import kotlinx.coroutines.launch
@@ -17,12 +16,14 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     private val getUser = interactor.getUserUseCase
     private val updateUser = interactor.updateUserUseCase
     private val getUsers = interactor.getAllUsersUseCase
+    private val getActiveId = interactor.getActiveIdUseCase
 
     // LIVEDATA
 
     private val userLiveData = MutableLiveData<User>()
     private val updateUserLiveData = MutableLiveData<Boolean>()
-    private val usersLiveData = MutableLiveData<List<User>>()
+    private val usersLiveData = MutableLiveData< Pair<List<User>, Int>>()
+    private val activeIdLiveData = MutableLiveData<Int>()
 
 
     fun getUserLiveData() = userLiveData
@@ -57,7 +58,18 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     fun getUsers(){
         viewModelScope.launch {
             when(val result = getUsers.invoke()) {
-                is ResultOf.Success -> usersLiveData.postValue(FrontUserMapper.allUsersBusinessToFront(result.data))
+                is ResultOf.Success -> usersLiveData.postValue(Pair(FrontUserMapper.allUsersBusinessToFront(result.data.first), result.data.second))
+                is  ResultOf.Error -> when(result.exception) {
+                    is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
+                }
+            }
+        }
+    }
+
+    fun getActiveId(id: Int){
+        viewModelScope.launch {
+            when(val result = getActiveId.invoke(id = id)) {
+                is ResultOf.Success -> activeIdLiveData.postValue(result.data.activeId)
                 is  ResultOf.Error -> when(result.exception) {
                     is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
                 }
