@@ -58,6 +58,13 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.06"/>
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_6_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.94"/>
+
         <Button
             android:id="@+id/newUser_registration"
             android:layout_width="wrap_content"
@@ -158,6 +165,17 @@
             app:layout_constraintStart_toStartOf="@+id/forenameMenu_registration"
             app:layout_constraintTop_toTopOf="@+id/emailTitle_registration" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_registration"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_item"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_registration"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_6_registration"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_registration"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_3_registration" />
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

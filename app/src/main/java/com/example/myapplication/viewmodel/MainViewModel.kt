@@ -16,15 +16,18 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
 
     private val getUser = interactor.getUserUseCase
     private val updateUser = interactor.updateUserUseCase
+    private val getUsers = interactor.getAllUsersUseCase
 
     // LIVEDATA
 
     private val userLiveData = MutableLiveData<User>()
     private val updateUserLiveData = MutableLiveData<Boolean>()
+    private val usersLiveData = MutableLiveData<List<User>>()
 
 
     fun getUserLiveData() = userLiveData
     fun updateUserLiveData() = updateUserLiveData
+    fun getUsersLiveData() = usersLiveData
 
 
     // OBSERVATION
@@ -51,4 +54,14 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
         }
     }
 
+    fun getUsers(){
+        viewModelScope.launch {
+            when(val result = getUsers.invoke()) {
+                is ResultOf.Success -> usersLiveData.postValue(FrontUserMapper.allUsersBusinessToFront(result.data))
+                is  ResultOf.Error -> when(result.exception) {
+                    is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
+                }
+            }
+        }
+    }
 }

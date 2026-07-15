@@ -21,6 +21,10 @@ class UserRepositoryImpl(private val userLocalDataSource: UserLocalDataSource): 
         return userLocalDataSource.checkIfUserExist(userId = uid)
     }
 
+    override suspend fun getAllUsers(): List<UserBusiness> {
+        return userLocalDataSource.getAllUsers()
+    }
+
     override suspend fun updateUser(userBusiness: UserBusiness) {
         userLocalDataSource.updateLocalUser(userBusiness = userBusiness)
     }

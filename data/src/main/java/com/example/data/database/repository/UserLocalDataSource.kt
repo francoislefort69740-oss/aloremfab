@@ -10,6 +10,7 @@ interface UserLocalDataSource {
     suspend fun getLocalUserById(userId: Int): UserBusiness
     suspend fun getUserLocalByName(firstName: String, lastName: String): UserBusiness
     suspend fun checkIfUserExist(userId: Int): Boolean
+    suspend fun getAllUsers(): List<UserBusiness>
 
     //UPDATE
     suspend fun updateLocalUser(userBusiness: UserBusiness)

@@ -21,6 +21,10 @@ open class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataS
         return userDao.userIdExist(userId = userId)
     }
 
+    override suspend fun getAllUsers(): List<UserBusiness> {
+        return UserMapper.allUsersLocalToBusiness(userLocals = userDao.getAll())
+    }
+
     override suspend fun updateLocalUser(userBusiness: UserBusiness) {
         userDao.update(UserMapper.userBusinessToLocal(userBusiness = userBusiness))
     }

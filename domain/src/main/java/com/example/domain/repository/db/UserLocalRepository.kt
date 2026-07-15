@@ -10,6 +10,7 @@ interface UserLocalRepository {
     suspend fun getUserLocal(userInt: Int): UserBusiness
     suspend fun getUserLocalByName(firstName: String, lastName: String): UserBusiness
     suspend fun checkIfUserExist(uid: Int): Boolean
+    suspend fun getAllUsers(): List<UserBusiness>
 
     // UPDATE
     suspend fun updateUser(userBusiness: UserBusiness)
