@@ -5,8 +5,8 @@ import com.example.domain.model.UserBusiness
 import com.example.domain.repository.db.UserLocalRepository
 
 class UserRepositoryImpl(private val userLocalDataSource: UserLocalDataSource): UserLocalRepository {
-    override suspend fun createUser(userBusiness: UserBusiness) {
-        userLocalDataSource.createLocalUser(userBusiness = userBusiness)
+    override suspend fun createUser(userBusiness: UserBusiness): Int {
+        return userLocalDataSource.createLocalUser(userBusiness = userBusiness)
     }
 
     override suspend fun getUserLocal(userInt: Int): UserBusiness {
@@ -25,7 +25,7 @@ class UserRepositoryImpl(private val userLocalDataSource: UserLocalDataSource): 
         return userLocalDataSource.getAllUsers()
     }
 
-    override suspend fun updateUser(userBusiness: UserBusiness) {
-        userLocalDataSource.updateLocalUser(userBusiness = userBusiness)
+    override suspend fun updateUser(userBusiness: UserBusiness): Int {
+        return userLocalDataSource.updateLocalUser(userBusiness = userBusiness)
     }
 }

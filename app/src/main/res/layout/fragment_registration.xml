@@ -38,7 +38,7 @@
             app:layout_constraintGuide_percent="0.75"/>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_2_registration"
+            android:id="@+id/menu_guideline_2_create_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -51,7 +51,7 @@
             android:backgroundTint="@color/primary_color"
             android:padding="10dp"
             android:text="@string/nouveau_utilisateur_registration"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_create_user"
             app:layout_constraintEnd_toStartOf="@+id/updateUser_menu"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -62,7 +62,7 @@
             android:backgroundTint="@color/primary_color"
             android:padding="10dp"
             android:text="@string/mettre_a_jour_registration"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_create_user"
             app:layout_constraintEnd_toStartOf="@+id/listUser_menu"
             app:layout_constraintStart_toEndOf="@+id/newUser_registration" />
 
@@ -73,7 +73,7 @@
             android:backgroundTint="@color/primary_color"
             android:padding="10dp"
             android:text="@string/liste_utilisateur_registration"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_create_user"
             app:layout_constraintEnd_toStartOf="@+id/deleteUser_menu"
             app:layout_constraintStart_toEndOf="@+id/updateUser_menu" />
 
@@ -84,7 +84,7 @@
             android:backgroundTint="@color/primary_color"
             android:padding="10dp"
             android:text="@string/supprimer_registration"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_create_user"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/listUser_menu" />
 

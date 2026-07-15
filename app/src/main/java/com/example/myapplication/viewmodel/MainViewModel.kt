@@ -17,6 +17,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     private val updateUser = interactor.updateUserUseCase
     private val getUsers = interactor.getAllUsersUseCase
     private val getActiveId = interactor.getActiveIdUseCase
+    private val createUser = interactor.createUserUseCase
 
     // LIVEDATA
 
@@ -24,14 +25,42 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     private val updateUserLiveData = MutableLiveData<Boolean>()
     private val usersLiveData = MutableLiveData< Pair<List<User>, Int>>()
     private val activeIdLiveData = MutableLiveData<Int>()
+    private val createUserLiveData = MutableLiveData<Boolean>()
+
+
+    private val userRegistrationError = MutableLiveData<Boolean>()
+    private val userRegistrationNameError = MutableLiveData<Boolean>()
+    private val userRegistrationForNameError = MutableLiveData<Boolean>()
+    private val userRegistrationEmailError = MutableLiveData<Boolean>()
 
 
     fun getUserLiveData() = userLiveData
     fun updateUserLiveData() = updateUserLiveData
     fun getUsersLiveData() = usersLiveData
+    fun createUserLiveData() = createUserLiveData
+
+
+    fun getUserRegistrationError() = userRegistrationError
+    fun getUserRegistrationNameError() = userRegistrationNameError
+    fun getUserRegistrationForNameError() = userRegistrationForNameError
+    fun getUserRegistrationEmailError() = userRegistrationEmailError
 
 
     // OBSERVATION
+
+    fun createUser(name: String, firstName: String, email: String){
+        viewModelScope.launch {
+            when(val result = createUser.invoke(name = name, firstName = firstName, email = email)) {
+                is ResultOf.Success -> createUserLiveData.postValue(result.data)
+                is ResultOf.Error -> when(result.exception) {
+                    is ErrorBusiness.UserNotFound -> userRegistrationError.postValue(true)
+                    is ErrorBusiness.UserRegistrationNameFieldEmpty -> userRegistrationNameError.postValue(true)
+                    is ErrorBusiness.UserRegistrationForNameFieldEmpty -> userRegistrationForNameError.postValue(true)
+                    is ErrorBusiness.UserRegistrationEmailFieldEmpty -> userRegistrationEmailError.postValue(true)
+                }
+            }
+        }
+    }
 
     fun getUser(id: Int){
         viewModelScope.launch {
@@ -44,9 +73,9 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
         }
     }
 
-    fun updateUser(name: String, firstName: String, email: String){
+    fun updateUser(name: String, firstName: String, email: String, uid: Int){
         viewModelScope.launch {
-            when(val result = updateUser.invoke(name = name, firstName = firstName, email = email)) {
+            when(val result = updateUser.invoke(name = name, firstName = firstName, email = email, uid = uid)) {
                 is ResultOf.Success -> updateUserLiveData.postValue(result.data)
                 is  ResultOf.Error -> when(result.exception) {
                     is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")

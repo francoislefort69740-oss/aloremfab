@@ -22,7 +22,7 @@
             app:layout_constraintGuide_percent="0.65"/>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_2_registration"
+            android:id="@+id/menu_guideline_2_create_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -134,7 +134,7 @@
             android:background="@drawable/iaphotologo"
             android:padding="30dp"
             android:src="@drawable/baseline_factory_24"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_registration"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_create_user"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

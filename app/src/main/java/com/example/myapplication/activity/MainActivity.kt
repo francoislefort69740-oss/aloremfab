@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.callback.RegistrationInterface
+import com.example.myapplication.fragment.CreateUserFragment
 import com.example.myapplication.fragment.MainFragment
 import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.fragment.RegistrationFragment
@@ -39,6 +40,10 @@ class MainActivity : BaseActivity(), RegistrationInterface {
 
     override fun loadMenuFragment() {
         buildInterface(MenuFragment.TAG)
+    }
+
+    override fun createRegistrationFragment() {
+        buildInterface(CreateUserFragment.TAG)
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.domain.interactor
 
+import com.example.domain.usecase.CreateUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
 import com.example.domain.usecase.GetAllUsersUseCase
 import com.example.domain.usecase.GetUserUseCase
@@ -9,5 +10,6 @@ data class DomainInteractor(
     val getUserUseCase: GetUserUseCase,
     val updateUserUseCase: UpdateUserUseCase,
     val getAllUsersUseCase: GetAllUsersUseCase,
-    val getActiveIdUseCase: GetActiveIdUseCase
+    val getActiveIdUseCase: GetActiveIdUseCase,
+    val createUserUseCase: CreateUserUseCase
 )

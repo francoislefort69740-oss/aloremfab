@@ -5,8 +5,9 @@ import com.example.data.mapper.UserMapper
 import com.example.domain.model.UserBusiness
 
 open class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataSource {
-    override suspend fun createLocalUser(userBusiness: UserBusiness) {
+    override suspend fun createLocalUser(userBusiness: UserBusiness): Int {
         userDao.insertUser(UserMapper.userBusinessToLocal(userBusiness = userBusiness))
+        return userDao.findUserByName(first = userBusiness.firstName, last = userBusiness.lastName).uid
     }
 
     override suspend fun getLocalUserById(userId: Int): UserBusiness {
@@ -25,7 +26,8 @@ open class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataS
         return UserMapper.allUsersLocalToBusiness(userLocals = userDao.getAll())
     }
 
-    override suspend fun updateLocalUser(userBusiness: UserBusiness) {
+    override suspend fun updateLocalUser(userBusiness: UserBusiness): Int {
         userDao.update(UserMapper.userBusinessToLocal(userBusiness = userBusiness))
+        return userDao.findUserByName(first = userBusiness.firstName, last = userBusiness.lastName).uid
     }
 }

@@ -3,6 +3,7 @@ package com.example.myapplication.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +35,10 @@ class RegistrationFragment : BaseFragment() {
     override fun getBody(view: View, savedInstanceState: Bundle?) {
         view.findViewById<FloatingActionButton>(R.id.registration_exit).setOnClickListener {
             mCallback?.loadMenuFragment()
+        }
+
+        view.findViewById<Button>(R.id.newUser_registration).setOnClickListener {
+            mCallback?.createRegistrationFragment()
         }
 
         recyclerView = view.findViewById(R.id.recycler_registration)

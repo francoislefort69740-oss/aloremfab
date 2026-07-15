@@ -14,4 +14,16 @@ sealed class ErrorBusiness: Exception() {
         private fun readResolve(): Any = UserRegistrationFieldEmpty
     }
 
+    data object UserRegistrationNameFieldEmpty: ErrorBusiness() {
+        private fun readResolve(): Any = UserRegistrationNameFieldEmpty
+    }
+
+    data object UserRegistrationForNameFieldEmpty: ErrorBusiness() {
+        private fun readResolve(): Any = UserRegistrationForNameFieldEmpty
+    }
+
+    data object UserRegistrationEmailFieldEmpty: ErrorBusiness() {
+        private fun readResolve(): Any = UserRegistrationEmailFieldEmpty
+    }
+
 }
