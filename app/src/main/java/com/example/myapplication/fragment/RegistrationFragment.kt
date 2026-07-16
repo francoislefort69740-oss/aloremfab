@@ -43,19 +43,35 @@ class RegistrationFragment : BaseFragment() {
 
         recyclerView = view.findViewById(R.id.recycler_registration)
         viewModel.getUsers()
-        loadUserList(view= view)
+        getObservations(view= view)
     }
 
-    private fun loadUserList(view: View){
+    private fun getObservations(view: View){
         viewModel.getUsersLiveData().observe(this){ resumeUsersList ->
-            mAdapter = RegistrationUserListAdapter(resumeUsersList.first) { userId ->
-                Toast.makeText(context, "User $userId deleted", Toast.LENGTH_SHORT).show()
-            }
+            mAdapter = RegistrationUserListAdapter(resumeUsersList,
+                onItemClicked = { userId -> viewModel.updateId(activeId = userId, users = resumeUsersList)},
+                onDeleteClick = { userId -> Toast.makeText(context, "User $userId deleted", Toast.LENGTH_SHORT).show()}
+            )
+
             recyclerView.adapter = mAdapter
 
-            view.findViewById<TextView>(R.id.nameMenu_registration).text = resumeUsersList.first[resumeUsersList.second].lastName
-            view.findViewById<TextView>(R.id.forenameMenu_registration).text = resumeUsersList.first[resumeUsersList.second].firstName
-            view.findViewById<TextView>(R.id.emailMenu_menu).text = resumeUsersList.first[resumeUsersList.second].email
+            viewModel.getActiveUser(users = resumeUsersList)
+        }
+
+        viewModel.getActiveUserLiveData().observe(this){ user ->
+            view.findViewById<TextView>(R.id.nameMenu_registration).text = user.lastName
+            view.findViewById<TextView>(R.id.forenameMenu_registration).text = user.firstName
+            view.findViewById<TextView>(R.id.emailMenu_menu).text = user.email
+            if (::mAdapter.isInitialized) {
+                mAdapter.notifyDataSetChanged()
+            }
+        }
+
+        viewModel.updateActiveIdLiveData().observe(this){ resumeUsersList ->
+            if (::mAdapter.isInitialized) {
+                mAdapter.updateData(resumeUsersList)
+            }
+            viewModel.getActiveUser(users = resumeUsersList)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(view.context)

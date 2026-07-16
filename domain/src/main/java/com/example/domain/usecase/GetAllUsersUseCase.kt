@@ -7,10 +7,13 @@ import com.example.domain.repository.db.UserLocalRepository
 import java.lang.Exception
 
 class GetAllUsersUseCase(private val userLocalRepository: UserLocalRepository, private val activeIdLocalRepository: ActiveIdLocalRepository) {
-    suspend operator fun invoke(): ResultOf<Pair<List<UserBusiness>, Int>> {
+    suspend operator fun invoke(): ResultOf<List<UserBusiness>> {
         val list = userLocalRepository.getAllUsers()
         val activeId = activeIdLocalRepository.getActiveId(0)
-        return if (list.isNotEmpty()) ResultOf.Success(Pair(list, activeId.activeId))
+
+        list.forEach { it.isActive = it.uid == activeId.activeId }
+
+        return if (list.isNotEmpty()) ResultOf.Success(list)
         else ResultOf.Error(Exception("NO USER FOUND"))
     }
 

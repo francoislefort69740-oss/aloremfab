@@ -17,15 +17,17 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     private val updateUser = interactor.updateUserUseCase
     private val getUsers = interactor.getAllUsersUseCase
     private val getActiveId = interactor.getActiveIdUseCase
+    private val updateActiveId = interactor.updateActiveIdUseCase
     private val createUser = interactor.createUserUseCase
 
     // LIVEDATA
 
     private val userLiveData = MutableLiveData<User>()
     private val updateUserLiveData = MutableLiveData<Boolean>()
-    private val usersLiveData = MutableLiveData< Pair<List<User>, Int>>()
-    private val activeIdLiveData = MutableLiveData<Int>()
+    private val usersLiveData = MutableLiveData<List<User>>()
+    private val activeUserLiveData = MutableLiveData<User>()
     private val createUserLiveData = MutableLiveData<Boolean>()
+    private val updateActiveIdLiveData = MutableLiveData<List<User>>()
 
 
     private val userRegistrationError = MutableLiveData<Boolean>()
@@ -39,6 +41,8 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     fun updateUserLiveData() = updateUserLiveData
     fun getUsersLiveData() = usersLiveData
     fun createUserLiveData() = createUserLiveData
+    fun getActiveUserLiveData() = activeUserLiveData
+    fun updateActiveIdLiveData() = updateActiveIdLiveData
 
     // Error LiveData
     fun getUserRegistrationError() = userRegistrationError
@@ -90,7 +94,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     fun getUsers(){
         viewModelScope.launch {
             when(val result = getUsers.invoke()) {
-                is ResultOf.Success -> usersLiveData.postValue(Pair(FrontUserMapper.allUsersBusinessToFront(result.data.first), result.data.second))
+                is ResultOf.Success -> usersLiveData.postValue(FrontUserMapper.allUsersBusinessToFront(result.data))
                 is  ResultOf.Error -> when(result.exception) {
                     is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
                 }
@@ -98,11 +102,20 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
         }
     }
 
-    fun getActiveId(id: Int){
+    fun getActiveUser(users: List<User>){
         viewModelScope.launch {
-            when(val result = getActiveId.invoke(id = id)) {
-                is ResultOf.Success -> activeIdLiveData.postValue(result.data.activeId)
-                is  ResultOf.Error -> when(result.exception) {
+            activeUserLiveData.postValue(users.find { it.isActive } ?: User(uid = 0, firstName = "", lastName = "", email = ""))
+        }
+    }
+
+    fun updateId(activeId: Int, users: List<User>){
+        viewModelScope.launch {
+            when (val result = updateActiveId.invoke(activeId = activeId)) {
+                is ResultOf.Success -> {
+                    users.forEach { it.isActive = it.uid == activeId }
+                    updateActiveIdLiveData.postValue(users)
+                }
+                is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
                 }
             }

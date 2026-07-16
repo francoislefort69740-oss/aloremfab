@@ -12,7 +12,7 @@
      android:layout_width="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@drawable/rounded_item"
+        android:background="@drawable/rounded_item_selector"
         android:padding="15dp"
         android:id="@+id/aq_summary_item"
         android:layout_width="match_parent"
@@ -25,6 +25,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:textColor="@drawable/text_color_item_selector"
             android:padding="8dp"
             android:text="@string/utilisateur_menu"
             android:textStyle="bold"
@@ -36,6 +37,7 @@
             android:id="@+id/item_user_identity"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:textColor="@drawable/text_color_item_selector"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintBottom_toBottomOf="@+id/item_user_username"
@@ -49,7 +51,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:background="@drawable/rounded_item"
+            android:background="@drawable/rounded_item_selector"
             android:backgroundTint="@color/primary_color"
             android:src="@drawable/outline_delete_24"
             app:layout_constraintBottom_toBottomOf="parent"

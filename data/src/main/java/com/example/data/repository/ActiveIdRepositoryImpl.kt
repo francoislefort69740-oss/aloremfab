@@ -9,7 +9,8 @@ class ActiveIdRepositoryImpl(private val activeIdLocalDataSource: ActiveIdLocalD
         return activeIdLocalDataSource.getActiveIdLocal(uiD = uiD)
     }
 
-    override suspend fun updateActiveId(activeIdBusiness: ActiveIdBusiness) {
+    override suspend fun updateActiveId(activeIdBusiness: ActiveIdBusiness): Int {
         activeIdLocalDataSource.updateLocalActiveId(activeIdBusiness = activeIdBusiness)
+        return activeIdBusiness.activeId
     }
 }

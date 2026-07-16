@@ -7,5 +7,5 @@ interface ActiveIdLocalRepository {
     suspend fun getActiveId(uiD: Int): ActiveIdBusiness
 
     // UPDATE
-    suspend fun updateActiveId(activeIdBusiness: ActiveIdBusiness)
+    suspend fun updateActiveId(activeIdBusiness: ActiveIdBusiness): Int
 }

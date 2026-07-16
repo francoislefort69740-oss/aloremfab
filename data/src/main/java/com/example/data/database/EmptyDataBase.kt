@@ -15,7 +15,7 @@ suspend fun rePopulateDb(database: MyDatabase?){
 
             userDataDao.deleteAll()
 
-            val activeIdLocal = ActiveIdLocal(uid = 0, activeId = 0)
+            val activeIdLocal = ActiveIdLocal(uid = 0, activeId = 1)
             activeIdDao.insertId(activeIdLocal)
         }
     }

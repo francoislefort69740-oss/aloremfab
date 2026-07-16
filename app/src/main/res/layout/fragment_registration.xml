@@ -105,7 +105,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_item"
+            android:background="@drawable/rounded_item_selector"
             android:backgroundTint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_registration"
             app:layout_constraintEnd_toEndOf="parent"
