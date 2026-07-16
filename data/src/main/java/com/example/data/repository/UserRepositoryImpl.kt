@@ -28,4 +28,8 @@ class UserRepositoryImpl(private val userLocalDataSource: UserLocalDataSource): 
     override suspend fun updateUser(userBusiness: UserBusiness): Int {
         return userLocalDataSource.updateLocalUser(userBusiness = userBusiness)
     }
+
+    override suspend fun deleteUser(uid: Int): Boolean {
+        return userLocalDataSource.deleteUser(uid = uid)
+    }
 }

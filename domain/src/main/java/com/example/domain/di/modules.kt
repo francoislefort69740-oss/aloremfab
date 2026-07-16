@@ -2,6 +2,7 @@ package com.example.domain.di
 
 import com.example.domain.interactor.DomainInteractor
 import com.example.domain.usecase.CreateUserUseCase
+import com.example.domain.usecase.DeleteUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
 import com.example.domain.usecase.GetAllUsersUseCase
 import com.example.domain.usecase.GetUserUseCase
@@ -17,6 +18,7 @@ val domainModule = module {
         get(),
         get(),
         get(),
+        get(),
         get()
     )}
 
@@ -26,4 +28,5 @@ val domainModule = module {
     single { GetActiveIdUseCase(get()) }
     single { CreateUserUseCase(get()) }
     single { UpdateActivateIdUseCase(get()) }
+    single { DeleteUserUseCase(get(), get()) }
 }

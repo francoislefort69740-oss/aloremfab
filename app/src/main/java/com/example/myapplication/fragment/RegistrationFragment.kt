@@ -50,7 +50,7 @@ class RegistrationFragment : BaseFragment() {
         viewModel.getUsersLiveData().observe(this){ resumeUsersList ->
             mAdapter = RegistrationUserListAdapter(resumeUsersList,
                 onItemClicked = { userId -> viewModel.updateId(activeId = userId, users = resumeUsersList)},
-                onDeleteClick = { userId -> Toast.makeText(context, "User $userId deleted", Toast.LENGTH_SHORT).show()}
+                onDeleteClick = { userId -> viewModel.deleteUser(uid = userId, users = resumeUsersList)}
             )
 
             recyclerView.adapter = mAdapter
@@ -72,6 +72,12 @@ class RegistrationFragment : BaseFragment() {
                 mAdapter.updateData(resumeUsersList)
             }
             viewModel.getActiveUser(users = resumeUsersList)
+        }
+
+        viewModel.deleteUserLiveData().observe(this){ resumeUsersList ->
+            if (::mAdapter.isInitialized) {
+                mAdapter.updateData(resumeUsersList)
+            }
         }
 
         recyclerView.layoutManager = LinearLayoutManager(view.context)

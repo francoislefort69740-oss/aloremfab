@@ -1,5 +1,6 @@
 package com.example.domain.usecase
 
+import android.util.Log
 import com.example.domain.ResultOf
 import com.example.domain.model.ErrorBusiness
 import com.example.domain.model.UserBusiness
@@ -10,16 +11,29 @@ class CreateUserUseCase(private val userLocalRepository: UserLocalRepository) {
         return try {
             if (name != "" && firstName != "" && email != "") {
                 val allUsers = userLocalRepository.getAllUsers()
-                val result = userLocalRepository.createUser(
-                    UserBusiness(
-                        uid = allUsers.size + 1,
-                        firstName = firstName,
-                        lastName = name,
-                        email = email
-                    )
-                )
 
-                if (userLocalRepository.checkIfUserExist(uid = result)) {
+                var goodId = false
+                var mResult = 1
+
+                while (!goodId){
+                    try {
+                        val result = userLocalRepository.createUser(
+                            UserBusiness(
+                                uid = allUsers.size + mResult,
+                                firstName = firstName,
+                                lastName = name,
+                                email = email
+                            )
+                        )
+                        goodId = true
+                        mResult = result
+                    } catch (e: Exception){
+                        Log.i("exeption", e.toString())
+                        mResult += 1
+                    }
+                }
+
+                if (userLocalRepository.checkIfUserExist(uid = mResult)) {
                     ResultOf.Success(true)
                 } else {
                     ResultOf.Error(ErrorBusiness.UserNotFound)

@@ -16,5 +16,6 @@ interface UserLocalDataSource {
     suspend fun updateLocalUser(userBusiness: UserBusiness): Int
 
     //DELETE
+    suspend fun deleteUser(uid: Int): Boolean
 
 }

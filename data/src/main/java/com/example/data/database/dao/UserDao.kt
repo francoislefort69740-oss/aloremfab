@@ -39,6 +39,9 @@ interface UserDao {
     @Query("DELETE FROM userInternalData WHERE first_name LIKE :first AND " + "last_name LIKE :last")
     suspend fun deleteUserDataByName(first: String, last: String)
 
+    @Query("DELETE FROM userInternalData WHERE LOCAL_USER_ID = :id")
+    suspend fun deleteUserDataById(id: Int)
+
     @Query("DELETE FROM userInternalData")
     suspend fun deleteAll()
 }

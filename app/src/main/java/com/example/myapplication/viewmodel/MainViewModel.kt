@@ -19,6 +19,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     private val getActiveId = interactor.getActiveIdUseCase
     private val updateActiveId = interactor.updateActiveIdUseCase
     private val createUser = interactor.createUserUseCase
+    private val deleteUser = interactor.deleteUserUseCase
 
     // LIVEDATA
 
@@ -28,6 +29,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     private val activeUserLiveData = MutableLiveData<User>()
     private val createUserLiveData = MutableLiveData<Boolean>()
     private val updateActiveIdLiveData = MutableLiveData<List<User>>()
+    private val deleteUserLiveData = MutableLiveData<List<User>>()
 
 
     private val userRegistrationError = MutableLiveData<Boolean>()
@@ -43,6 +45,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     fun createUserLiveData() = createUserLiveData
     fun getActiveUserLiveData() = activeUserLiveData
     fun updateActiveIdLiveData() = updateActiveIdLiveData
+    fun deleteUserLiveData() = deleteUserLiveData
 
     // Error LiveData
     fun getUserRegistrationError() = userRegistrationError
@@ -53,6 +56,17 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
 
 
     // OBSERVATION
+
+    fun deleteUser(uid: Int, users: List<User>){
+        viewModelScope.launch {
+            when(val result = deleteUser.invoke(uid = uid)){
+                is ResultOf.Success -> deleteUserLiveData.postValue(FrontUserMapper.allUsersBusinessToFront(result.data))
+                is ResultOf.Error -> when(result.exception) {
+                    is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
+                }
+            }
+        }
+    }
 
     fun createUser(name: String, firstName: String, email: String){
         viewModelScope.launch {

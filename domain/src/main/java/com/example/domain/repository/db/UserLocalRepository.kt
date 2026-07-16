@@ -16,4 +16,5 @@ interface UserLocalRepository {
     suspend fun updateUser(userBusiness: UserBusiness): Int
 
     //DELETE
+    suspend fun deleteUser(uid: Int): Boolean
 }

@@ -30,4 +30,9 @@ open class UserLocalDataSourceImpl(private val userDao: UserDao): UserLocalDataS
         userDao.update(UserMapper.userBusinessToLocal(userBusiness = userBusiness))
         return userDao.findUserByName(first = userBusiness.firstName, last = userBusiness.lastName).uid
     }
+
+    override suspend fun deleteUser(uid: Int): Boolean {
+        userDao.deleteUserDataById(id = uid)
+        return !userDao.userIdExist(userId = uid)
+    }
 }
