@@ -8,12 +8,14 @@ import com.example.domain.repository.db.UserLocalRepository
 class GetUserUseCase (private val userLocalRepository: UserLocalRepository) {
     suspend operator fun invoke(id: Int): ResultOf<UserBusiness>{
         return try {
-            val result = userLocalRepository.checkIfUserExist(1)
+            val result = userLocalRepository.checkIfUserExist(uid = id)
 
             if (result) {
                 ResultOf.Success(userLocalRepository.getUserLocal(userInt = id))
             } else {
-                ResultOf.Success(userLocalRepository.getUserLocal(userInt = 0))
+                val list = userLocalRepository.getAllUsers()
+                if (list.isEmpty()) return ResultOf.Error(ErrorBusiness.NoUserExist)
+                ResultOf.Error(ErrorBusiness.UserNotFound)
             }
         } catch (e: Exception) {
             ResultOf.Error(ErrorBusiness.UserNotFound)

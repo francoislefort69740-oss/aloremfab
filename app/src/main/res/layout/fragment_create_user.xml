@@ -144,6 +144,19 @@
             app:layout_constraintEnd_toEndOf="@+id/nameInput_create_user"
             app:layout_constraintStart_toStartOf="@+id/menu_guideline_start_inputs_create_user" />
 
+        <TextView
+            android:id="@+id/error_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_create_user"
+            android:textStyle="bold"
+            android:textColor="@color/primary_700"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/button_validate_create_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailInput_create_user" />
+
         <Button
             android:id="@+id/button_validate_create_user"
             android:layout_width="wrap_content"

@@ -11,6 +11,7 @@ import com.example.myapplication.R
 import com.example.myapplication.callback.RegistrationInterface
 import com.example.myapplication.utils.REGISTRATION_CREATE_USER_TAG
 import com.example.myapplication.viewmodel.MainViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
 
@@ -20,6 +21,11 @@ class CreateUserFragment: BaseFragment() {
     private val viewModel: MainViewModel by viewModel()
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
+
+        if (arguments?.getBoolean(EMPTY_USER) == true) {
+            view.findViewById<FloatingActionButton>(R.id.create_user_exit).visibility = View.GONE
+        }
+
         view.findViewById<View>(R.id.create_user_exit).setOnClickListener {
             mCallback?.loadRegistrationFragment()
         }
@@ -73,8 +79,15 @@ class CreateUserFragment: BaseFragment() {
         }
     }
     companion object {
-        fun newInstance() = CreateUserFragment()
+        fun newInstance(emptyUser: Boolean?) =
+            CreateUserFragment().apply {
+                arguments = Bundle().apply {
+                    emptyUser?.let { putBoolean(EMPTY_USER, it) }
+                }
+            }
+
         const val TAG = REGISTRATION_CREATE_USER_TAG
+        const val EMPTY_USER = "EMPTY_USER"
     }
 
 }

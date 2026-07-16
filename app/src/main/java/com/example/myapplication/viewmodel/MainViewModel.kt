@@ -32,6 +32,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     private val userRegistrationNameError = MutableLiveData<Boolean>()
     private val userRegistrationForNameError = MutableLiveData<Boolean>()
     private val userRegistrationEmailError = MutableLiveData<Boolean>()
+    private val noUserExist = MutableLiveData<Boolean>()
 
 
     fun getUserLiveData() = userLiveData
@@ -39,11 +40,12 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     fun getUsersLiveData() = usersLiveData
     fun createUserLiveData() = createUserLiveData
 
-
+    // Error LiveData
     fun getUserRegistrationError() = userRegistrationError
     fun getUserRegistrationNameError() = userRegistrationNameError
     fun getUserRegistrationForNameError() = userRegistrationForNameError
     fun getUserRegistrationEmailError() = userRegistrationEmailError
+    fun getNoUserExist() = noUserExist
 
 
     // OBSERVATION
@@ -67,6 +69,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
             when(val result = getUser.invoke(id = id)) {
                 is ResultOf.Success -> userLiveData.postValue(FrontUserMapper.userBusinessToFront(result.data))
                 is  ResultOf.Error -> when(result.exception) {
+                    is ErrorBusiness.NoUserExist -> noUserExist.postValue(true)
                     is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
                 }
             }

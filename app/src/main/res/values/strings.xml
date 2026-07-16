@@ -12,7 +12,7 @@
     <string name="utilisateur_menu">UTILISATEUR</string>
     <string name="nom_menu">nom :</string>
     <string name="prenom_menu">prénom :</string>
-    <string name="email_menu">email :</string>"
+    <string name="email_menu">email :</string>
     <string name="grv_menu">GRV</string>
     <string name="change_user_menu">Editeur utilisateur</string>
 
@@ -26,7 +26,7 @@
     <string name="valider_create_user">VALIDER</string>
     <string name="nom_menu_create_user">nom</string>
     <string name="prenom_menu_create_user">prénom</string>
-    <string name="email_menu_create_user">email</string>"
+    <string name="email_menu_create_user">email</string>
     <string name="error_create_user">L\'enregistrement a échoué</string>
     <string name="name_field_empty_create_user">Champ nom vide</string>
     <string name="forname_field_empty_create_user">Champ prénom vide</string>

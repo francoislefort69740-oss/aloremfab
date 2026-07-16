@@ -42,8 +42,8 @@ class MainActivity : BaseActivity(), RegistrationInterface {
         buildInterface(MenuFragment.TAG)
     }
 
-    override fun createRegistrationFragment() {
-        buildInterface(CreateUserFragment.TAG)
+    override fun createRegistrationFragment(noUserExist: Boolean?) {
+        buildInterface(CreateUserFragment.TAG, obj = noUserExist)
     }
 
 

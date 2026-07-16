@@ -26,4 +26,8 @@ sealed class ErrorBusiness: Exception() {
         private fun readResolve(): Any = UserRegistrationEmailFieldEmpty
     }
 
+    data object NoUserExist: ErrorBusiness() {
+        private fun readResolve(): Any = NoUserExist
+    }
+
 }

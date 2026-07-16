@@ -10,6 +10,11 @@ import com.example.myapplication.fragment.RegistrationFragment
 fun fragmentManagerBusinessByTAG(tag: String, supportFragmentManager: FragmentManager, fragmentLayout: Int, obj: Any? = null) = when(tag) {
     MENU_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, MenuFragment.newInstance(), MENU_TAG).commit()
     REGISTRATION_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, RegistrationFragment.newInstance(), REGISTRATION_TAG).commit()
-    REGISTRATION_CREATE_USER_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout,CreateUserFragment.newInstance(), REGISTRATION_CREATE_USER_TAG).commit()
+    REGISTRATION_CREATE_USER_TAG ->
+        if (obj is Boolean) {
+            supportFragmentManager.beginTransaction()
+                .replace(fragmentLayout, CreateUserFragment.newInstance(obj), REGISTRATION_CREATE_USER_TAG).commit()
+        }
+        else Log.i("FAIL", "Fragment manager error : no Fragment to load")
     else -> Log.i("FAIL", "Fragment manager error : no Fragment to load")
 }

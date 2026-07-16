@@ -38,7 +38,7 @@ class RegistrationFragment : BaseFragment() {
         }
 
         view.findViewById<Button>(R.id.newUser_registration).setOnClickListener {
-            mCallback?.createRegistrationFragment()
+            mCallback?.createRegistrationFragment(false)
         }
 
         recyclerView = view.findViewById(R.id.recycler_registration)

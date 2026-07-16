@@ -32,7 +32,7 @@ class MenuFragment : BaseFragment() {
             Toast.makeText(context, "GRV Control", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.getUser(id = 1)
+        viewModel.getUser(id = 0)
 
         getObservation(view = view)
     }
@@ -46,6 +46,10 @@ class MenuFragment : BaseFragment() {
             userForenameTextView.text = response.firstName
             userNameTextView.text = response.lastName
             userEmailTextView.text = response.email
+        }
+
+        viewModel.getNoUserExist().observe(this){
+            if (it) mCallback?.createRegistrationFragment(it)
         }
     }
 
