@@ -41,12 +41,20 @@ class RegistrationFragment : BaseFragment() {
             mCallback?.createRegistrationFragment(false)
         }
 
+        view.findViewById<Button>(R.id.updateUser_menu).setOnClickListener {
+            viewModel.getActiveId()
+        }
+
         recyclerView = view.findViewById(R.id.recycler_registration)
         viewModel.getUsers()
         getObservations(view= view)
     }
 
     private fun getObservations(view: View){
+        viewModel.getActiveIdLiveData().observe(this){
+            mCallback?.loadUpdateUserFragment(activeId = it)
+        }
+
         viewModel.getUsersLiveData().observe(this){ resumeUsersList ->
             mAdapter = RegistrationUserListAdapter(resumeUsersList,
                 onItemClicked = { userId -> viewModel.updateId(activeId = userId, users = resumeUsersList)},

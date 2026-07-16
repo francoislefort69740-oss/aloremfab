@@ -30,6 +30,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     private val createUserLiveData = MutableLiveData<Boolean>()
     private val updateActiveIdLiveData = MutableLiveData<List<User>>()
     private val deleteUserLiveData = MutableLiveData<List<User>>()
+    private val getActiveIdLiveData = MutableLiveData<Int>()
 
 
     private val userRegistrationError = MutableLiveData<Boolean>()
@@ -46,6 +47,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
     fun getActiveUserLiveData() = activeUserLiveData
     fun updateActiveIdLiveData() = updateActiveIdLiveData
     fun deleteUserLiveData() = deleteUserLiveData
+    fun getActiveIdLiveData() = getActiveIdLiveData
 
     // Error LiveData
     fun getUserRegistrationError() = userRegistrationError
@@ -100,6 +102,9 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
                 is ResultOf.Success -> updateUserLiveData.postValue(result.data)
                 is  ResultOf.Error -> when(result.exception) {
                     is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
+                    is ErrorBusiness.UserRegistrationNameFieldEmpty -> userRegistrationNameError.postValue(true)
+                    is ErrorBusiness.UserRegistrationForNameFieldEmpty -> userRegistrationForNameError.postValue(true)
+                    is ErrorBusiness.UserRegistrationEmailFieldEmpty -> userRegistrationEmailError.postValue(true)
                 }
             }
         }
@@ -129,6 +134,17 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
                     users.forEach { it.isActive = it.uid == activeId }
                     updateActiveIdLiveData.postValue(users)
                 }
+                is ResultOf.Error -> when (result.exception) {
+                    is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
+                }
+            }
+        }
+    }
+
+    fun getActiveId() {
+        viewModelScope.launch {
+            when (val result = getActiveId.invoke(0)) {
+                is ResultOf.Success -> getActiveIdLiveData.postValue(result.data.activeId)
                 is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
                 }

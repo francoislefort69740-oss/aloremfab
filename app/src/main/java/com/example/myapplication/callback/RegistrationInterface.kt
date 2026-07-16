@@ -4,4 +4,5 @@ interface RegistrationInterface {
     fun loadRegistrationFragment()
     fun loadMenuFragment()
     fun createRegistrationFragment(noUserExist: Boolean? = null)
+    fun loadUpdateUserFragment(activeId: Int? = null)
 }

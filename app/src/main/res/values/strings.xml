@@ -32,4 +32,7 @@
     <string name="forname_field_empty_create_user">Champ prénom vide</string>
     <string name="email_field_empty_create_user">Champ email vide</string>
 
+    <string name="mettre_a_jour_update_user">METTRE A JOUR UTILISATEUR</string>
+    <string name="mettre_a_jour_update_user_btn">METTRE A JOUR</string>
+
 </resources>

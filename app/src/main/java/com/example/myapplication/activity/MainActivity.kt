@@ -12,6 +12,7 @@ import com.example.myapplication.fragment.CreateUserFragment
 import com.example.myapplication.fragment.MainFragment
 import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.fragment.RegistrationFragment
+import com.example.myapplication.fragment.UpdateUserFragment
 import com.example.myapplication.utils.MAIN_TAG
 
 class MainActivity : BaseActivity(), RegistrationInterface {
@@ -44,6 +45,10 @@ class MainActivity : BaseActivity(), RegistrationInterface {
 
     override fun createRegistrationFragment(noUserExist: Boolean?) {
         buildInterface(CreateUserFragment.TAG, obj = noUserExist)
+    }
+
+    override fun loadUpdateUserFragment(activeId: Int?) {
+        buildInterface(UpdateUserFragment.TAG, obj = activeId)
     }
 
 

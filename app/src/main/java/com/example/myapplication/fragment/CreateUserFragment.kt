@@ -26,7 +26,7 @@ class CreateUserFragment: BaseFragment() {
             view.findViewById<FloatingActionButton>(R.id.create_user_exit).visibility = View.GONE
         }
 
-        view.findViewById<View>(R.id.create_user_exit).setOnClickListener {
+        view.findViewById<FloatingActionButton>(R.id.create_user_exit).setOnClickListener {
             mCallback?.loadRegistrationFragment()
         }
 
