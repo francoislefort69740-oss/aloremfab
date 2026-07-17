@@ -115,6 +115,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
             when(val result = getUsers.invoke()) {
                 is ResultOf.Success -> usersLiveData.postValue(FrontUserMapper.allUsersBusinessToFront(result.data))
                 is  ResultOf.Error -> when(result.exception) {
+                    is ErrorBusiness.NoUserExist -> noUserExist.postValue(true)
                     is ErrorBusiness.UserNotFound -> Log.i("TAG", "TAG")
                 }
             }

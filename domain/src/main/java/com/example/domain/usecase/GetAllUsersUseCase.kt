@@ -1,6 +1,7 @@
 package com.example.domain.usecase
 
 import com.example.domain.ResultOf
+import com.example.domain.model.ErrorBusiness
 import com.example.domain.model.UserBusiness
 import com.example.domain.repository.db.ActiveIdLocalRepository
 import com.example.domain.repository.db.UserLocalRepository
@@ -14,7 +15,7 @@ class GetAllUsersUseCase(private val userLocalRepository: UserLocalRepository, p
         list.forEach { it.isActive = it.uid == activeId.activeId }
 
         return if (list.isNotEmpty()) ResultOf.Success(list)
-        else ResultOf.Error(Exception("NO USER FOUND"))
+        else ResultOf.Error(ErrorBusiness.NoUserExist)
     }
 
 }

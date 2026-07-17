@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.myapplication.R
 import com.example.myapplication.callback.RegistrationInterface
+import com.example.myapplication.recycler.RegistrationUserListAdapter
 import com.example.myapplication.utils.MENU_TAG
 import com.example.myapplication.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,20 +33,21 @@ class MenuFragment : BaseFragment() {
             Toast.makeText(context, "GRV Control", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.getUser(id = 0)
+        viewModel.getUsers()
 
         getObservation(view = view)
     }
 
     private fun getObservation(view: View){
-        val userNameTextView = view.findViewById<TextView>(R.id.nameMenu_registration)
-        val userForenameTextView = view.findViewById<TextView>(R.id.forenameMenu_registration)
-        val userEmailTextView = view.findViewById<TextView>(R.id.emailMenu_menu)
 
-        viewModel.getUserLiveData().observe(this){ response ->
-            userForenameTextView.text = response.firstName
-            userNameTextView.text = response.lastName
-            userEmailTextView.text = response.email
+        viewModel.getUsersLiveData().observe(this){ resumeUsersList ->
+            viewModel.getActiveUser(users = resumeUsersList)
+        }
+
+        viewModel.getActiveUserLiveData().observe(this){ response ->
+            view.findViewById<TextView>(R.id.forenameMenu_menu).text = response.firstName
+            view.findViewById<TextView>(R.id.nameMenu_menu).text = response.lastName
+            view.findViewById<TextView>(R.id.emailMenu_menu).text = response.email
         }
 
         viewModel.getNoUserExist().observe(this){

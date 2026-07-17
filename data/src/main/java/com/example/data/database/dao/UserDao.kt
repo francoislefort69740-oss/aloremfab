@@ -23,7 +23,7 @@ interface UserDao {
     @Query("SELECT * FROM  userInternalData WHERE LOCAL_USER_ID = :id LIMIT 1")
     suspend fun findUserDataById(id: Int): UserLocal
 
-    @Query("SELECT EXISTS(SELECT * FROM userInternalData WHERE LOCAL_USER_ID = :userId)")
+    @Query("SELECT COUNT(*) FROM userInternalData WHERE LOCAL_USER_ID = :userId")
     suspend fun userIdExist(userId: Int): Boolean
 
     @Query("SELECT * FROM userInternalData WHERE first_name LIKE :first AND " + "last_name LIKE :last LIMIT 1")
