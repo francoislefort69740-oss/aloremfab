@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.myapplication.R
+import com.example.myapplication.callback.MenuInterface
 import com.example.myapplication.callback.RegistrationInterface
 import com.example.myapplication.recycler.RegistrationUserListAdapter
 import com.example.myapplication.utils.MENU_TAG
@@ -30,7 +31,7 @@ class MenuFragment : BaseFragment() {
         }
 
         view.findViewById<ImageView>(R.id.GRVControlBtn_menu).setOnClickListener {
-            Toast.makeText(context, "GRV Control", Toast.LENGTH_SHORT).show()
+            mCallback?.loadGRVControlFragment()
         }
 
         viewModel.getUsers()
@@ -59,11 +60,11 @@ class MenuFragment : BaseFragment() {
      *  LIFE CYCLE
      */
 
-    private var mCallback: RegistrationInterface? = null
+    private var mCallback: MenuInterface? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        try { mCallback = activity as RegistrationInterface }
+        try { mCallback = activity as MenuInterface }
         catch (e: ClassCastException) { throw ClassCastException("$e must implemented MainInterface") }
     }
 

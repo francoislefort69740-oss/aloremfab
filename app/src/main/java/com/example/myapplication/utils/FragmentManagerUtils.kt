@@ -3,6 +3,7 @@ package com.example.myapplication.utils
 import android.util.Log
 import androidx.fragment.app.FragmentManager
 import com.example.myapplication.fragment.CreateUserFragment
+import com.example.myapplication.fragment.GRVMainFragment
 import com.example.myapplication.fragment.MainFragment
 import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.fragment.RegistrationFragment
@@ -24,5 +25,6 @@ fun fragmentManagerBusinessByTAG(tag: String, supportFragmentManager: FragmentMa
         }
         else Log.i("FAIL", "Fragment manager error : no Fragment to load")
     MAIN_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, MainFragment.newInstance(), MAIN_TAG).commit()
+    GRV_CONTROL_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, GRVMainFragment.newInstance(), GRV_CONTROL_TAG).commit()
     else -> Log.i("FAIL", "Fragment manager error : no Fragment to load")
 }

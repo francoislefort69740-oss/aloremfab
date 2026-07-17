@@ -7,15 +7,18 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
+import com.example.myapplication.callback.GRVControlInterface
+import com.example.myapplication.callback.MenuInterface
 import com.example.myapplication.callback.RegistrationInterface
 import com.example.myapplication.fragment.CreateUserFragment
+import com.example.myapplication.fragment.GRVMainFragment
 import com.example.myapplication.fragment.MainFragment
 import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.fragment.RegistrationFragment
 import com.example.myapplication.fragment.UpdateUserFragment
 import com.example.myapplication.utils.MAIN_TAG
 
-class MainActivity : BaseActivity(), RegistrationInterface {
+class MainActivity : BaseActivity(), RegistrationInterface, GRVControlInterface, MenuInterface {
 
     override fun getCurrentTag(): String = MAIN_TAG
     override fun getActivityId(): Int = R.layout.activity_main
@@ -37,6 +40,10 @@ class MainActivity : BaseActivity(), RegistrationInterface {
 
     override fun loadRegistrationFragment() {
         buildInterface(RegistrationFragment.TAG)
+    }
+
+    override fun loadGRVControlFragment() {
+        buildInterface(GRVMainFragment.TAG)
     }
 
     override fun loadMenuFragment() {
