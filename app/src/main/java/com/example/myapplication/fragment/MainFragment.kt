@@ -2,6 +2,8 @@ package com.example.myapplication.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import com.example.myapplication.R
 import com.example.myapplication.viewmodel.MainViewModel
@@ -17,9 +19,9 @@ class MainFragment : BaseFragment() {
     }
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
-        val userNameTextView = view.findViewById<TextView>(R.id.textView)
-        val userEditText = view.findViewById<TextView>(R.id.userSpace)
-        val userButton = view.findViewById<TextView>(R.id.userChangeBtn)
+        val userNameTextView = view.findViewById<TextView>(R.id.userTitle_menu)
+        val userEditText = view.findViewById<EditText>(R.id.userSpace)
+        val userButton = view.findViewById<Button>(R.id.userChangeBtn_main)
 
         var firstName = ""
         var email = ""
@@ -29,7 +31,7 @@ class MainFragment : BaseFragment() {
 
         userButton.setOnClickListener {
             firstName = userEditText.text.toString()
-            viewModel.updateUser(firstName = firstName, name = name, email = email)
+            viewModel.updateUser(firstName = firstName, name = name, email = email, uid = 0)
         }
 
         viewModel.getUserLiveData().observe(this){ response ->
@@ -43,9 +45,5 @@ class MainFragment : BaseFragment() {
                 viewModel.getUser(1)
             }
         }
-    }
-
-    private fun testDatabase() {
-
     }
 }

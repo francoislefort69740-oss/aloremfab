@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.CreateUserFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView_ALOREM_create_user"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/full_logo_alorem"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_3_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.30" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_4_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.12" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_6_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.94" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_start_inputs_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.30" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_2_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.88"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_12_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.68"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_22_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.42"/>
+
+
+        <TextView
+            android:id="@+id/title_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nouvel_utilisateur_create_user"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_3_create_user" />
+
+        <TextView
+            android:id="@+id/nameTitle_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nom_menu"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_create_user"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_22_create_user" />
+
+        <EditText
+            android:id="@+id/nameInput_create_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="personFamilyName"
+            android:hint="@string/nom_menu_create_user"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBaselineOf="@+id/nameTitle_create_user"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_6_create_user"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_start_inputs_create_user" />
+
+        <TextView
+            android:id="@+id/forenameTitle_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prenom_menu"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/emailTitle_create_user"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_create_user"
+            app:layout_constraintTop_toBottomOf="@+id/nameTitle_create_user" />
+
+        <EditText
+            android:id="@+id/forenameInput_create_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="personGivenName"
+            android:hint="@string/prenom_menu_create_user"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBaselineOf="@+id/forenameTitle_create_user"
+            app:layout_constraintEnd_toEndOf="@+id/nameInput_create_user"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_start_inputs_create_user" />
+
+        <TextView
+            android:id="@+id/emailTitle_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email_menu"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_12_create_user"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_create_user" />
+
+        <EditText
+            android:id="@+id/emailInput_create_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="emailAddress"
+            android:hint="@string/email_menu_create_user"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBaselineOf="@+id/emailTitle_create_user"
+            app:layout_constraintEnd_toEndOf="@+id/nameInput_create_user"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_start_inputs_create_user" />
+
+        <TextView
+            android:id="@+id/error_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_create_user"
+            android:textStyle="bold"
+            android:textColor="@color/primary_700"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/button_validate_create_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_12_create_user" />
+
+        <Button
+            android:id="@+id/button_validate_create_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary_color"
+            android:padding="20dp"
+            android:text="@string/valider_create_user"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_create_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/create_user_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/primary_700"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@android:color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

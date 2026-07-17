@@ -8,6 +8,15 @@ object FrontUserMapper {
         uid = userBusiness.uid,
         firstName = userBusiness.firstName,
         lastName = userBusiness.lastName,
-        email = userBusiness.email
+        email = userBusiness.email,
+        isActive = userBusiness.isActive
     )
+
+    fun allUsersBusinessToFront(userBusiness: List<UserBusiness>): List<User> {
+        val result = mutableListOf<User>()
+        userBusiness.forEach {
+            result.add(userBusinessToFront(it))
+        }
+        return result
+    }
 }

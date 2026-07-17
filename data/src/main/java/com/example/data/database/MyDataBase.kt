@@ -6,7 +6,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.data.database.dao.ActiveIdDao
 import com.example.data.database.dao.UserDao
+import com.example.data.database.entities.ActiveIdLocal
 import com.example.data.database.entities.UserLocal
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -15,12 +17,15 @@ import kotlinx.coroutines.launch
 import kotlin.jvm.java
 
 @Database(
-    entities = [UserLocal::class],
+    entities = [
+        UserLocal::class,
+        ActiveIdLocal::class],
     version = 1,
     exportSchema = false
 )
 abstract class MyDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+    abstract fun activeIdDao(): ActiveIdDao
 
     companion object{
         @Volatile

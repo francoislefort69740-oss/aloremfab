@@ -4,5 +4,6 @@ data class UserBusiness(
     val uid: Int,
     val firstName: String,
     val lastName: String,
-    val email: String
+    val email: String,
+    var isActive: Boolean = false
 )

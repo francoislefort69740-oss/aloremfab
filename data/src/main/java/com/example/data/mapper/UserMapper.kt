@@ -1,7 +1,10 @@
 package com.example.data.mapper
 
+import com.example.data.database.entities.ActiveIdLocal
 import com.example.data.database.entities.UserLocal
+import com.example.domain.model.ActiveIdBusiness
 import com.example.domain.model.UserBusiness
+import kotlin.collections.forEach
 
 object UserMapper {
 
@@ -18,5 +21,27 @@ object UserMapper {
         lastName = userBusiness?.lastName ?: "",
         email = userBusiness?.email ?: ""
     )
+
+    fun allUsersLocalToBusiness(userLocals: List<UserLocal>): List<UserBusiness> {
+        val result = mutableListOf<UserBusiness>()
+        userLocals.forEach {
+            result.add(userLocalToBusiness(it))
+        }
+        return result
+    }
+
+    // ACTIVE ID
+
+    fun activeIdBusinessToLocal(activeIdBusiness: ActiveIdBusiness): ActiveIdLocal = ActiveIdLocal(
+        uid = activeIdBusiness.uid,
+        activeId = activeIdBusiness.activeId
+    )
+
+    fun activeIdLocalToBusiness(activeIdLocal: ActiveIdLocal): ActiveIdBusiness = ActiveIdBusiness(
+        uid = activeIdLocal.uid,
+        activeId = activeIdLocal.activeId
+    )
+
+
 
 }

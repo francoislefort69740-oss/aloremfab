@@ -6,21 +6,20 @@ import com.example.domain.model.UserBusiness
 import com.example.domain.repository.db.UserLocalRepository
 
 class UpdateUserUseCase(private val userLocalRepository: UserLocalRepository) {
-    suspend operator fun invoke(name: String, firstName: String, email: String): ResultOf<Boolean> {
+    suspend operator fun invoke(name: String, firstName: String, email: String, uid: Int): ResultOf<Boolean> {
         if(name != "" && firstName != "" && email != "") {
 
             // Create userBusiness tuple for injection
-            val tempUserBusiness = createUserBusiness(name = name, firstName = firstName, email = email)
+            val tempUserBusiness = createUserBusiness(name = name, firstName = firstName, email = email, uid = uid)
 
             // check if user local exist : if OK -> update - if NOK -> create
-            if (userLocalRepository.checkIfUserExist(1)) userLocalRepository.updateUser(userBusiness = tempUserBusiness)
-            else userLocalRepository.createUser(userBusiness = tempUserBusiness)
+            val updateId = userLocalRepository.checkIfUserExist(uid = uid)
 
             // check if user local is created or updated for callback
-            return if (userLocalRepository.checkIfUserExist(1)) {
-                val userCallback = userLocalRepository.getUserLocalByName(firstName = firstName, lastName = name)
+            return if (updateId) {
+                val userCallback = userLocalRepository.updateUser(createUserBusiness( firstName = firstName, name = name, email = email, uid = uid))
 
-                if (userCallback.uid != 0) {
+                if (userCallback != 0) {
                     ResultOf.Success(true)
                 } else {
                     ResultOf.Error(Exception(ErrorBusiness.UserRegistrationFailed))
@@ -29,10 +28,13 @@ class UpdateUserUseCase(private val userLocalRepository: UserLocalRepository) {
             } else {
                 ResultOf.Error(Exception(ErrorBusiness.UserRegistrationFailed))
             }
+        } else {
+            return if (name == "") ResultOf.Error(ErrorBusiness.UserRegistrationNameFieldEmpty)
+            else if (firstName == "") ResultOf.Error(ErrorBusiness.UserRegistrationForNameFieldEmpty)
+            else ResultOf.Error(ErrorBusiness.UserRegistrationEmailFieldEmpty)
         }
-        return ResultOf.Error(ErrorBusiness.UserRegistrationFieldEmpty)
     }
 
-    private fun createUserBusiness(name: String, firstName: String, email: String): UserBusiness =
-        UserBusiness(uid = 1, firstName = firstName, lastName = name, email = email)
+    private fun createUserBusiness(name: String, firstName: String, email: String, uid: Int): UserBusiness =
+        UserBusiness(uid = uid, firstName = firstName, lastName = name, email = email)
 }

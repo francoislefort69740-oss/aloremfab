@@ -8,4 +8,31 @@
     <string name="primary_100">PRIMARY 100</string>
     <string name="primary_500">PRIMARY 500</string>
     <string name="primary_700">PRIMARY 700</string>
+
+    <string name="utilisateur_menu">UTILISATEUR</string>
+    <string name="nom_menu">nom :</string>
+    <string name="prenom_menu">prénom :</string>
+    <string name="email_menu">email :</string>
+    <string name="grv_menu">GRV</string>
+    <string name="change_user_menu">Editeur utilisateur</string>
+
+    <string name="mettre_a_jour_registration">MAJ</string>
+    <string name="nouveau_utilisateur_registration">NOUVEAU</string>
+    <string name="liste_utilisateur_registration">LISTE</string>
+    <string name="supprimer_registration">SUPPRIMER</string>
+    <string name="utilisateur_actif_registration">UTILISATEUR ACTIF</string>
+
+    <string name="nouvel_utilisateur_create_user">NOUVEL UTILISATEUR</string>
+    <string name="valider_create_user">VALIDER</string>
+    <string name="nom_menu_create_user">nom</string>
+    <string name="prenom_menu_create_user">prénom</string>
+    <string name="email_menu_create_user">email</string>
+    <string name="error_create_user">L\'enregistrement a échoué</string>
+    <string name="name_field_empty_create_user">Champ nom vide</string>
+    <string name="forname_field_empty_create_user">Champ prénom vide</string>
+    <string name="email_field_empty_create_user">Champ email vide</string>
+
+    <string name="mettre_a_jour_update_user">METTRE A JOUR UTILISATEUR</string>
+    <string name="mettre_a_jour_update_user_btn">METTRE A JOUR</string>
+
 </resources>
