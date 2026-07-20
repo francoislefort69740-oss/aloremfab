@@ -8,6 +8,8 @@ class ControlGRVViewPagerAdapter(fragment: Fragment, controlGRV: ControlGRV): Fr
 
     private val controls = mutableListOf(controlGRV)
 
+    private var countdown = 1
+
     override fun createFragment(position: Int): Fragment {
         return ChildControlGRVViewPagerFragment.newInstance(controlGRV = controls[position])
     }
@@ -18,19 +20,22 @@ class ControlGRVViewPagerAdapter(fragment: Fragment, controlGRV: ControlGRV): Fr
         controls.add(index, controlGRV)
         notifyItemInserted(index)
 
+        countdown++
+
         return index
     }
+
+    fun getCountdown() = countdown
 
     /**
      * Supprime la page à la position indiquée.
      */
     fun removeControl(position: Int) {
-
-        if (position !in controls.indices)
-            return
-
-        controls.removeAt(position)
-        notifyItemRemoved(position)
+        val index = controls.indexOfFirst { it.pageId == position }
+        if (index != -1) {
+            controls.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
 
     fun getControl(position: Int): ControlGRV =

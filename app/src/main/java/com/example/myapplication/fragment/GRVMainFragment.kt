@@ -4,16 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.R
 import com.example.myapplication.callback.ChildViewPagerGRVInterface
 import com.example.myapplication.callback.GRVControlInterface
 import com.example.myapplication.childfragment.ControlGRVViewPagerAdapter
 import com.example.myapplication.model.ControlGRV
-import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.utils.GRV_CONTROL_TAG
-import com.example.myapplication.utils.MENU_TAG
 import com.example.myapplication.utils.ZoomOutPageTransformer
 import com.example.myapplication.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,6 +39,20 @@ class GRVMainFragment : BaseFragment(), ChildViewPagerGRVInterface {
         controlGRVViewPager.adapter = controlGRVViewPagerAdapter
     }
 
+    override fun createNewPage() {
+        val position = controlGRVViewPagerAdapter.addControl(ControlGRV(pageId = controlGRVViewPagerAdapter.getCountdown()))
+        controlGRVViewPager.post {
+            controlGRVViewPager.setCurrentItem(position, true)
+        }
+    }
+
+    override fun deleteControl(pos: Int) {
+        controlGRVViewPagerAdapter.removeControl(position = pos)
+        controlGRVViewPager.post {
+            controlGRVViewPager.setCurrentItem(controlGRVViewPagerAdapter.itemCount -1, true)
+        }
+    }
+
     /**
      *  LIFE CYCLE
      */
@@ -54,10 +65,5 @@ class GRVMainFragment : BaseFragment(), ChildViewPagerGRVInterface {
         catch (e: ClassCastException) { throw ClassCastException("$e must implemented MainInterface") }
     }
 
-    override fun createNewPage() {
-        val position = controlGRVViewPagerAdapter.addControl(ControlGRV(pageId = controlGRVViewPagerAdapter.itemCount))
-        controlGRVViewPager.post {
-            controlGRVViewPager.setCurrentItem(position, true)
-        }
-    }
+
 }

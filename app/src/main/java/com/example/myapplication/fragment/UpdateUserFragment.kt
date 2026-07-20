@@ -57,31 +57,31 @@ class UpdateUserFragment: BaseFragment() {
             view.findViewById<ImageView>(R.id.email_drag_update_user).setOnClickListener {
                 view.findViewById<EditText>(R.id.emailInput_update_user).setText(user.email)
             }
+        }
 
-            viewModel.getUserRegistrationNameError().observe(this){
-                if (it) {
-                    view.findViewById<TextView>(R.id.error_update_user).text = getString(R.string.name_field_empty_create_user)
-                    view.findViewById<TextView>(R.id.error_update_user).visibility = View.VISIBLE
-                }
+        viewModel.getUserRegistrationNameError().observe(this){
+            if (it) {
+                view.findViewById<TextView>(R.id.error_update_user).text = getString(R.string.name_field_empty_create_user)
+                view.findViewById<TextView>(R.id.error_update_user).visibility = View.VISIBLE
             }
+        }
 
-            viewModel.getUserRegistrationForNameError().observe(this){
-                if (it) {
-                    view.findViewById<TextView>(R.id.error_update_user).text = getString(R.string.forname_field_empty_create_user)
-                    view.findViewById<TextView>(R.id.error_update_user).visibility = View.VISIBLE
-                }
+        viewModel.getUserRegistrationForNameError().observe(this){
+            if (it) {
+                view.findViewById<TextView>(R.id.error_update_user).text = getString(R.string.forname_field_empty_create_user)
+                view.findViewById<TextView>(R.id.error_update_user).visibility = View.VISIBLE
             }
+        }
 
-            viewModel.getUserRegistrationEmailError().observe(this){
-                if (it) {
-                    view.findViewById<TextView>(R.id.error_update_user).text = getString(R.string.email_field_empty_create_user)
-                    view.findViewById<TextView>(R.id.error_update_user).visibility = View.VISIBLE
-                }
+        viewModel.getUserRegistrationEmailError().observe(this){
+            if (it) {
+                view.findViewById<TextView>(R.id.error_update_user).text = getString(R.string.email_field_empty_create_user)
+                view.findViewById<TextView>(R.id.error_update_user).visibility = View.VISIBLE
             }
+        }
 
-            viewModel.updateUserLiveData().observe(this){
-                mCallback?.loadRegistrationFragment()
-            }
+        viewModel.updateUserLiveData().observe(this){
+            mCallback?.loadRegistrationFragment()
         }
     }
 

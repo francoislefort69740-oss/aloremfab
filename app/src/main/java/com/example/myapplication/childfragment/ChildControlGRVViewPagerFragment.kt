@@ -19,11 +19,17 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         arguments?.let { arguments ->
             val isAddingPage = arguments.getInt(GRV_PAGE_ID) == 0
             setUpView(isAddingPage = isAddingPage, view = view)
-            if (!isAddingPage){ //  c'est une page de contrôle existante
-                view.findViewById<TextView>(R.id.step_title_child_control_grv).text = arguments.getInt(GRV_PAGE_ID).toString()
-            } else { // C'est la page d'ajout de contrôle
+            if (isAddingPage){ // C'est la page d'ajout de contrôle
+
                 view.findViewById<ImageView>(R.id.add_child_control_grv).setOnClickListener {
                     mCallback?.createNewPage()
+                }
+
+            } else { // c'est une page de contrôle existante
+
+                view.findViewById<TextView>(R.id.step_title_child_control_grv).text = arguments.getInt(GRV_PAGE_ID).toString()
+                view.findViewById<ImageView>(R.id.close_child_control_grv).setOnClickListener {
+                    mCallback?.deleteControl(arguments.getInt(GRV_PAGE_ID))
                 }
             }
         }
