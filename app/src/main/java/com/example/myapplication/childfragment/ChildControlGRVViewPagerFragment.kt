@@ -4,12 +4,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.callback.ChildViewPagerGRVInterface
 import com.example.myapplication.component.GRVControlAddingPage
 import com.example.myapplication.component.GRVControlProcess
 import com.example.myapplication.fragment.BaseFragment
 import com.example.myapplication.model.ControlGRV
+import com.example.myapplication.recycler.ControlGRVListAdapter
 import com.example.myapplication.viewmodel.ControlGRVViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
@@ -19,11 +22,18 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
     private val viewModel: ControlGRVViewModel by viewModel()
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var mAdapter: ControlGRVListAdapter
+
     private val controlComponent: GRVControlProcess = GRVControlProcess()
     private val addingPageComponent: GRVControlAddingPage = GRVControlAddingPage()
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
         arguments?.let { arguments ->
+
+            recyclerView = view.findViewById(R.id.recycler_child_control_grv)
+            recyclerView.layoutManager = LinearLayoutManager(view.context)
+
             if (arguments.getInt(GRV_PAGE_ID) == 0){ // C'est la page d'ajout de contrôle
 
                 addingPageComponent.setUp(view = view, arguments = arguments)
@@ -41,6 +51,10 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
                 controlComponent.closeButton().setOnClickListener {
                     mCallback?.deleteControl(pos = controlComponent.getPageId())
                 }
+
+                controlComponent.save().setOnClickListener {
+                    viewModel.createControlGRV(ControlGRV(serialNumber = controlComponent.getFakeSerialNumber()))
+                }
             }
             observeLiveData()
         }
@@ -50,8 +64,18 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
     // OBSERVATIONS
 
     private fun observeLiveData() {
-        viewModel.getAllControlGRVLiveData().observe(this) {
+        viewModel.getAllControlGRVLiveData().observe(this) { controlsGRV ->
+            mAdapter = ControlGRVListAdapter(controlsGRV = controlsGRV,
+                onItemClicked = { controlsGRV -> },
+                onDeleteClick = { controlsGRV -> }
+            )
 
+            recyclerView.adapter = mAdapter
+            mAdapter.notifyDataSetChanged()
+        }
+
+        viewModel.createControlGRVLiveData().observe(this) {
+            mCallback?.saveControl()
         }
     }
 

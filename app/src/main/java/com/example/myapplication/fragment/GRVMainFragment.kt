@@ -12,9 +12,6 @@ import com.example.myapplication.childfragment.ControlGRVViewPagerAdapter
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.utils.GRV_CONTROL_TAG
 import com.example.myapplication.utils.ZoomOutPageTransformer
-import com.example.myapplication.viewmodel.ControlGRVViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.getValue
 
 class GRVMainFragment : BaseFragment(), ChildViewPagerGRVInterface {
     override fun getLayout(): Int = R.layout.fragment_grv_main
@@ -49,6 +46,10 @@ class GRVMainFragment : BaseFragment(), ChildViewPagerGRVInterface {
         controlGRVViewPager.post {
             controlGRVViewPager.setCurrentItem(controlGRVViewPagerAdapter.itemCount -1, true)
         }
+    }
+
+    override fun saveControl() {
+        mCallback?.loadMenuFragment()
     }
 
     /**

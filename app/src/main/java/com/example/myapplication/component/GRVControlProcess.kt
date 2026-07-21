@@ -9,6 +9,7 @@ import com.example.myapplication.R
 import com.example.myapplication.childfragment.ChildControlGRVViewPagerFragment.Companion.GRV_ID
 import com.example.myapplication.childfragment.ChildControlGRVViewPagerFragment.Companion.GRV_PAGE_ID
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlin.random.Random
 
 class GRVControlProcess {
 
@@ -57,5 +58,9 @@ class GRVControlProcess {
     fun closeButton(): ImageView = mView.findViewById(R.id.close_child_control_grv)
 
     fun getPageId(): Int = pageId
+
+    fun save(): FloatingActionButton = mView.findViewById(R.id.save_child_control_grv)
+
+    fun getFakeSerialNumber(): Int = Random.nextInt(1000000000)
 
 }

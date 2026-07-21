@@ -48,6 +48,18 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
         }
     }
 
+    fun createControlGRV(controlGRV: ControlGRV) {
+        viewModelScope.launch {
+            when (val result = createControlGRV.invoke(FrontControlGRCMapper.controlGRVFrontToBusiness(controlGRV = controlGRV))){
+                is ResultOf.Success -> createControlGRVLiveData.postValue(result.data)
+                is ResultOf.Error -> when (result.exception) {
+                    is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
+                    is ErrorBusiness.UserRegistrationFieldEmpty -> controlGRVUidFieldEmpty.postValue(true)
+                }
+            }
+        }
+    }
+
 
 
 

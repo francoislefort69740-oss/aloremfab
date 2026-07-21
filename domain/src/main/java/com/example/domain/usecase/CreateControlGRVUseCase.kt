@@ -10,7 +10,6 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
     suspend operator fun invoke(controlGRVBusiness: ControlGRVBusiness): ResultOf<Boolean> {
         return try {
             if (controlGRVBusiness.serialNumber != null){
-                val allControls = controlGRVLocalRepository.getAllControlGRV()
                 var goodId = false
                 var mResult = 0
 
@@ -18,7 +17,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     try {
                         val result = controlGRVLocalRepository.createLocalControlGRV(
                             ControlGRVBusiness(
-                                uid = allControls.size + mResult,
+                                uid = controlGRVBusiness.serialNumber,
                                 serialNumber = controlGRVBusiness.serialNumber,
                                 currentStep = 1,
                                 currentlyGoingOn = true
@@ -32,7 +31,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     }
                 }
 
-                if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.uid!!)) {
+                if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
                     ResultOf.Success(true)
                 } else {
                     ResultOf.Error(ErrorBusiness.ControlGRVNotFound)

@@ -16,4 +16,11 @@ object FrontControlGRCMapper {
         uid = controlGRVBusiness.uid,
         serialNumber = controlGRVBusiness.serialNumber
     )
+
+    fun controlGRVFrontToBusiness(controlGRV: ControlGRV): ControlGRVBusiness = ControlGRVBusiness(
+        uid = controlGRV.uid,
+        serialNumber = controlGRV.serialNumber,
+        currentStep = controlGRV.currentStep?.id ?: 1,
+        currentlyGoingOn = true
+    )
 }
