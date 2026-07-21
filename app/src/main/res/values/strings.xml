@@ -38,5 +38,6 @@
     <string name="controle_GRV_GRV_main">Contrôle GRV</string>"
 
     <string name="title_exemple_child_control_grv">INFORMATION DE LA CUVE</string>
+    <string name="control_grv_item_card_title">CONTRÔLE EN COURS :</string>
 
 </resources>

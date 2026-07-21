@@ -30,4 +30,16 @@ sealed class ErrorBusiness: Exception() {
         private fun readResolve(): Any = NoUserExist
     }
 
+    data object NoControlGRVExist: ErrorBusiness() {
+        private fun readResolve(): Any = NoControlGRVExist
+    }
+
+    data object ControlGRVNotFound: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVNotFound
+    }
+
+    data object ControlGRVUidFieldEmpty: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVUidFieldEmpty
+    }
+
 }

@@ -10,9 +10,14 @@ import com.example.myapplication.component.GRVControlAddingPage
 import com.example.myapplication.component.GRVControlProcess
 import com.example.myapplication.fragment.BaseFragment
 import com.example.myapplication.model.ControlGRV
+import com.example.myapplication.viewmodel.ControlGRVViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.getValue
 
 class ChildControlGRVViewPagerFragment: BaseFragment() {
     override fun getLayout(): Int = R.layout.fragment_child_control_grv_view_pager
+
+    private val viewModel: ControlGRVViewModel by viewModel()
 
     private val controlComponent: GRVControlProcess = GRVControlProcess()
     private val addingPageComponent: GRVControlAddingPage = GRVControlAddingPage()
@@ -27,6 +32,8 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
                     mCallback?.createNewPage()
                 }
 
+                viewModel.getAllControlGRV()
+
             } else { // c'est une page de contrôle existante
 
                 controlComponent.setUp(view = view, arguments = arguments)
@@ -35,13 +42,23 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
                     mCallback?.deleteControl(pos = controlComponent.getPageId())
                 }
             }
+            observeLiveData()
+        }
+    }
+
+
+    // OBSERVATIONS
+
+    private fun observeLiveData() {
+        viewModel.getAllControlGRVLiveData().observe(this) {
+
         }
     }
 
     companion object {
         fun newInstance(controlGRV: ControlGRV) = ChildControlGRVViewPagerFragment().apply {
             arguments = Bundle().apply {
-                putInt(GRV_ID, controlGRV.uid)
+                putInt(GRV_ID, controlGRV.uid ?: 0)
                 putInt(GRV_PAGE_ID, controlGRV.pageId)
                 controlGRV.currentStep?.id?.let { putInt(GRV_CURRENT_STEP, it) }
             }
