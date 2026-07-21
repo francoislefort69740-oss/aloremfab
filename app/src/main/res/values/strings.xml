@@ -35,4 +35,8 @@
     <string name="mettre_a_jour_update_user">METTRE A JOUR UTILISATEUR</string>
     <string name="mettre_a_jour_update_user_btn">METTRE A JOUR</string>
 
+    <string name="controle_GRV_GRV_main">Contrôle GRV</string>"
+
+    <string name="title_exemple_child_control_grv">INFORMATION DE LA CUVE</string>
+
 </resources>
