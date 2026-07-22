@@ -7,7 +7,7 @@ import com.example.domain.model.ErrorBusiness
 import com.example.domain.repository.db.ControlGRVLocalRepository
 
 class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVLocalRepository) {
-    suspend operator fun invoke(controlGRVBusiness: ControlGRVBusiness): ResultOf<Boolean> {
+    suspend operator fun invoke(controlGRVBusiness: ControlGRVBusiness): ResultOf<Pair<List<ControlGRVBusiness>, ControlGRVBusiness>> {
         return try {
             if (controlGRVBusiness.serialNumber != null){
                 var goodId = false
@@ -20,7 +20,8 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                                 uid = controlGRVBusiness.serialNumber,
                                 serialNumber = controlGRVBusiness.serialNumber,
                                 currentStep = 1,
-                                currentlyGoingOn = true
+                                currentlyGoingOn = true,
+                                loaded = false
                             )
                         )
                         goodId = true
@@ -32,7 +33,8 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                 }
 
                 if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
-                    ResultOf.Success(true)
+
+                    ResultOf.Success(Pair(controlGRVLocalRepository.getUnloaded(),controlGRVBusiness))
                 } else {
                     ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
                 }

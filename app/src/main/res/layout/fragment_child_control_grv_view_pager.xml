@@ -16,46 +16,105 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.72"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_2_child_control_grv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.95"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_3_child_control_grv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.68"/>
+            app:layout_constraintGuide_percent="0.77" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/menu_guideline_4_child_control_grv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.05"/>
+            app:layout_constraintGuide_percent="0.05" />
 
-        <ImageView
-            android:id="@+id/add_child_control_grv"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_control_area_child_control_grv"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/rounded_item_border"
-            android:src="@drawable/add_24"
-            android:padding="60dp"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_child_control_grv"
-            app:layout_constraintDimensionRatio="1:1"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/rounded_item_selector"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_child_control_grv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_child_control_grv" />
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_4_child_control_grv" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/back_child_control_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/primary_700"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@android:color/white" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/next_child_control_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/primary_700"
+            android:src="@drawable/ic_next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@android:color/white" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/check_all_ok_child_control_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/primary_700"
+            android:src="@drawable/ic_check_ok"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/save_child_control_grv"
+            app:layout_constraintStart_toEndOf="@+id/back_child_control_grv"
+            app:tint="@android:color/white" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/save_child_control_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/primary_700"
+            android:src="@drawable/ic_save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/next_child_control_grv"
+            app:layout_constraintStart_toEndOf="@+id/check_all_ok_child_control_grv"
+            app:tint="@android:color/white" />
 
+        <ImageView
+            android:id="@+id/close_child_control_grv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/primary_700"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_4_child_control_grv"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@+id/recycler_control_area_child_control_grv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/step_title_child_control_grv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:gravity="center"
+            android:text="@string/title_exemple_child_control_grv"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_4_child_control_grv"
+            app:layout_constraintEnd_toStartOf="@+id/close_child_control_grv"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

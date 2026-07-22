@@ -3,15 +3,12 @@ package com.example.myapplication.childfragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.utils.RETURN_TO_ADD_LIST_GRV_CONTROL
 import com.example.myapplication.R
 import com.example.myapplication.callback.ChildViewPagerGRVInterface
-import com.example.myapplication.component.GRVControlAddingPage
 import com.example.myapplication.component.GRVControlProcess
 import com.example.myapplication.fragment.BaseFragment
 import com.example.myapplication.model.ControlGRV
-import com.example.myapplication.recycler.ControlGRVListAdapter
 import com.example.myapplication.viewmodel.ControlGRVViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
@@ -21,55 +18,29 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
     private val viewModel: ControlGRVViewModel by viewModel()
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var mAdapter: ControlGRVListAdapter
-
-    private val controlComponent: GRVControlProcess = GRVControlProcess()
-    private val addingPageComponent: GRVControlAddingPage = GRVControlAddingPage()
+    private lateinit var controlComponent: GRVControlProcess
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
         arguments?.let { arguments ->
 
-            recyclerView = view.findViewById(R.id.recycler_child_control_grv)
-            recyclerView.layoutManager = LinearLayoutManager(view.context)
-
-            if (arguments.getInt(GRV_PAGE_ID) == 0) this.manageAddingPage(view = view, arguments = arguments)
-            else this.manageControlPage(view = view, arguments = arguments)
+            controlComponent =  GRVControlProcess()
+            manageControlPage(view = view, arguments = arguments)
 
             observeLiveData()
         }
     }
 
-    // **** ADDING PAGE ****
-
-    private fun manageAddingPage(view: View, arguments: Bundle){
-        addingPageComponent.setUp(view = view, arguments = arguments)
-
-        addingPageComponent.addingButton().setOnClickListener {
-            mCallback?.createNewPage()
-        }
-
-        addingPageComponent.updateButton().setOnClickListener {
-            viewModel.getAllControlGRV()
-        }
-
-        mAdapter = ControlGRVListAdapter(controlsGRV = emptyList(),
-            onItemClicked = { serialNumber -> viewModel.injectExistingControl(serialNumber = serialNumber)},
-            onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
-        )
-
-        recyclerView.adapter = mAdapter
-
-        viewModel.getAllControlGRV()
-    }
-
-    // **** CONTROL PAGE ****
 
     private fun manageControlPage(view: View, arguments: Bundle){
         controlComponent.setUp(view = view, arguments = arguments)
 
+
         controlComponent.closeButton().setOnClickListener {
-            mCallback?.deleteControl(pos = controlComponent.getPageId())
+            if (controlComponent.getControl().serialNumber != 0) {
+                viewModel.moveExistingControlToAddingPage(controlComponent.getControl().serialNumber ?:0, state = false)
+            } else {
+                mCallback?.getAddingPage()
+            }
         }
 
         controlComponent.save().setOnClickListener {
@@ -81,41 +52,35 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
     // OBSERVATIONS
 
     private fun observeLiveData() {
-        viewModel.getAllControlGRVLiveData().observe(this) { controlsGRV ->
-            if (::mAdapter.isInitialized) {
-                mAdapter.updateData(viewModel.checkControlsActivated(controlsGRV = controlsGRV))
+        viewModel.updateControlGRVLiveData().observe(this) { trigger ->
+            when (trigger) {
+                RETURN_TO_ADD_LIST_GRV_CONTROL -> {
+                    mCallback?.getAddingPage()
+                }
             }
         }
 
-        viewModel.createControlGRVLiveData().observe(this) { _ ->
-            mCallback?.deleteControl(pos = controlComponent.getPageId())
+        viewModel.updateLoadedControlGRVStateLiveData().observe(this) { controlsGRV ->
+            mCallback?.getAddingPage(newList = controlsGRV.first)
         }
 
-        viewModel.deleteControlGRVLiveData().observe(this) { controlsGRV ->
-            if (::mAdapter.isInitialized) {
-                mAdapter.updateData(controlsGRV)
-            }
+        viewModel.getControlGRVLiveData().observe(this) { controlGRV ->
+            mCallback?.createNewPage(controlGRV.serialNumber ?: 0)
         }
 
-        viewModel.getUpdatedListOfAddingPageLiveData().observe(this) { controlsGRV ->
-            if (::mAdapter.isInitialized) {
-                mAdapter.updateData(controlsGRV.first)
-            }
-            mCallback?.injectControl(controlsGRV.second)
+        viewModel.createControlGRVLiveData().observe(this) { controlsGRV ->
+            mCallback?.getAddingPage(newList = controlsGRV.first)
         }
+
     }
 
     companion object {
         fun newInstance(controlGRV: ControlGRV) = ChildControlGRVViewPagerFragment().apply {
             arguments = Bundle().apply {
-                putInt(GRV_ID, controlGRV.uid ?: 0)
-                putInt(GRV_PAGE_ID, controlGRV.pageId)
-                controlGRV.currentStep?.id?.let { putInt(GRV_CURRENT_STEP, it) }
+                putParcelable(GRV_CONTROL, controlGRV)
             }
         }
-        const val GRV_ID = "GRV_ID"
-        const val GRV_PAGE_ID = "GRV_PAGE_ID"
-        const val GRV_CURRENT_STEP = "GRV_CURRENT_STEP"
+        const val GRV_CONTROL = "GRV_CONTROL"
     }
 
     /**

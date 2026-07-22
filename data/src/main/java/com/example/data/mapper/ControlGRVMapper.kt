@@ -9,14 +9,16 @@ object ControlGRVMapper {
         uid = controlGRVLocal.uid,
         serialNumber = controlGRVLocal.serialNumber,
         currentStep = controlGRVLocal.currentStep,
-        currentlyGoingOn = controlGRVLocal.currentlyGoingOn
+        currentlyGoingOn = controlGRVLocal.currentlyGoingOn,
+        loaded = controlGRVLocal.loaded
     )
 
     fun controlGRVBusinessToLocal(controlGRVBusiness: ControlGRVBusiness): ControlGRVLocal = ControlGRVLocal(
         uid = controlGRVBusiness.uid!!,
         serialNumber = controlGRVBusiness.serialNumber!!,
         currentStep = controlGRVBusiness.currentStep,
-        currentlyGoingOn = true
+        currentlyGoingOn = controlGRVBusiness.currentlyGoingOn,
+        loaded = controlGRVBusiness.loaded
     )
 
     fun allControlGRVLocalToBusiness(controlGRVLocals: List<ControlGRVLocal>): List<ControlGRVBusiness> {

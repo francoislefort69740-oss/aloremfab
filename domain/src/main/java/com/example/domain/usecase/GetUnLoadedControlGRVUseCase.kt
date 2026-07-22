@@ -5,9 +5,9 @@ import com.example.domain.model.ControlGRVBusiness
 import com.example.domain.model.ErrorBusiness
 import com.example.domain.repository.db.ControlGRVLocalRepository
 
-class GetAllControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVLocalRepository) {
+class GetUnLoadedControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVLocalRepository) {
     suspend operator fun invoke(): ResultOf<List<ControlGRVBusiness>> {
-        val list = controlGRVLocalRepository.getAllControlGRV()
+        val list = controlGRVLocalRepository.getUnloaded()
 
         return if (list.isNotEmpty()) ResultOf.Success(list)
         else ResultOf.Error(ErrorBusiness.NoControlGRVExist)

@@ -12,6 +12,9 @@ interface ControlGRVLocalRepository {
     suspend fun checkIfControlGRVExist(controlGRVId: Int): Boolean
     suspend fun getCurrentlyGoingOn(): List<ControlGRVBusiness>
     suspend fun getAllControlGRV(): List<ControlGRVBusiness>
+    suspend fun getLoaded(): List<ControlGRVBusiness>
+    suspend fun getUnloaded(): List<ControlGRVBusiness>
+
 
     // UPDATE
     suspend fun updateLocalControlGRV(controlGRVBusiness: ControlGRVBusiness): Int

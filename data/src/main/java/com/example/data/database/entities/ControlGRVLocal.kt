@@ -14,7 +14,8 @@ class ControlGRVLocal(
     @ColumnInfo(name = UID) val uid: Int,
     @ColumnInfo(name = SERIAL_NUMBER) val serialNumber: Int,
     @ColumnInfo(name = CURRENT_STEP) val currentStep: Int,
-    @ColumnInfo(name = CURRENTLY_GOING_ON) val currentlyGoingOn: Boolean
+    @ColumnInfo(name = CURRENTLY_GOING_ON) val currentlyGoingOn: Boolean,
+    @ColumnInfo(name = LOADED) val loaded: Boolean
 ) {
 
     companion object {
@@ -23,5 +24,6 @@ class ControlGRVLocal(
         const val SERIAL_NUMBER = "serial_number"
         const val CURRENT_STEP = "current_step"
         const val CURRENTLY_GOING_ON = "currently_going_on"
+        const val LOADED = "loaded"
     }
 }

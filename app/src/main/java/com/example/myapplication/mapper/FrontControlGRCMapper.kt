@@ -14,13 +14,18 @@ object FrontControlGRCMapper {
 
     fun controlGRVBusinessToFront(controlGRVBusiness: ControlGRVBusiness): ControlGRV = ControlGRV(
         uid = controlGRVBusiness.uid,
-        serialNumber = controlGRVBusiness.serialNumber
+        serialNumber = controlGRVBusiness.serialNumber,
+        loaded = controlGRVBusiness.loaded
     )
 
-    fun controlGRVFrontToBusiness(controlGRV: ControlGRV): ControlGRVBusiness = ControlGRVBusiness(
-        uid = controlGRV.uid,
-        serialNumber = controlGRV.serialNumber,
-        currentStep = controlGRV.currentStep?.id ?: 1,
-        currentlyGoingOn = true
-    )
+    fun controlGRVFrontToBusiness(controlGRV: ControlGRV): ControlGRVBusiness {
+        val business = ControlGRVBusiness(
+            uid = controlGRV.uid,
+            serialNumber = controlGRV.serialNumber,
+            currentStep = controlGRV.currentStep,
+            currentlyGoingOn = true,
+            loaded = controlGRV.loaded
+        )
+        return business
+    }
 }

@@ -18,6 +18,7 @@ class GRVMainFragment : BaseFragment(), ChildViewPagerGRVInterface {
 
     private lateinit var controlGRVViewPager: ViewPager2
     private lateinit var controlGRVViewPagerAdapter: ControlGRVViewPagerAdapter
+    private val controls = mutableListOf<ControlGRV>()
 
     companion object {
         fun newInstance() = GRVMainFragment()
@@ -28,35 +29,42 @@ class GRVMainFragment : BaseFragment(), ChildViewPagerGRVInterface {
         view.findViewById<ImageView>(R.id.imageView_alorem_grv_control).setOnClickListener {
             mCallback?.loadMenuFragment()
         }
-        controlGRVViewPagerAdapter = ControlGRVViewPagerAdapter(this, ControlGRV())
+        controlGRVViewPagerAdapter = ControlGRVViewPagerAdapter(this, controls)
         controlGRVViewPager = view.findViewById(R.id.viewPager_grv_control)
         controlGRVViewPager.setPageTransformer(ZoomOutPageTransformer())
         controlGRVViewPager.adapter = controlGRVViewPagerAdapter
     }
 
-    override fun createNewPage() {
-        val position = controlGRVViewPagerAdapter.addControl(ControlGRV(pageId = controlGRVViewPagerAdapter.getCountdown()))
+    override fun createNewPage(serialNumber: Int) {
+        val newPosition = controls.size
+        controls.add(ControlGRV(pageId = System.nanoTime().toInt(), serialNumber = serialNumber))
+        controlGRVViewPagerAdapter.notifyItemInserted(newPosition)
+        
+        // Scroll to the newly created page (which is the penultimate page, just before the Adding Page)
         controlGRVViewPager.post {
-            controlGRVViewPager.setCurrentItem(position, true)
+            controlGRVViewPager.setCurrentItem(newPosition, true)
         }
     }
 
-    override fun deleteControl(pos: Int) {
-        controlGRVViewPagerAdapter.removeControl(position = pos)
-        controlGRVViewPager.post {
-            controlGRVViewPager.setCurrentItem(controlGRVViewPagerAdapter.itemCount -1, true)
+    override fun getAddingPage(newList: List<ControlGRV>?) {
+        val pos = controlGRVViewPager.currentItem
+        // Check if we are trying to remove a valid control (not the Adding Page itself)
+        if (pos < controls.size) {
+            controls.removeAt(pos)
+            controlGRVViewPagerAdapter.notifyItemRemoved(pos)
+            
+            // Return to the Adding Page, which is always at the last index (itemCount - 1)
+            controlGRVViewPager.post {
+                controlGRVViewPager.setCurrentItem(controlGRVViewPagerAdapter.itemCount - 1, true)
+                newList?.let {
+                    childFragmentManager.setFragmentResult("REFRESH_ADDING_PAGE", Bundle())
+                }
+            }
         }
     }
 
     override fun saveControl() {
         mCallback?.loadMenuFragment()
-    }
-
-    override fun injectControl(serialNumber: Int) {
-        val position = controlGRVViewPagerAdapter.addControl(ControlGRV(pageId = controlGRVViewPagerAdapter.getCountdown(), serialNumber = serialNumber))
-        controlGRVViewPager.post {
-            controlGRVViewPager.setCurrentItem(position, true)
-        }
     }
 
     /**

@@ -29,6 +29,14 @@ class ControlGRVRepositoryImpl(private val controlGRVLocalDataSource: ControlGRV
         return controlGRVLocalDataSource.getAllControlGRV()
     }
 
+    override suspend fun getLoaded(): List<ControlGRVBusiness> {
+        return controlGRVLocalDataSource.getLoaded()
+    }
+
+    override suspend fun getUnloaded(): List<ControlGRVBusiness> {
+        return controlGRVLocalDataSource.getUnLoaded()
+    }
+
     override suspend fun updateLocalControlGRV(controlGRVBusiness: ControlGRVBusiness): Int {
         return controlGRVLocalDataSource.updateLocalControlGRV(controlGRVBusiness = controlGRVBusiness)
     }

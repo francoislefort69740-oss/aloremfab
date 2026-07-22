@@ -38,6 +38,22 @@ class ControlGRVLocalDataSourceImpl(private val controlGRVDao: ControlGRVDao): C
         }
     }
 
+    override suspend fun getLoaded(): List<ControlGRVBusiness> {
+        return try {
+            ControlGRVMapper.allControlGRVLocalToBusiness(controlGRVLocals = controlGRVDao.getLoaded())
+        } catch (e: Exception){
+            emptyList()
+        }
+    }
+
+    override suspend fun getUnLoaded(): List<ControlGRVBusiness> {
+        return try {
+            ControlGRVMapper.allControlGRVLocalToBusiness(controlGRVLocals = controlGRVDao.getUnLoaded())
+        } catch (e: Exception){
+            emptyList()
+        }
+    }
+
     override suspend fun updateLocalControlGRV(controlGRVBusiness: ControlGRVBusiness): Int {
         controlGRVDao.update(ControlGRVMapper.controlGRVBusinessToLocal(controlGRVBusiness = controlGRVBusiness))
         return controlGRVDao.findControlGRVBySerialNumber(serialNumber = controlGRVBusiness.serialNumber!!).uid
