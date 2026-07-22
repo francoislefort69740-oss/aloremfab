@@ -52,6 +52,13 @@ class GRVMainFragment : BaseFragment(), ChildViewPagerGRVInterface {
         mCallback?.loadMenuFragment()
     }
 
+    override fun injectControl(serialNumber: Int) {
+        val position = controlGRVViewPagerAdapter.addControl(ControlGRV(pageId = controlGRVViewPagerAdapter.getCountdown(), serialNumber = serialNumber))
+        controlGRVViewPager.post {
+            controlGRVViewPager.setCurrentItem(position, true)
+        }
+    }
+
     /**
      *  LIFE CYCLE
      */

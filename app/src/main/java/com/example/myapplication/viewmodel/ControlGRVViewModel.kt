@@ -19,9 +19,14 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val getControlGRV = interactor.getControlGRVUseCase
     private val deleteControlGRV = interactor.deleteControlGRVUseCase
 
+    // DATAS
+
+    private val controlsActivated = MutableLiveData< MutableList<Int>>()
+
     // LIVEDATA
 
     private val getAllControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
+    private val injectExistingControlLiveData = MutableLiveData<Pair<List<ControlGRV>, Int>>()
     private val createControlGRVLiveData = MutableLiveData<Boolean>()
 
     private val controlGRVNotFound = MutableLiveData<Boolean>()
@@ -30,6 +35,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val deleteControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
 
     fun getAllControlGRVLiveData() = getAllControlGRVLiveData
+    fun getUpdatedListOfAddingPageLiveData() = injectExistingControlLiveData
     fun createControlGRVLiveData() = createControlGRVLiveData
     fun deleteControlGRVLiveData() = deleteControlGRVLiveData
 
@@ -73,6 +79,27 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
                 }
             }
         }
+    }
+
+    fun injectExistingControl(serialNumber: Int){
+        viewModelScope.launch {
+            when (val result = getAllControlGRV.invoke()){
+                is ResultOf.Success -> {
+                    controlsActivated.value = (controlsActivated.value ?: mutableListOf()).apply { add(serialNumber) }
+                    injectExistingControlLiveData.postValue(Pair(checkControlsActivated(FrontControlGRCMapper.allControlGRVBusinessToFront(result.data)), serialNumber))
+                }
+                is ResultOf.Error -> when(result.exception) {
+                    is ErrorBusiness.NoControlGRVExist -> noControlGRVExist.postValue(true)
+                    is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
+                }
+            }
+        }
+    }
+
+    fun checkControlsActivated(controlsGRV: List<ControlGRV>) : List<ControlGRV> {
+        val list = controlsGRV.toMutableList()
+        controlsActivated.value?.forEach { activated -> list.removeIf { it.serialNumber == activated } }
+        return list.toList()
     }
 
 
