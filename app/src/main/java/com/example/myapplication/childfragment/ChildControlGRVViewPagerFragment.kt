@@ -43,6 +43,17 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
                     mCallback?.createNewPage()
                 }
 
+                addingPageComponent.updateButton().setOnClickListener {
+                    viewModel.getAllControlGRV()
+                }
+
+                mAdapter = ControlGRVListAdapter(controlsGRV = emptyList(),
+                    onItemClicked = { serialNumber -> },
+                    onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
+                )
+
+                recyclerView.adapter = mAdapter
+
                 viewModel.getAllControlGRV()
 
             } else { // c'est une page de contrôle existante
@@ -66,17 +77,13 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
     private fun observeLiveData() {
         viewModel.getAllControlGRVLiveData().observe(this) { controlsGRV ->
-            mAdapter = ControlGRVListAdapter(controlsGRV = controlsGRV,
-                onItemClicked = { serialNumber -> },
-                onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
-            )
-
-            recyclerView.adapter = mAdapter
-            mAdapter.notifyDataSetChanged()
+            if (::mAdapter.isInitialized) {
+                mAdapter.updateData(controlsGRV)
+            }
         }
 
         viewModel.createControlGRVLiveData().observe(this) { controlGRVS ->
-            Toast.makeText(context, "CONTROL SAVED", Toast.LENGTH_SHORT).show()
+            mCallback?.deleteControl(pos = controlComponent.getPageId())
         }
 
         viewModel.deleteControlGRVLiveData().observe(this) { controlsGRV ->

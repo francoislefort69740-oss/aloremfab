@@ -89,6 +89,18 @@
             app:tint="@android:color/white" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/update_grv_list_control_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/primary_700"
+            android:src="@drawable/ic_reload"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@android:color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/check_all_ok_child_control_grv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

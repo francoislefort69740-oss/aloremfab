@@ -25,6 +25,7 @@ class GRVControlProcess {
         view.findViewById<FloatingActionButton>(R.id.next_child_control_grv).visibility = View.VISIBLE
         view.findViewById<ImageView>(R.id.close_child_control_grv).visibility = View.VISIBLE
         view.findViewById<ImageView>(R.id.add_child_control_grv).visibility = View.GONE
+        view.findViewById<ImageView>(R.id.update_grv_list_control_grv).visibility = View.GONE
         view.findViewById<Guideline>(R.id.menu_guideline_3_child_control_grv).setGuidelinePercent(0.9F)
 
         pageId = arguments.getInt(GRV_PAGE_ID)

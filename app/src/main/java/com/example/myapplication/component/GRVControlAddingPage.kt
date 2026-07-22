@@ -27,8 +27,10 @@ class GRVControlAddingPage {
 
         view.findViewById<ImageView>(R.id.add_child_control_grv).visibility = View.VISIBLE
         view.findViewById<Guideline>(R.id.menu_guideline_3_child_control_grv).setGuidelinePercent(0.68F)
+        view.findViewById<ImageView>(R.id.update_grv_list_control_grv).visibility = View.VISIBLE
 
     }
 
     fun addingButton(): ImageView = mView.findViewById(R.id.add_child_control_grv)
+    fun updateButton(): ImageView = mView.findViewById(R.id.update_grv_list_control_grv)
 }
