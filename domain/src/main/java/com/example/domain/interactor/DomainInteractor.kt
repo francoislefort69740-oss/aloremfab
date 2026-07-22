@@ -2,6 +2,7 @@ package com.example.domain.interactor
 
 import com.example.domain.usecase.CreateControlGRVUseCase
 import com.example.domain.usecase.CreateUserUseCase
+import com.example.domain.usecase.DeleteControlGRVUseCase
 import com.example.domain.usecase.DeleteUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
 import com.example.domain.usecase.GetAllControlGRVUseCase
@@ -21,5 +22,6 @@ data class DomainInteractor(
     val deleteUserUseCase: DeleteUserUseCase,
     val getControlGRVUseCase: GetControlGRVUseCase,
     val createControlGRVUseCase: CreateControlGRVUseCase,
-    val getAllControlGRVUseCase: GetAllControlGRVUseCase
+    val getAllControlGRVUseCase: GetAllControlGRVUseCase,
+    val deleteControlGRVUseCase: DeleteControlGRVUseCase
 )

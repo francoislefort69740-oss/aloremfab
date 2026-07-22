@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -66,16 +67,22 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
     private fun observeLiveData() {
         viewModel.getAllControlGRVLiveData().observe(this) { controlsGRV ->
             mAdapter = ControlGRVListAdapter(controlsGRV = controlsGRV,
-                onItemClicked = { controlsGRV -> },
-                onDeleteClick = { controlsGRV -> }
+                onItemClicked = { serialNumber -> },
+                onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
             )
 
             recyclerView.adapter = mAdapter
             mAdapter.notifyDataSetChanged()
         }
 
-        viewModel.createControlGRVLiveData().observe(this) {
-            mCallback?.saveControl()
+        viewModel.createControlGRVLiveData().observe(this) { controlGRVS ->
+            Toast.makeText(context, "CONTROL SAVED", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.deleteControlGRVLiveData().observe(this) { controlsGRV ->
+            if (::mAdapter.isInitialized) {
+                mAdapter.updateData(controlsGRV)
+            }
         }
     }
 

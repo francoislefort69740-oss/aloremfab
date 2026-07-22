@@ -20,9 +20,6 @@ suspend fun rePopulateDb(database: MyDatabase?){
 
             val activeIdLocal = ActiveIdLocal(uid = 0, activeId = 1)
             activeIdDao.insertId(activeIdLocal)
-
-            val fakeControl = ControlGRVLocal(uid = 1, serialNumber = 123456789, currentStep = 1, currentlyGoingOn = true)
-            controlGRVDao.insertControlGRV(fakeControl)
         }
     }
 }
