@@ -3,12 +3,15 @@ package com.example.myapplication.childfragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.utils.RETURN_TO_ADD_LIST_GRV_CONTROL
 import com.example.myapplication.R
 import com.example.myapplication.callback.ChildViewPagerGRVInterface
 import com.example.myapplication.component.GRVControlProcess
 import com.example.myapplication.fragment.BaseFragment
 import com.example.myapplication.model.ControlGRV
+import com.example.myapplication.recycler.StepGRVListAdapter
 import com.example.myapplication.viewmodel.ControlGRVViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
@@ -18,10 +21,16 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
     private val viewModel: ControlGRVViewModel by viewModel()
 
+    private lateinit var controlGRVPageRecyclerView: RecyclerView
+    private lateinit var mAdapterControlGRVPage: StepGRVListAdapter
+
     private lateinit var controlComponent: GRVControlProcess
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
         arguments?.let { arguments ->
+
+            controlGRVPageRecyclerView = view.findViewById(R.id.recycler_control_area_child_control_grv)
+            controlGRVPageRecyclerView.layoutManager = LinearLayoutManager(view.context)
 
             controlComponent =  GRVControlProcess()
             manageControlPage(view = view, arguments = arguments)
@@ -34,7 +43,6 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
     private fun manageControlPage(view: View, arguments: Bundle){
         controlComponent.setUp(view = view, arguments = arguments)
 
-
         controlComponent.closeButton().setOnClickListener {
             if (controlComponent.getControl().serialNumber != 0) {
                 viewModel.moveExistingControlToAddingPage(controlComponent.getControl().serialNumber ?:0, state = false)
@@ -46,6 +54,9 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         controlComponent.save().setOnClickListener {
             viewModel.createControlGRV(ControlGRV(serialNumber = controlComponent.getFakeSerialNumber()))
         }
+
+        mAdapterControlGRVPage = StepGRVListAdapter(controlGRVCheckPoints = emptyList(), onItemClicked = {}, onDeleteClick = {})
+        controlGRVPageRecyclerView.adapter = mAdapterControlGRVPage
     }
 
     // ----------------------------------------------------------------------------------------------

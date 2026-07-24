@@ -11,5 +11,4 @@ class GRVControlAddingPage(view: View) {
     private var mView: View = view
 
     fun addingButton(): ImageView = mView.findViewById(R.id.add_child_control_grv)
-    fun updateButton(): ImageView = mView.findViewById(R.id.update_grv_list_control_grv)
 }

@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.data.database.dao.ActiveIdDao
 import com.example.data.database.dao.ControlGRVDao
+import com.example.data.database.dao.ControlGRVStep0Dao
 import com.example.data.database.dao.UserDao
 import com.example.data.database.entities.ActiveIdLocal
 import com.example.data.database.entities.ControlGRVLocal
@@ -22,6 +23,7 @@ import kotlin.jvm.java
     entities = [
         UserLocal::class,
         ControlGRVLocal::class,
+        ControlGRVStep0Dao::class,
         ActiveIdLocal::class],
     version = 1,
     exportSchema = false
@@ -30,6 +32,8 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun activeIdDao(): ActiveIdDao
     abstract fun controlGRVDao(): ControlGRVDao
+    abstract fun controlGRVStep0Dao(): ControlGRVStep0Dao
+
 
     companion object{
         @Volatile

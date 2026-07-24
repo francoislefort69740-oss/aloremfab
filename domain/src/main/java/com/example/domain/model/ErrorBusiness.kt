@@ -42,4 +42,12 @@ sealed class ErrorBusiness: Exception() {
         private fun readResolve(): Any = ControlGRVUidFieldEmpty
     }
 
+    data object NoControlGRStepVExist: ErrorBusiness() {
+        private fun readResolve(): Any = NoControlGRStepVExist
+    }
+
+    data object ControlGRVStepNotFound: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVStepNotFound
+    }
+
 }

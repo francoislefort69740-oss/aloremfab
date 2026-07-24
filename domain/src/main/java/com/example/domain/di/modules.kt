@@ -1,6 +1,7 @@
 package com.example.domain.di
 
 import com.example.domain.interactor.DomainInteractor
+import com.example.domain.usecase.CreateControlGRVStepUseCase
 import com.example.domain.usecase.CreateControlGRVUseCase
 import com.example.domain.usecase.CreateUserUseCase
 import com.example.domain.usecase.DeleteControlGRVUseCase
@@ -8,6 +9,7 @@ import com.example.domain.usecase.DeleteUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
 import com.example.domain.usecase.GetAllControlGRVUseCase
 import com.example.domain.usecase.GetAllUsersUseCase
+import com.example.domain.usecase.GetControlGRVStepUseCase
 import com.example.domain.usecase.GetControlGRVUseCase
 import com.example.domain.usecase.GetCurrentlyGoingOnControlGRVUseCase
 import com.example.domain.usecase.GetLoadedControlGRVUseCase
@@ -22,6 +24,8 @@ import org.koin.dsl.module
 val domainModule = module {
 
     single { DomainInteractor(
+        get(),
+        get(),
         get(),
         get(),
         get(),
@@ -56,5 +60,7 @@ val domainModule = module {
     single { GetLoadedControlGRVUseCase(get()) }
     single { UpdateLoadedControlGRVStateUseCase(get()) }
     single { GetUnLoadedControlGRVUseCase(get()) }
+    single { GetControlGRVStepUseCase(get()) }
+    single { CreateControlGRVStepUseCase(get()) }
 
 }
