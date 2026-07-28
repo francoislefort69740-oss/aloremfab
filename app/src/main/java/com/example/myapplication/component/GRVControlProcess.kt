@@ -60,4 +60,6 @@ class GRVControlProcess {
 
     fun getFakeSerialNumber(): Int = Random.nextInt(1000000000)
 
+    fun serialNumberExist(): Boolean = control.serialNumber != 0
+
 }

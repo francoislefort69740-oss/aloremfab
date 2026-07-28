@@ -12,14 +12,14 @@
     android:layout_width="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@drawable/rounded_item_selector"
-        android:padding="15dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:id="@+id/aq_summary_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/report_number_item_card_data"
+            android:id="@+id/title_editable_item_card_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -32,6 +32,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/input_editable_item_card_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/title_editable_item_card_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/title_editable_item_card_data"
+            app:layout_constraintTop_toTopOf="@+id/title_editable_item_card_data" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -52,7 +52,7 @@ val domainModule = module {
     single { UpdateActivateIdUseCase(get()) }
     single { DeleteUserUseCase(get(), get()) }
     single { GetAllControlGRVUseCase(get()) }
-    single { CreateControlGRVUseCase(get()) }
+    single { CreateControlGRVUseCase(get(), get()) }
     single { GetControlGRVUseCase(get()) }
     single { DeleteControlGRVUseCase(get()) }
     single { UpdateControlGRCUseCase(get()) }

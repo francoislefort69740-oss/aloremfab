@@ -8,6 +8,7 @@ import com.example.domain.interactor.DomainInteractor
 import com.example.domain.model.ErrorBusiness
 import com.example.myapplication.mapper.FrontControlGRCMapper
 import com.example.myapplication.model.ControlGRV
+import com.example.myapplication.model.StepControlGRV
 import kotlinx.coroutines.launch
 
 
@@ -22,6 +23,8 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val deleteControlGRV = interactor.deleteControlGRVUseCase
     private val updateControlGRV = interactor.updateControlGRCUseCase
     private val updateLoadedControlGRVState = interactor.updateLoadedControlGRVStateUseCase
+    private val getStepControlGrV = interactor.getControlGRVStepUseCase
+    private val createStepControlGrV = interactor.createControlGRVStepUseCase
 
     // LIVEDATA
 
@@ -34,6 +37,9 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val rejectExistingControlLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val createControlGRVLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val updateControlGRVLiveData = MutableLiveData<String>()
+    private val getStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
+    private val createStepControlGrVLiveData = MutableLiveData<Boolean>()
+
 
     private val controlGRVNotFound = MutableLiveData<Boolean>()
     private val noControlGRVExist = MutableLiveData<Boolean>()
@@ -49,6 +55,9 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     fun createControlGRVLiveData() = createControlGRVLiveData
     fun deleteControlGRVLiveData() = deleteControlGRVLiveData
     fun updateControlGRVLiveData() = updateControlGRVLiveData
+    fun getStepControlGrVLiveData() = getStepControlGrVLiveData
+    fun createStepControlGrVLiveData() = createStepControlGrVLiveData
+
 
 
     fun getControlGRVNotFound() = controlGRVNotFound
@@ -57,6 +66,28 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
 
 
     // OBSERVATION
+
+    fun createStepControlGrV(stepControlGRV: StepControlGRV, stepNumber: Int) {
+        viewModelScope.launch {
+            when (val result = createStepControlGrV.invoke(FrontControlGRCMapper.controlGRVStepFrontToBusiness(stepControlGRV), stepNumber = stepNumber)) {
+                is ResultOf.Success -> createStepControlGrVLiveData.postValue(result.data)
+                is ResultOf.Error -> when (result.exception) {
+                    is ErrorBusiness.ControlGRVStepNotFound -> controlGRVNotFound.postValue(true)
+                }
+            }
+        }
+    }
+
+    fun getStepControlGrv(reference: Int, stepNumber: Int) {
+        viewModelScope.launch {
+            when (val result = getStepControlGrV.invoke(reference = reference, stepNumber = stepNumber)) {
+                is ResultOf.Success -> getStepControlGrVLiveData.postValue(FrontControlGRCMapper.controlGRVStepBusinessToFront(result.data))
+                is ResultOf.Error -> when (result.exception) {
+                    is ErrorBusiness.ControlGRVStepNotFound -> controlGRVNotFound.postValue(true)
+                }
+            }
+        }
+    }
 
     fun updateControlGRV(controlGRV: ControlGRV?, trigger: String) {
         viewModelScope.launch {

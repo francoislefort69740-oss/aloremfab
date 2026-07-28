@@ -1,5 +1,9 @@
 package com.example.myapplication.model
 
-data class ControlGRVCheckPoint (
-    val title: String
-)
+sealed class ControlGRVCheckPoint{
+
+    data class EditableCheckPoint(
+        var name: String = "",
+        var title: String = ""
+    ): ControlGRVCheckPoint()
+}

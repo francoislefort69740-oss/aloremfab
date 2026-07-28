@@ -4,7 +4,6 @@ sealed class ControlGRVStepBusiness{
 
     data class ControlGRVStep0(
         val reference: Int,
-        val stepNumber: Int,
         var reportNumber: Int,
         var customer: String,
         var customerSerialNumber: Int,

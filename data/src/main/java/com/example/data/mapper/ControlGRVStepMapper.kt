@@ -8,7 +8,6 @@ object ControlGRVStepMapper {
     fun controlGRVStep0LocalToBusiness(controlGRVStep0Local: ControlGRVStep0Local): ControlGRVStepBusiness =
         ControlGRVStepBusiness.ControlGRVStep0(
             reference = controlGRVStep0Local.reference,
-            stepNumber = 0,
             reportNumber = controlGRVStep0Local.reportNumber,
             customer = controlGRVStep0Local.customer,
             customerSerialNumber = controlGRVStep0Local.customerSerialNumber,

@@ -3,10 +3,12 @@ package com.example.domain.usecase
 import android.util.Log
 import com.example.domain.ResultOf
 import com.example.domain.model.ControlGRVBusiness
+import com.example.domain.model.ControlGRVStepBusiness
 import com.example.domain.model.ErrorBusiness
 import com.example.domain.repository.db.ControlGRVLocalRepository
+import com.example.domain.repository.db.ControlGRVStepLocalRepository
 
-class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVLocalRepository) {
+class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVLocalRepository, private val controlGRVStepLocalRepository: ControlGRVStepLocalRepository) {
     suspend operator fun invoke(controlGRVBusiness: ControlGRVBusiness): ResultOf<Pair<List<ControlGRVBusiness>, ControlGRVBusiness>> {
         return try {
             if (controlGRVBusiness.serialNumber != null){
@@ -33,7 +35,17 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                 }
 
                 if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
-
+                    controlGRVStepLocalRepository.createLocalControlGRVStep0(
+                        ControlGRVStepBusiness.ControlGRVStep0(
+                            reference = controlGRVBusiness.serialNumber,
+                            reportNumber = 0,
+                            customer = "",
+                            customerSerialNumber = 0,
+                            serialNumberAlorem = 0,
+                            type = "",
+                            controlGRVForeignId = controlGRVBusiness.serialNumber
+                        )
+                    )
                     ResultOf.Success(Pair(controlGRVLocalRepository.getUnloaded(),controlGRVBusiness))
                 } else {
                     ResultOf.Error(ErrorBusiness.ControlGRVNotFound)

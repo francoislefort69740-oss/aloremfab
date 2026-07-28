@@ -55,8 +55,12 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
             viewModel.createControlGRV(ControlGRV(serialNumber = controlComponent.getFakeSerialNumber()))
         }
 
-        mAdapterControlGRVPage = StepGRVListAdapter(controlGRVCheckPoints = emptyList(), onItemClicked = {}, onDeleteClick = {})
+        mAdapterControlGRVPage = StepGRVListAdapter(requireContext(), onItemClicked = {}, onDeleteClick = {})
         controlGRVPageRecyclerView.adapter = mAdapterControlGRVPage
+
+        if (controlComponent.serialNumberExist())
+            viewModel.getStepControlGrv(controlComponent.getControl().serialNumber!!, controlComponent.getControl().currentStep)
+
     }
 
     // ----------------------------------------------------------------------------------------------
@@ -81,6 +85,12 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
         viewModel.createControlGRVLiveData().observe(this) { controlsGRV ->
             mCallback?.getAddingPage(newList = controlsGRV.first)
+        }
+
+        viewModel.getStepControlGrVLiveData().observe(this) { stepControlGRV ->
+            if (::mAdapterControlGRVPage.isInitialized) {
+                mAdapterControlGRVPage.updateData(stepControlGRV = stepControlGRV, context = requireContext())
+            }
         }
 
     }
