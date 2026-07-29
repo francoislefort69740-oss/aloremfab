@@ -12,7 +12,7 @@ import com.example.myapplication.model.StepControlGRV
 class StepGRVListAdapter(context: Context, private val onItemClicked: (Int) -> Unit, private val onDeleteClick: (Int) -> Unit) : RecyclerView.Adapter<StepGRVListHolder>() {
 
     private var mTemplate = GRVControlStepTemplate(context = context)
-    private var mItems = emptyList<ControlGRVCheckPoint>()
+    private var mItems = mutableListOf<ControlGRVCheckPoint>()
 
     override fun getItemCount(): Int = mItems.size
 
@@ -52,9 +52,18 @@ class StepGRVListAdapter(context: Context, private val onItemClicked: (Int) -> U
         }
     }
 
-    fun updateData(stepControlGRV: StepControlGRV, context: Context) {
-        mTemplate = GRVControlStepTemplate(stepControlGRV, context = context)
-        mItems = mTemplate.getStepRecyclerItem()
+    fun updateData(stepControlGRV: StepControlGRV? = null, context: Context, listCheckPoint: List<ControlGRVCheckPoint>? = null) {
+        stepControlGRV?.let { stepControl ->
+            mTemplate = GRVControlStepTemplate(stepControl, context = context)
+            mItems.clear()
+            mItems.addAll(mTemplate.getStepRecyclerItem())
+        }
+
+        listCheckPoint?.let {
+            mItems.clear()
+            mItems.addAll(it)
+        }
+
         notifyDataSetChanged()
     }
 

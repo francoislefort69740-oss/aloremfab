@@ -10,7 +10,12 @@ class CreateControlGRVStepUseCase(private val controlGRVStepLocalRepository: Con
         return try {
             when (stepNumber) {
                 1 -> ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
-                else -> ResultOf.Success(controlGRVStepLocalRepository.createLocalControlGRVStep0(controlGRVStepBusiness = controlGRVStepBusiness))
+                else -> {
+                    if ((controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).isValid())  {
+                        ResultOf.Success(controlGRVStepLocalRepository.createLocalControlGRVStep0(controlGRVStepBusiness = controlGRVStepBusiness))
+                    }
+                    else ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
+                }
             }
         } catch (e: Exception) {
             ResultOf.Error(e)

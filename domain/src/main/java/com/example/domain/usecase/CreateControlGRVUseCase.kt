@@ -9,55 +9,105 @@ import com.example.domain.repository.db.ControlGRVLocalRepository
 import com.example.domain.repository.db.ControlGRVStepLocalRepository
 
 class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVLocalRepository, private val controlGRVStepLocalRepository: ControlGRVStepLocalRepository) {
-    suspend operator fun invoke(controlGRVBusiness: ControlGRVBusiness): ResultOf<Pair<List<ControlGRVBusiness>, ControlGRVBusiness>> {
+    suspend operator fun invoke(controlGRVBusiness: ControlGRVBusiness, controlGRVStepBusiness: ControlGRVStepBusiness): ResultOf<Pair<List<ControlGRVBusiness>, ControlGRVBusiness>> {
         return try {
-            if (controlGRVBusiness.serialNumber != null){
-                var goodId = false
-                var mResult = 0
+            controlGRVBusiness.serialNumber?.let { serialNumber ->
+                try {
+                    if (!controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
 
-                while (!goodId){
-                    try {
-                        val result = controlGRVLocalRepository.createLocalControlGRV(
-                            ControlGRVBusiness(
-                                uid = controlGRVBusiness.serialNumber,
-                                serialNumber = controlGRVBusiness.serialNumber,
-                                currentStep = 1,
-                                currentlyGoingOn = true,
-                                loaded = false
-                            )
-                        )
-                        goodId = true
-                        mResult = result
-                    } catch (e: Exception){
-                        Log.i("exeption", e.toString())
-                        mResult += 1
+                        // CREATE FULL CONTROL GRC
+
+                        val result = createGRCControl(controlGRVBusiness, serialNumber)
+
+                        // Add Control STEP 0
+
+                        if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
+                            val stepResult = createGRCControlStep(controlGRVStepBusiness, serialNumber)
+                            if (result != 0 && stepResult) ResultOf.Success(Pair(controlGRVLocalRepository.getUnloaded(),controlGRVBusiness))
+                            else ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
+                        } else {
+                            ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
+                        }
+
+                    } else {
+
+                        // UPDATE EXISTING CONTROL GRC
+
+                        val result = updateGRCControl(controlGRVBusiness, serialNumber)
+
+                        if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
+                            val stepResult = updateControlGRVStep(controlGRVStepBusiness, serialNumber)
+                            if (result != 0 && stepResult) ResultOf.Success(Pair(controlGRVLocalRepository.getUnloaded(),controlGRVBusiness))
+                            else ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
+                        } else {
+                            ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
+                        }
+
                     }
-                }
 
-                if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
-                    controlGRVStepLocalRepository.createLocalControlGRVStep0(
-                        ControlGRVStepBusiness.ControlGRVStep0(
-                            reference = controlGRVBusiness.serialNumber,
-                            reportNumber = 0,
-                            customer = "",
-                            customerSerialNumber = 0,
-                            serialNumberAlorem = 0,
-                            type = "",
-                            controlGRVForeignId = controlGRVBusiness.serialNumber
-                        )
-                    )
-                    ResultOf.Success(Pair(controlGRVLocalRepository.getUnloaded(),controlGRVBusiness))
-                } else {
+                } catch (e: Exception){
                     ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
                 }
-            } else {
-                ResultOf.Error(ErrorBusiness.UserRegistrationFieldEmpty)
-            }
+
+            } ?: ResultOf.Error(ErrorBusiness.ControlGRVWrongSerialNumber)
 
         } catch (e: Exception) {
             ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
         }
-
-
     }
+
+    suspend fun createGRCControl(controlGRVBusiness: ControlGRVBusiness, serialNumber: Int): Int {
+        return controlGRVLocalRepository.createLocalControlGRV(
+            ControlGRVBusiness(
+                uid = serialNumber,
+                serialNumber = serialNumber,
+                currentStep = controlGRVBusiness.currentStep,
+                currentlyGoingOn = true,
+                loaded = false
+            )
+        )
+    }
+
+    suspend fun updateGRCControl(controlGRVBusiness: ControlGRVBusiness, serialNumber: Int): Int {
+        return controlGRVLocalRepository.updateLocalControlGRV(
+            ControlGRVBusiness(
+                uid = serialNumber,
+                serialNumber = serialNumber,
+                currentStep = controlGRVBusiness.currentStep,
+                currentlyGoingOn = true,
+                loaded = false
+            )
+        )
+    }
+
+    suspend fun createGRCControlStep(controlGRVStepBusiness: ControlGRVStepBusiness, serialNumber: Int): Boolean {
+        return controlGRVStepLocalRepository.createLocalControlGRVStep0(
+            ControlGRVStepBusiness.ControlGRVStep0(
+                reference = serialNumber,
+                reportNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).reportNumber,
+                customer = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customer,
+                customerSerialNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customerSerialNumber,
+                serialNumberAlorem = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).serialNumberAlorem,
+                type = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).type,
+                controlGRVForeignId = serialNumber
+            )
+        )
+    }
+
+    suspend fun updateControlGRVStep(controlGRVStepBusiness: ControlGRVStepBusiness, serialNumber: Int): Boolean = when (controlGRVStepBusiness) {
+        is ControlGRVStepBusiness.ControlGRVStep0 ->
+            controlGRVStepLocalRepository.createLocalControlGRVStep0(
+                ControlGRVStepBusiness.ControlGRVStep0(
+                    reference = serialNumber,
+                    reportNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).reportNumber,
+                    customer = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customer,
+                    customerSerialNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customerSerialNumber,
+                    serialNumberAlorem = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).serialNumberAlorem,
+                    type = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).type,
+                    controlGRVForeignId = serialNumber
+                )
+            )
+    }
+
+
 }

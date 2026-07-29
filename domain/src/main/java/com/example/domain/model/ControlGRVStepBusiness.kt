@@ -10,7 +10,17 @@ sealed class ControlGRVStepBusiness{
         var serialNumberAlorem: Int,
         var type: String,
         var controlGRVForeignId: Int
-    ) : ControlGRVStepBusiness()
+    ) : ControlGRVStepBusiness() {
+        fun isValid(): Boolean {
+            return  reference != 0 &&
+                    reportNumber != 0 &&
+                    customer != "" &&
+                    customerSerialNumber != 0 &&
+                    serialNumberAlorem != 0 &&
+                    type != "" &&
+                    controlGRVForeignId != 0
+        }
+    }
 
 
 

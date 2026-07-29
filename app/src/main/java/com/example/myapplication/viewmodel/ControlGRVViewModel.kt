@@ -1,13 +1,16 @@
 package com.example.myapplication.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.ResultOf
 import com.example.domain.interactor.DomainInteractor
 import com.example.domain.model.ErrorBusiness
+import com.example.myapplication.component.GRVControlStepTemplate
 import com.example.myapplication.mapper.FrontControlGRCMapper
 import com.example.myapplication.model.ControlGRV
+import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
 import kotlinx.coroutines.launch
 
@@ -45,6 +48,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val noControlGRVExist = MutableLiveData<Boolean>()
     private val controlGRVUidFieldEmpty = MutableLiveData<Boolean>()
     private val deleteControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
+    private val wrongSerialNumber = MutableLiveData<Boolean>()
 
     fun updateLoadedControlGRVStateLiveData() = updateLoadedControlGRVStateLiveData
     fun getControlGRVLiveData() = getControlGRVLiveData
@@ -63,6 +67,20 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     fun getControlGRVNotFound() = controlGRVNotFound
     fun getNoControlGRVExist() = noControlGRVExist
     fun getControlGRVUidFieldEmpty() = controlGRVUidFieldEmpty
+    fun wrongSerialNumber() = wrongSerialNumber
+
+    // DATA
+
+    private val _checkPoints = MutableLiveData<List<ControlGRVCheckPoint>>()
+    val checkPoints: LiveData<List<ControlGRVCheckPoint>> = _checkPoints
+
+    fun loadTemplate(template: GRVControlStepTemplate) {
+        _checkPoints.value = template.getStepRecyclerItem()
+    }
+
+    fun getResult(): List<ControlGRVCheckPoint> {
+        return _checkPoints.value ?: emptyList()
+    }
 
 
     // OBSERVATION
@@ -136,15 +154,18 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
         }
     }
 
-    fun createControlGRV(controlGRV: ControlGRV) {
+    fun pushControlGRV(controlGRV: ControlGRV, stepControlGRV: StepControlGRV) {
         viewModelScope.launch {
-            when (val result = createControlGRV.invoke(FrontControlGRCMapper.controlGRVFrontToBusiness(controlGRV = controlGRV))){
+            when (val result = createControlGRV.invoke(
+                controlGRVBusiness = FrontControlGRCMapper.controlGRVFrontToBusiness(controlGRV = controlGRV),
+                controlGRVStepBusiness = FrontControlGRCMapper.controlGRVStepFrontToBusiness(stepControlGRV = stepControlGRV))){
                 is ResultOf.Success -> createControlGRVLiveData.postValue(Pair(
                     FrontControlGRCMapper.allControlGRVBusinessToFront(result.data.first),
                     FrontControlGRCMapper.controlGRVBusinessToFront(result.data.second)))
                 is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
                     is ErrorBusiness.UserRegistrationFieldEmpty -> controlGRVUidFieldEmpty.postValue(true)
+                    is ErrorBusiness.ControlGRVWrongSerialNumber -> wrongSerialNumber().postValue(true)
                 }
             }
         }

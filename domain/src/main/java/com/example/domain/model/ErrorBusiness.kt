@@ -38,6 +38,10 @@ sealed class ErrorBusiness: Exception() {
         private fun readResolve(): Any = ControlGRVNotFound
     }
 
+    data object ControlGRVWrongSerialNumber: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVWrongSerialNumber
+    }
+
     data object ControlGRVUidFieldEmpty: ErrorBusiness() {
         private fun readResolve(): Any = ControlGRVUidFieldEmpty
     }

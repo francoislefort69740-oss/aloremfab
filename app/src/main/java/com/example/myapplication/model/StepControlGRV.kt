@@ -2,13 +2,13 @@ package com.example.myapplication.model
 
 sealed class StepControlGRV{
     data class Step0ControlGRV(
-        val reference: Int,
-        var reportNumber: Int,
-        var customer: String,
-        var customerSerialNumber: Int,
-        var serialNumberAlorem: Int,
-        var type: String,
-        var controlGRVForeignId: Int
+        var reference: Int? = null,
+        var reportNumber: Int? = null,
+        var customer: String? = null,
+        var customerSerialNumber: Int? = null,
+        var serialNumberAlorem: Int? = null,
+        var type: String? = null,
+        var controlGRVForeignId: Int? = null
     ) : StepControlGRV()
 
 }

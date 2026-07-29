@@ -21,8 +21,8 @@ class GRVControlStepTemplate(stepControlGRV: StepControlGRV? = null, context: Co
     }
 
     fun getStepRecyclerItem(): List<ControlGRVCheckPoint> = when (mType) {
-        GRVControlStepEnum.STEP_0 -> getStep0RecyclerItem(data = mStepControlGRV as StepControlGRV.Step0ControlGRV)
-        else -> emptyList()
+        GRVControlStepEnum.STEP_0 -> getStep0RecyclerItem(data = mStepControlGRV as StepControlGRV.Step0ControlGRV?)
+        else -> getStep0RecyclerItem(data = mStepControlGRV as StepControlGRV.Step0ControlGRV?)
     }
 
     private fun getStep0RecyclerItem(data: StepControlGRV.Step0ControlGRV?): List<ControlGRVCheckPoint> =

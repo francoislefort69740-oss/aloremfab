@@ -45,13 +45,13 @@ object FrontControlGRCMapper {
 
     fun controlGRVStepFrontToBusiness(stepControlGRV: StepControlGRV): ControlGRVStepBusiness = when(stepControlGRV) {
         is StepControlGRV.Step0ControlGRV -> ControlGRVStepBusiness.ControlGRVStep0(
-            reference = stepControlGRV.reference,
-            reportNumber = stepControlGRV.reportNumber,
-            customer = stepControlGRV.customer,
-            customerSerialNumber = stepControlGRV.customerSerialNumber,
-            serialNumberAlorem = stepControlGRV.serialNumberAlorem,
-            type = stepControlGRV.type,
-            controlGRVForeignId = stepControlGRV.reference,
+            reference = stepControlGRV.reference ?: 0,
+            reportNumber = stepControlGRV.reportNumber ?: 0,
+            customer = stepControlGRV.customer ?: "",
+            customerSerialNumber = stepControlGRV.customerSerialNumber ?: 0,
+            serialNumberAlorem = stepControlGRV.serialNumberAlorem ?: 0,
+            type = stepControlGRV.type ?: "",
+            controlGRVForeignId = stepControlGRV.reference ?: 0
         )
     }
 }

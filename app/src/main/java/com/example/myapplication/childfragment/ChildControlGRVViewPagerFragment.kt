@@ -3,12 +3,14 @@ package com.example.myapplication.childfragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.utils.RETURN_TO_ADD_LIST_GRV_CONTROL
 import com.example.myapplication.R
 import com.example.myapplication.callback.ChildViewPagerGRVInterface
 import com.example.myapplication.component.GRVControlProcess
+import com.example.myapplication.component.GRVControlStepTemplate
 import com.example.myapplication.fragment.BaseFragment
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.recycler.StepGRVListAdapter
@@ -52,14 +54,14 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         }
 
         controlComponent.save().setOnClickListener {
-            viewModel.createControlGRV(ControlGRV(serialNumber = controlComponent.getFakeSerialNumber()))
+            val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
+            viewModel.pushControlGRV(controlGRV = result.first, stepControlGRV = result.second)
         }
 
         mAdapterControlGRVPage = StepGRVListAdapter(requireContext(), onItemClicked = {}, onDeleteClick = {})
         controlGRVPageRecyclerView.adapter = mAdapterControlGRVPage
 
-        if (controlComponent.serialNumberExist())
-            viewModel.getStepControlGrv(controlComponent.getControl().serialNumber!!, controlComponent.getControl().currentStep)
+        viewModel.getStepControlGrv(controlComponent.getControl().serialNumber!!, controlComponent.getControl().currentStep)
 
     }
 
@@ -89,8 +91,24 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
         viewModel.getStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
-                mAdapterControlGRVPage.updateData(stepControlGRV = stepControlGRV, context = requireContext())
+            //    mAdapterControlGRVPage.updateData(stepControlGRV = stepControlGRV, context = requireContext())
+                viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
             }
+        }
+
+        viewModel.getControlGRVNotFound().observe(this) {
+            if (::mAdapterControlGRVPage.isInitialized) {
+                //    mAdapterControlGRVPage.updateData(stepControlGRV = stepControlGRV, context = requireContext())
+                 viewModel.loadTemplate(template = GRVControlStepTemplate(controlComponent.initializeNewControl(), context = requireContext()))
+            }
+        }
+
+        viewModel.wrongSerialNumber().observe(this) {
+            Toast.makeText(requireContext(), getString(R.string.control_grv_control_step_wrong_report_number), Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.checkPoints.observe(viewLifecycleOwner) { list ->
+            mAdapterControlGRVPage.updateData(listCheckPoint = list, context = requireContext())
         }
 
     }
