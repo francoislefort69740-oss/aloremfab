@@ -1,5 +1,6 @@
 package com.example.myapplication.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -74,12 +75,43 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val _checkPoints = MutableLiveData<List<ControlGRVCheckPoint>>()
     val checkPoints: LiveData<List<ControlGRVCheckPoint>> = _checkPoints
 
+    private val _allCheckPointsCompleted = MutableLiveData(false)
+    val allCheckPointsCompleted: LiveData<Boolean> = _allCheckPointsCompleted
+
     fun loadTemplate(template: GRVControlStepTemplate) {
         _checkPoints.value = template.getStepRecyclerItem()
+        checkCompletion()
     }
 
     fun getResult(): List<ControlGRVCheckPoint> {
         return _checkPoints.value ?: emptyList()
+    }
+
+    private fun checkCompletion() {
+        _checkPoints.value?.forEachIndexed { index, checkpoint ->
+            when (checkpoint) {
+                is ControlGRVCheckPoint.EditableCheckPoint ->
+                    Log.d(
+                        "CHECK",
+                        "$index : title='${checkpoint.title}' value='${checkpoint.name}'"
+                    )
+            }
+        }
+
+        val completed = _checkPoints.value?.all { checkpoint ->
+            when (checkpoint) {
+                is ControlGRVCheckPoint.EditableCheckPoint ->
+                    checkpoint.name.isNotBlank()
+            }
+        } ?: false
+
+        Log.d("CHECK", "completed = $completed")
+
+        _allCheckPointsCompleted.value = completed
+    }
+
+    fun onCheckPointChanged() {
+        checkCompletion()
     }
 
 
@@ -227,8 +259,6 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
             }
         }
     }
-
-
 
 
 

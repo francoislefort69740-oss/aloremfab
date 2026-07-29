@@ -1,6 +1,7 @@
 package com.example.myapplication.component
 
 import android.content.Context
+import android.text.InputType
 import com.example.myapplication.R
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
@@ -27,10 +28,42 @@ class GRVControlStepTemplate(stepControlGRV: StepControlGRV? = null, context: Co
 
     private fun getStep0RecyclerItem(data: StepControlGRV.Step0ControlGRV?): List<ControlGRVCheckPoint> =
         listOf(
-            ControlGRVCheckPoint.EditableCheckPoint(title = mContext.getString(R.string.control_grv_checkpoint_report_number), name = (data?.reference ?: "").toString()),
-            ControlGRVCheckPoint.EditableCheckPoint(title = mContext.getString(R.string.control_grv_checkpoint_customer_name), name = data?.customer ?: ""),
-            ControlGRVCheckPoint.EditableCheckPoint(title = mContext.getString(R.string.control_grv_checkpoint_tank_category), name = data?.type ?: ""),
-            ControlGRVCheckPoint.EditableCheckPoint(title = mContext.getString(R.string.control_grv_checkpoint_customer_serial_number), name = (data?.customerSerialNumber ?: "").toString()),
-            ControlGRVCheckPoint.EditableCheckPoint(title = mContext.getString(R.string.control_grv_checkpoint_alorem_serial_number), name = (data?.serialNumberAlorem ?: "").toString())
+            ControlGRVCheckPoint.EditableCheckPoint(
+                title = mContext.getString(R.string.control_grv_checkpoint_report_number),
+                name = data?.reference
+                    ?.takeIf { it != 0 }
+                    ?.toString()
+                    .orEmpty(),
+                isEnable = data?.reference == null || data.reference == 0,
+                inputType = InputType.TYPE_CLASS_NUMBER
+            ),
+
+            ControlGRVCheckPoint.EditableCheckPoint(
+                title = mContext.getString(R.string.control_grv_checkpoint_customer_name),
+                name = data?.customer.orEmpty()
+            ),
+
+            ControlGRVCheckPoint.EditableCheckPoint(
+                title = mContext.getString(R.string.control_grv_checkpoint_tank_category),
+                name = data?.type.orEmpty()
+            ),
+
+            ControlGRVCheckPoint.EditableCheckPoint(
+                title = mContext.getString(R.string.control_grv_checkpoint_customer_serial_number),
+                name = data?.customerSerialNumber
+                    ?.takeIf { it != 0 }
+                    ?.toString()
+                    .orEmpty(),
+                inputType = InputType.TYPE_CLASS_NUMBER
+            ),
+
+            ControlGRVCheckPoint.EditableCheckPoint(
+                title = mContext.getString(R.string.control_grv_checkpoint_alorem_serial_number),
+                name = data?.serialNumberAlorem
+                    ?.takeIf { it != 0 }
+                    ?.toString()
+                    .orEmpty(),
+                inputType = InputType.TYPE_CLASS_NUMBER
+            )
         )
 }

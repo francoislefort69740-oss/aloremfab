@@ -46,7 +46,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         controlComponent.setUp(view = view, arguments = arguments)
 
         controlComponent.closeButton().setOnClickListener {
-            if (controlComponent.getControl().serialNumber != 0) {
+            if (controlComponent.getControl().serialNumber != 0 && controlComponent.getControl().serialNumber != null) {
                 viewModel.moveExistingControlToAddingPage(controlComponent.getControl().serialNumber ?:0, state = false)
             } else {
                 mCallback?.getAddingPage()
@@ -58,10 +58,14 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
             viewModel.pushControlGRV(controlGRV = result.first, stepControlGRV = result.second)
         }
 
-        mAdapterControlGRVPage = StepGRVListAdapter(requireContext(), onItemClicked = {}, onDeleteClick = {})
+        mAdapterControlGRVPage = StepGRVListAdapter(requireContext(),
+            onItemClicked = {},
+            onDeleteClick = {},
+            onValueChanged = { viewModel.onCheckPointChanged() }
+        )
         controlGRVPageRecyclerView.adapter = mAdapterControlGRVPage
 
-        viewModel.getStepControlGrv(controlComponent.getControl().serialNumber!!, controlComponent.getControl().currentStep)
+        viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.getControl().currentStep)
 
     }
 
@@ -91,14 +95,12 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
         viewModel.getStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
-            //    mAdapterControlGRVPage.updateData(stepControlGRV = stepControlGRV, context = requireContext())
                 viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
             }
         }
 
         viewModel.getControlGRVNotFound().observe(this) {
             if (::mAdapterControlGRVPage.isInitialized) {
-                //    mAdapterControlGRVPage.updateData(stepControlGRV = stepControlGRV, context = requireContext())
                  viewModel.loadTemplate(template = GRVControlStepTemplate(controlComponent.initializeNewControl(), context = requireContext()))
             }
         }
@@ -109,6 +111,10 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
         viewModel.checkPoints.observe(viewLifecycleOwner) { list ->
             mAdapterControlGRVPage.updateData(listCheckPoint = list, context = requireContext())
+        }
+
+        viewModel.allCheckPointsCompleted.observe(viewLifecycleOwner) { completed ->
+            controlComponent.setUpNextButton(completed)
         }
 
     }

@@ -62,8 +62,6 @@ class GRVControlProcess {
 
     fun save(): FloatingActionButton = mView.findViewById(R.id.save_child_control_grv)
 
-    fun getFakeSerialNumber(): Int = Random.nextInt(1000000000)
-
     fun serialNumberExist(): Boolean = control.serialNumber != 0
 
     fun initializeNewControl(): StepControlGRV.Step0ControlGRV = StepControlGRV.Step0ControlGRV()

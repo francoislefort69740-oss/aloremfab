@@ -9,7 +9,10 @@ import com.example.myapplication.component.GRVControlStepTemplate
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
 
-class StepGRVListAdapter(context: Context, private val onItemClicked: (Int) -> Unit, private val onDeleteClick: (Int) -> Unit) : RecyclerView.Adapter<StepGRVListHolder>() {
+class StepGRVListAdapter(context: Context,
+                         private val onItemClicked: (Int) -> Unit,
+                         private val onDeleteClick: (Int) -> Unit,
+                         private val onValueChanged: () -> Unit) : RecyclerView.Adapter<StepGRVListHolder>() {
 
     private var mTemplate = GRVControlStepTemplate(context = context)
     private var mItems = mutableListOf<ControlGRVCheckPoint>()
@@ -17,7 +20,7 @@ class StepGRVListAdapter(context: Context, private val onItemClicked: (Int) -> U
     override fun getItemCount(): Int = mItems.size
 
     override fun getItemViewType(position: Int): Int {
-        return when (mTemplate.getStepRecyclerItem()[position]) {
+        return when (mItems[position]) {
             is ControlGRVCheckPoint.EditableCheckPoint -> VIEW_TYPE_EDITABLE
         }
     }
@@ -45,7 +48,7 @@ class StepGRVListAdapter(context: Context, private val onItemClicked: (Int) -> U
 
     override fun onBindViewHolder(holder: StepGRVListHolder, position: Int) {
         when (val item = mItems[position]) {
-            is ControlGRVCheckPoint.EditableCheckPoint -> (holder as StepGRVListHolder.EditableCheckPoint).setItem(item, onItemClicked, onDeleteClick)
+            is ControlGRVCheckPoint.EditableCheckPoint -> (holder as StepGRVListHolder.EditableCheckPoint).setItem(item, onItemClicked, onDeleteClick, onValueChanged)
         //    is ControlGRVCheckPoint.SpinnerCheckPoint -> (holder as StepGRVListHolder.SpinnerCheckPoint).setItem(item)
         //    is ControlGRVCheckPoint.CheckBoxCheckPoint -> (holder as StepGRVListHolder.CheckBoxCheckPoint).setItem(item)
         //    is ControlGRVCheckPoint.DateCheckPoint -> (holder as StepGRVListHolder.DateCheckPoint).setItem(item)
