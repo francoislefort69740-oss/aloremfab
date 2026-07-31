@@ -1,7 +1,6 @@
 package com.example.myapplication.utils
 
 import android.content.Context
-import com.example.myapplication.R
 import com.example.myapplication.model.ControlGRVCheckPoint
 
 fun returnCheckPointForCheckBox(context: Context, resId: Int, list: List<ControlGRVCheckPoint>): Boolean? {

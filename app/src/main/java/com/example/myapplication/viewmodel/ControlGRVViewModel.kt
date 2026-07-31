@@ -29,6 +29,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val updateLoadedControlGRVState = interactor.updateLoadedControlGRVStateUseCase
     private val getStepControlGrV = interactor.getControlGRVStepUseCase
     private val createStepControlGrV = interactor.createControlGRVStepUseCase
+    private val checkSaveOrNextControlGRV = interactor.checkSaveOrNextControlGRVUseCase
 
     // LIVEDATA
 
@@ -43,6 +44,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val updateControlGRVLiveData = MutableLiveData<String>()
     private val getStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
     private val createStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
+    private val checkSaveOrNextControlGRVLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
 
 
     private val controlGRVNotFound = MutableLiveData<Boolean>()
@@ -62,6 +64,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     fun updateControlGRVLiveData() = updateControlGRVLiveData
     fun getStepControlGrVLiveData() = getStepControlGrVLiveData
     fun createStepControlGrVLiveData() = createStepControlGrVLiveData
+    fun checkSaveOrNextControlGRVLiveData() = checkSaveOrNextControlGRVLiveData
 
 
 
@@ -123,6 +126,17 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
 
 
     // OBSERVATION
+
+    fun checkSaveOrNextControlGRV(reference: Int){
+        viewModelScope.launch {
+            when (val result = checkSaveOrNextControlGRV.invoke(reference = reference)) {
+                is ResultOf.Success -> checkSaveOrNextControlGRVLiveData.postValue(result.data)
+                is ResultOf.Error -> when (result.exception) {
+                    is ErrorBusiness.ControlGRVStepNotFound -> controlGRVNotFound.postValue(true)
+                }
+            }
+        }
+    }
 
     fun createStepControlGrV(reference: Int, stepNumber: Int) {
         viewModelScope.launch {

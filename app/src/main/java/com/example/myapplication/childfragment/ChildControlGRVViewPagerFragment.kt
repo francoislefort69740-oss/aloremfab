@@ -13,6 +13,7 @@ import com.example.myapplication.component.GRVControlProcess
 import com.example.myapplication.component.GRVControlStepTemplate
 import com.example.myapplication.fragment.BaseFragment
 import com.example.myapplication.model.ControlGRV
+import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.recycler.StepGRVListAdapter
 import com.example.myapplication.viewmodel.ControlGRVViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -59,7 +60,11 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         }
 
         controlComponent.next().setOnClickListener {
-            viewModel.createStepControlGrV(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.incrementStep())
+            viewModel.checkSaveOrNextControlGRV(controlComponent.getControl().serialNumber!!)
+        }
+
+        controlComponent.back().setOnClickListener {
+            viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.decrementStep())
         }
 
         mAdapterControlGRVPage = StepGRVListAdapter(requireContext(),
@@ -100,12 +105,13 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         viewModel.getStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
                 viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
+                controlComponent.setUpBackButton(stepControlGRV::class != StepControlGRV.Step0ControlGRV::class)
             }
         }
 
         viewModel.createStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
-                viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
+                viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.incrementStep())
             }
         }
 
@@ -125,6 +131,14 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
         viewModel.allCheckPointsCompleted.observe(viewLifecycleOwner) { completed ->
             controlComponent.setUpNextButton(completed)
+        }
+
+        viewModel.checkSaveOrNextControlGRVLiveData().observe(this){ checking ->
+            if (checking.first) {
+                if (checking.second) {
+                    viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.incrementStep())
+                } else {}
+            }
         }
 
     }

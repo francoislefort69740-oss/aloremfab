@@ -20,10 +20,13 @@ class CreateControlGRVStepUseCase(private val controlGRVStepLocalRepository: Con
                         } else ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
                     }
                     else {
-                        val result = controlGRVStepLocalRepository.createLocalControlGRVStep(controlGRVStepBusiness = getEmptyControlGRVStep(stepNumber = stepNumber, reference = reference))
-                        if (result) {
-                            ResultOf.Success(getEmptyControlGRVStep(stepNumber = stepNumber, reference = reference) as ControlGRVStepBusiness.ControlGRVStep0)
-                        } else ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
+                        if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = reference)) {
+                            val result = controlGRVStepLocalRepository.createLocalControlGRVStep(controlGRVStepBusiness = getEmptyControlGRVStep(stepNumber = stepNumber, reference = reference))
+
+                            if (result) ResultOf.Success(getEmptyControlGRVStep(stepNumber = stepNumber, reference = reference) as ControlGRVStepBusiness.ControlGRVStep0)
+                            else ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
+
+                        } else ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
                     }
                 }
                 1 -> {

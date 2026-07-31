@@ -60,10 +60,15 @@ class GRVControlProcess {
         return control.currentStep
     }
 
+    fun decrementStep(): Int {
+        control.currentStep -= 1
+        return control.currentStep
+    }
+
     fun getControl(): ControlGRV = control
 
     fun save(): FloatingActionButton = mView.findViewById(R.id.save_child_control_grv)
-
+    fun back(): FloatingActionButton = mView.findViewById(R.id.back_child_control_grv)
     fun next(): FloatingActionButton = mView.findViewById(R.id.next_child_control_grv)
 
     fun serialNumberExist(): Boolean = control.serialNumber != 0

@@ -1,6 +1,7 @@
 package com.example.domain.di
 
 import com.example.domain.interactor.DomainInteractor
+import com.example.domain.usecase.CheckSaveOrNextControlGRVUseCase
 import com.example.domain.usecase.CreateControlGRVStepUseCase
 import com.example.domain.usecase.CreateControlGRVUseCase
 import com.example.domain.usecase.CreateUserUseCase
@@ -41,6 +42,7 @@ val domainModule = module {
         get(),
         get(),
         get(),
+        get(),
         get()
     )}
 
@@ -62,5 +64,6 @@ val domainModule = module {
     single { GetUnLoadedControlGRVUseCase(get()) }
     single { GetControlGRVStepUseCase(get()) }
     single { CreateControlGRVStepUseCase(get(), get()) }
+    single { CheckSaveOrNextControlGRVUseCase(get(), get()) }
 
 }
