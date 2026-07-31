@@ -17,7 +17,8 @@ object FrontControlGRCMapper {
     fun controlGRVBusinessToFront(controlGRVBusiness: ControlGRVBusiness): ControlGRV = ControlGRV(
         uid = controlGRVBusiness.uid,
         serialNumber = controlGRVBusiness.serialNumber,
-        loaded = controlGRVBusiness.loaded
+        loaded = controlGRVBusiness.loaded,
+        currentStep = controlGRVBusiness.currentStep
     )
 
     fun controlGRVFrontToBusiness(controlGRV: ControlGRV): ControlGRVBusiness {
@@ -41,6 +42,18 @@ object FrontControlGRCMapper {
             type = controlGRVStepBusiness.type,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
+        is ControlGRVStepBusiness.ControlGRVStep1 -> StepControlGRV.Step1ControlGRV(
+            reference = controlGRVStepBusiness.reference,
+            fabricationPlateAdr = controlGRVStepBusiness.fabricationPlateAdr,
+            aloremPlate = controlGRVStepBusiness.aloremPlate,
+            bookletPouch = controlGRVStepBusiness.bookletPouch,
+            userManual = controlGRVStepBusiness.userManual,
+            instructionOfUse = controlGRVStepBusiness.instructionOfUse,
+            certificatesADR = controlGRVStepBusiness.certificatesADR,
+            groundingAdhesive = controlGRVStepBusiness.groundingAdhesive,
+            conformityCertificateMarking = controlGRVStepBusiness.conformityCertificateMarking,
+            controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
+        )
     }
 
     fun controlGRVStepFrontToBusiness(stepControlGRV: StepControlGRV): ControlGRVStepBusiness = when(stepControlGRV) {
@@ -52,6 +65,18 @@ object FrontControlGRCMapper {
             serialNumberAlorem = stepControlGRV.serialNumberAlorem ?: 0,
             type = stepControlGRV.type ?: "",
             controlGRVForeignId = stepControlGRV.reference ?: 0
+        )
+        is StepControlGRV.Step1ControlGRV -> ControlGRVStepBusiness.ControlGRVStep1(
+            reference = stepControlGRV.reference,
+            fabricationPlateAdr = stepControlGRV.fabricationPlateAdr,
+            aloremPlate = stepControlGRV.aloremPlate,
+            bookletPouch = stepControlGRV.bookletPouch,
+            userManual = stepControlGRV.userManual,
+            instructionOfUse = stepControlGRV.instructionOfUse,
+            certificatesADR = stepControlGRV.certificatesADR,
+            groundingAdhesive = stepControlGRV.groundingAdhesive,
+            conformityCertificateMarking = stepControlGRV.conformityCertificateMarking,
+            controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
     }
 }

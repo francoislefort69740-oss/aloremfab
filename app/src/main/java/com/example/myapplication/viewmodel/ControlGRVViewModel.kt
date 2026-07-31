@@ -42,7 +42,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val createControlGRVLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val updateControlGRVLiveData = MutableLiveData<String>()
     private val getStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
-    private val createStepControlGrVLiveData = MutableLiveData<Boolean>()
+    private val createStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
 
 
     private val controlGRVNotFound = MutableLiveData<Boolean>()
@@ -93,7 +93,12 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
                 is ControlGRVCheckPoint.EditableCheckPoint ->
                     Log.d(
                         "CHECK",
-                        "$index : title='${checkpoint.title}' value='${checkpoint.name}'"
+                        "$index : title='${checkpoint.name}' value='${checkpoint.value}'"
+                    )
+                is ControlGRVCheckPoint.CheckBoxCheckPoint ->
+                    Log.d(
+                        "CHECK",
+                        "$index : title='${checkpoint.name}' value='${checkpoint.value}' isChecked='${checkpoint.isChecked}"
                     )
             }
         }
@@ -101,7 +106,9 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
         val completed = _checkPoints.value?.all { checkpoint ->
             when (checkpoint) {
                 is ControlGRVCheckPoint.EditableCheckPoint ->
-                    checkpoint.name.isNotBlank()
+                    checkpoint.value.isNotBlank()
+                is ControlGRVCheckPoint.CheckBoxCheckPoint ->
+                    checkpoint.isChecked != null
             }
         } ?: false
 
@@ -117,10 +124,10 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
 
     // OBSERVATION
 
-    fun createStepControlGrV(stepControlGRV: StepControlGRV, stepNumber: Int) {
+    fun createStepControlGrV(reference: Int, stepNumber: Int) {
         viewModelScope.launch {
-            when (val result = createStepControlGrV.invoke(FrontControlGRCMapper.controlGRVStepFrontToBusiness(stepControlGRV), stepNumber = stepNumber)) {
-                is ResultOf.Success -> createStepControlGrVLiveData.postValue(result.data)
+            when (val result = createStepControlGrV.invoke(stepNumber = stepNumber, reference = reference)) {
+                is ResultOf.Success -> createStepControlGrVLiveData.postValue(FrontControlGRCMapper.controlGRVStepBusinessToFront(result.data))
                 is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.ControlGRVStepNotFound -> controlGRVNotFound.postValue(true)
                 }
@@ -246,12 +253,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     fun getUnloadedControls(){
         viewModelScope.launch {
             when (val result = getUnLoadedControlGRV.invoke()) {
-                is ResultOf.Success -> getLoadedControlGRVLiveData.postValue(
-                    FrontControlGRCMapper.allControlGRVBusinessToFront(
-                        result.data
-                    )
-                )
-
+                is ResultOf.Success -> getLoadedControlGRVLiveData.postValue(FrontControlGRCMapper.allControlGRVBusinessToFront(result.data))
                 is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.NoControlGRVExist -> noControlGRVExist.postValue(true)
                     is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
@@ -259,8 +261,5 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
             }
         }
     }
-
-
-
 
 }

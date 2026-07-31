@@ -58,6 +58,10 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
             viewModel.pushControlGRV(controlGRV = result.first, stepControlGRV = result.second)
         }
 
+        controlComponent.next().setOnClickListener {
+            viewModel.createStepControlGrV(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.incrementStep())
+        }
+
         mAdapterControlGRVPage = StepGRVListAdapter(requireContext(),
             onItemClicked = {},
             onDeleteClick = {},
@@ -94,6 +98,12 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         }
 
         viewModel.getStepControlGrVLiveData().observe(this) { stepControlGRV ->
+            if (::mAdapterControlGRVPage.isInitialized) {
+                viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
+            }
+        }
+
+        viewModel.createStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
                 viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
             }

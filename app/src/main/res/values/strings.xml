@@ -9,6 +9,11 @@
     <string name="primary_500">PRIMARY 500</string>
     <string name="primary_700">PRIMARY 700</string>
 
+    <string name="OK">OK</string>
+    <string name="NOK">NOK</string>
+    <string name="conforme">CONFORME</string>
+    <string name="non_conforme">NON CONFORME</string>
+
     <string name="utilisateur_menu">UTILISATEUR</string>
     <string name="nom_menu">nom :</string>
     <string name="prenom_menu">prénom :</string>
@@ -47,5 +52,13 @@
     <string name="control_grv_checkpoint_tank_category">TYPE CUVE</string>
     <string name="control_grv_checkpoint_customer_serial_number">N° SERIE CLIENT</string>
     <string name="control_grv_checkpoint_alorem_serial_number">N° ALOREM</string>
+    <string name="control_grv_checkpoint_plate_adr">Plaque ADR</string>
+    <string name="control_grv_checkpoint_alorem_plate">Plaque ALOREM</string>>
+    <string name="control_grv_checkpoint_booklet_pouch">Pochette Livret</string>
+    <string name="control_grv_checkpoint_user_manual">Manuel Utilisateur</string>
+    <string name="control_grv_checkpoint_instruction_of_use">Instruction d\'utilisation</string>
+    <string name="control_grv_checkpoint_certificates_adr">Certificat ADR</string>
+    <string name="control_grv_checkpoint_grounding_adhesive">Adhésif Masse de terre</string>
+    <string name="control_grv_checkpoint_conformity_certificate_marking">Marquage réglementaire</string>
 
 </resources>

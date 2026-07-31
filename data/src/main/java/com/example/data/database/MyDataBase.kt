@@ -9,10 +9,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.data.database.dao.ActiveIdDao
 import com.example.data.database.dao.ControlGRVDao
 import com.example.data.database.dao.ControlGRVStep0Dao
+import com.example.data.database.dao.ControlGRVStep1Dao
 import com.example.data.database.dao.UserDao
 import com.example.data.database.entities.ActiveIdLocal
 import com.example.data.database.entities.ControlGRVLocal
 import com.example.data.database.entities.ControlGRVStep0Local
+import com.example.data.database.entities.ControlGRVStep1Local
 import com.example.data.database.entities.UserLocal
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +27,7 @@ import kotlin.jvm.java
         UserLocal::class,
         ControlGRVLocal::class,
         ControlGRVStep0Local::class,
+        ControlGRVStep1Local::class,
         ActiveIdLocal::class],
     version = 1,
     exportSchema = false
@@ -34,6 +37,7 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun activeIdDao(): ActiveIdDao
     abstract fun controlGRVDao(): ControlGRVDao
     abstract fun controlGRVStep0Dao(): ControlGRVStep0Dao
+    abstract fun controlGRVStep1Dao(): ControlGRVStep1Dao
 
 
     companion object{

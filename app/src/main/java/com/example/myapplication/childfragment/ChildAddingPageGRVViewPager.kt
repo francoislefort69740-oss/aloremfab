@@ -73,7 +73,7 @@ class ChildAddingPageGRVViewPager: BaseFragment() {
             if (::mAdapterAddingPage.isInitialized) {
                 mAdapterAddingPage.updateData(newLists = controlsGRV.first)
             }
-            mCallback?.createNewPage(controlsGRV.second.serialNumber ?: 0)
+            mCallback?.createNewPage(serialNumber = controlsGRV.second.serialNumber ?: 0, currentStep = controlsGRV.second.currentStep)
         }
 
         viewModel.getLoadedControlGRVLiveData().observe(this) { controlsGRV ->

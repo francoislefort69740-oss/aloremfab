@@ -7,6 +7,8 @@ import com.example.data.database.repository.ControlGRVLocalDataSource
 import com.example.data.database.repository.ControlGRVLocalDataSourceImpl
 import com.example.data.database.repository.ControlGRVStep0LocalDataSource
 import com.example.data.database.repository.ControlGRVStep0LocalDataSourceImpl
+import com.example.data.database.repository.ControlGRVStep1LocalDataSource
+import com.example.data.database.repository.ControlGRVStep1LocalDataSourceImpl
 import com.example.data.database.repository.UserLocalDataSource
 import com.example.data.database.repository.UserLocalDataSourceImpl
 import com.example.data.repository.ActiveIdRepositoryImpl
@@ -30,6 +32,7 @@ val dataModule = module {
     factory { get<MyDatabase>().activeIdDao() }
     factory { get<MyDatabase>().controlGRVDao() }
     factory { get<MyDatabase>().controlGRVStep0Dao() }
+    factory { get<MyDatabase>().controlGRVStep1Dao() }
 
     factory<UserLocalRepository> { UserRepositoryImpl(get()) }
     factory<UserLocalDataSource> { UserLocalDataSourceImpl(get()) }
@@ -38,5 +41,11 @@ val dataModule = module {
     factory<ControlGRVLocalDataSource> { ControlGRVLocalDataSourceImpl(get()) }
     factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get()) }
     factory<ControlGRVStep0LocalDataSource> { ControlGRVStep0LocalDataSourceImpl(get()) }
-    factory<ControlGRVStepLocalRepository> { ControlGRVStepRepositoryImpl(get()) }
+    factory<ControlGRVStepLocalRepository> {
+        ControlGRVStepRepositoryImpl(
+            get(),
+            get()
+        )
+    }
+    factory<ControlGRVStep1LocalDataSource> { ControlGRVStep1LocalDataSourceImpl(get()) }
 }

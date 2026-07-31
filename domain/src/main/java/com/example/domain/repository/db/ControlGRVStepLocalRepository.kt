@@ -1,19 +1,20 @@
 package com.example.domain.repository.db
 
 import com.example.domain.model.ControlGRVStepBusiness
+import kotlin.reflect.KClass
 
 interface ControlGRVStepLocalRepository {
     // CREATE
-    suspend fun createLocalControlGRVStep0(controlGRVStepBusiness: ControlGRVStepBusiness): Boolean
+    suspend fun createLocalControlGRVStep(controlGRVStepBusiness: ControlGRVStepBusiness): Boolean
 
     // READ
-    suspend fun getLocalControlGRVStep0ByReference(reference: Int): ControlGRVStepBusiness
-    suspend fun getLocalControlGRVStep0BySerialNumber(serialNumber: Int): ControlGRVStepBusiness
-    suspend fun checkIfControlGRVStep0Exist(controlGRVStep0Id: Int): Boolean
+    suspend fun getLocalControlGRVStepByReference(reference: Int, type: KClass<out ControlGRVStepBusiness>): ControlGRVStepBusiness
+    suspend fun getLocalControlGRVStepBySerialNumber(serialNumber: Int, type: KClass<out ControlGRVStepBusiness>): ControlGRVStepBusiness
+    suspend fun checkIfControlGRVStepExist(controlGRVStepId: Int, type: KClass<out ControlGRVStepBusiness>): Boolean
 
     // UPDATE
-    suspend fun updateLocalControlGRVStep0(controlGRVStepBusiness: ControlGRVStepBusiness): Boolean
+    suspend fun updateLocalControlGRVStep(controlGRVStepBusiness: ControlGRVStepBusiness): Boolean
 
     // DELETE
-    suspend fun deleteControlGRVStep0(id: Int): Boolean
+    suspend fun deleteControlGRVStep(id: Int, type: KClass<out ControlGRVStepBusiness>): Boolean
 }

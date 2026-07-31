@@ -61,6 +61,6 @@ val domainModule = module {
     single { UpdateLoadedControlGRVStateUseCase(get()) }
     single { GetUnLoadedControlGRVUseCase(get()) }
     single { GetControlGRVStepUseCase(get()) }
-    single { CreateControlGRVStepUseCase(get()) }
+    single { CreateControlGRVStepUseCase(get(), get()) }
 
 }

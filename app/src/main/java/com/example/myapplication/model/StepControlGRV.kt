@@ -11,4 +11,17 @@ sealed class StepControlGRV{
         var controlGRVForeignId: Int? = null
     ) : StepControlGRV()
 
+    data class Step1ControlGRV(
+        val reference: Int,
+        var fabricationPlateAdr: Boolean? = null,
+        var aloremPlate: Boolean? = null,
+        var bookletPouch: Boolean? = null,
+        var userManual: Boolean? = null,
+        var instructionOfUse: Boolean? = null,
+        var certificatesADR: Boolean? = null,
+        var groundingAdhesive: Boolean? = null,
+        var conformityCertificateMarking: Boolean? = null,
+        var controlGRVForeignId: Int? = null
+    ) : StepControlGRV()
+
 }

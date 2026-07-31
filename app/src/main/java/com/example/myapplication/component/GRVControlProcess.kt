@@ -4,16 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.Guideline
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.childfragment.ChildControlGRVViewPagerFragment.Companion.GRV_CONTROL
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
+import com.example.myapplication.utils.grvControlProcess
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlin.random.Random
 
 class GRVControlProcess {
 
@@ -58,9 +55,16 @@ class GRVControlProcess {
         return mView.findViewById(R.id.close_child_control_grv)
     }
 
+    fun incrementStep(): Int {
+        control.currentStep += 1
+        return control.currentStep
+    }
+
     fun getControl(): ControlGRV = control
 
     fun save(): FloatingActionButton = mView.findViewById(R.id.save_child_control_grv)
+
+    fun next(): FloatingActionButton = mView.findViewById(R.id.next_child_control_grv)
 
     fun serialNumberExist(): Boolean = control.serialNumber != 0
 
@@ -70,36 +74,19 @@ class GRVControlProcess {
 
     fun translateControlStepToControlGRV(list : List<ControlGRVCheckPoint>, context: Context): Pair<ControlGRV, StepControlGRV> {
         if (control.currentStep == 0) {
+                var serialNUmber = (list.find {
+                    (it as ControlGRVCheckPoint.EditableCheckPoint).name == context.getString(R.string.control_grv_checkpoint_report_number)
+                } as ControlGRVCheckPoint.EditableCheckPoint).value.toIntOrNull()
 
-            var serialNUmber = (list.find {
-                (it as ControlGRVCheckPoint.EditableCheckPoint).title == context.getString(R.string.control_grv_checkpoint_report_number)
-            } as ControlGRVCheckPoint.EditableCheckPoint).name.toIntOrNull()
+                if (serialNUmber == null || serialNUmber == 0) {
+                    serialNUmber = null
+                }
 
-            if (serialNUmber == null || serialNUmber == 0) {
-                serialNUmber = null
-            }
-
-            control.serialNumber = serialNUmber
-            control.uid = serialNUmber
-
-            stepControlGRV = StepControlGRV.Step0ControlGRV(
-                reference = serialNUmber,
-                reportNumber = serialNUmber,
-                customer = (list.find {
-                    (it as ControlGRVCheckPoint.EditableCheckPoint).title == context.getString(R.string.control_grv_checkpoint_customer_name)
-                } as ControlGRVCheckPoint.EditableCheckPoint).name,
-                customerSerialNumber = (list.find {
-                    (it as ControlGRVCheckPoint.EditableCheckPoint).title == context.getString(R.string.control_grv_checkpoint_customer_serial_number)
-                } as ControlGRVCheckPoint.EditableCheckPoint).name.toIntOrNull(),
-                serialNumberAlorem = (list.find {
-                    (it as ControlGRVCheckPoint.EditableCheckPoint).title == context.getString(R.string.control_grv_checkpoint_alorem_serial_number)
-                } as ControlGRVCheckPoint.EditableCheckPoint).name.toIntOrNull(),
-                type = (list.find {
-                    (it as ControlGRVCheckPoint.EditableCheckPoint).title == context.getString(R.string.control_grv_checkpoint_tank_category)
-                } as ControlGRVCheckPoint.EditableCheckPoint).name,
-                controlGRVForeignId = serialNUmber
-            )
+                control.serialNumber = serialNUmber
+                control.uid = serialNUmber
         }
+
+        stepControlGRV = grvControlProcess(control.currentStep, list, context, control.serialNumber)
         return Pair(control, stepControlGRV)
     }
 

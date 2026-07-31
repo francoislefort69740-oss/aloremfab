@@ -35,9 +35,9 @@ class GRVMainFragment : BaseFragment(), ChildViewPagerGRVInterface {
         controlGRVViewPager.adapter = controlGRVViewPagerAdapter
     }
 
-    override fun createNewPage(serialNumber: Int) {
+    override fun createNewPage(serialNumber: Int, currentStep: Int) {
         val newPosition = controls.size
-        controls.add(ControlGRV(pageId = System.nanoTime().toInt(), serialNumber = serialNumber))
+        controls.add(ControlGRV(pageId = System.nanoTime().toInt(), serialNumber = serialNumber, currentStep = currentStep))
         controlGRVViewPagerAdapter.notifyItemInserted(newPosition)
         
         // Scroll to the newly created page (which is the penultimate page, just before the Adding Page)

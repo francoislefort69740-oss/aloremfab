@@ -1,12 +1,12 @@
 package com.example.domain.usecase
 
-import android.util.Log
 import com.example.domain.ResultOf
 import com.example.domain.model.ControlGRVBusiness
 import com.example.domain.model.ControlGRVStepBusiness
 import com.example.domain.model.ErrorBusiness
 import com.example.domain.repository.db.ControlGRVLocalRepository
 import com.example.domain.repository.db.ControlGRVStepLocalRepository
+import kotlin.reflect.KClass
 
 class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVLocalRepository, private val controlGRVStepLocalRepository: ControlGRVStepLocalRepository) {
     suspend operator fun invoke(controlGRVBusiness: ControlGRVBusiness, controlGRVStepBusiness: ControlGRVStepBusiness): ResultOf<Pair<List<ControlGRVBusiness>, ControlGRVBusiness>> {
@@ -36,7 +36,13 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                         val result = updateGRCControl(controlGRVBusiness, serialNumber)
 
                         if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
-                            val stepResult = updateControlGRVStep(controlGRVStepBusiness, serialNumber)
+
+                            val stepResult = if (controlGRVStepLocalRepository.checkIfControlGRVStepExist(controlGRVStepId = serialNumber, type = controlGRVStepBusiness::class)) {
+                                updateControlGRVStep(controlGRVStepBusiness, serialNumber)
+                            } else {
+                                createGRCControlStep(controlGRVStepBusiness, serialNumber)
+                            }
+
                             if (result != 0 && stepResult) ResultOf.Success(Pair(controlGRVLocalRepository.getUnloaded(),controlGRVBusiness))
                             else ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
                         } else {
@@ -80,23 +86,9 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
         )
     }
 
-    suspend fun createGRCControlStep(controlGRVStepBusiness: ControlGRVStepBusiness, serialNumber: Int): Boolean {
-        return controlGRVStepLocalRepository.createLocalControlGRVStep0(
-            ControlGRVStepBusiness.ControlGRVStep0(
-                reference = serialNumber,
-                reportNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).reportNumber,
-                customer = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customer,
-                customerSerialNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customerSerialNumber,
-                serialNumberAlorem = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).serialNumberAlorem,
-                type = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).type,
-                controlGRVForeignId = serialNumber
-            )
-        )
-    }
-
-    suspend fun updateControlGRVStep(controlGRVStepBusiness: ControlGRVStepBusiness, serialNumber: Int): Boolean = when (controlGRVStepBusiness) {
+    suspend fun createGRCControlStep(controlGRVStepBusiness: ControlGRVStepBusiness, serialNumber: Int): Boolean = when (controlGRVStepBusiness) {
         is ControlGRVStepBusiness.ControlGRVStep0 ->
-            controlGRVStepLocalRepository.createLocalControlGRVStep0(
+            controlGRVStepLocalRepository.createLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep0(
                     reference = serialNumber,
                     reportNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).reportNumber,
@@ -104,6 +96,51 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     customerSerialNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customerSerialNumber,
                     serialNumberAlorem = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).serialNumberAlorem,
                     type = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).type,
+                    controlGRVForeignId = serialNumber
+                )
+            )
+        is ControlGRVStepBusiness.ControlGRVStep1 ->
+            controlGRVStepLocalRepository.createLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep1(
+                    reference = serialNumber,
+                    fabricationPlateAdr = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).fabricationPlateAdr,
+                    aloremPlate = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).aloremPlate,
+                    bookletPouch = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).bookletPouch,
+                    userManual = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).userManual,
+                    instructionOfUse = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).instructionOfUse,
+                    certificatesADR = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).certificatesADR,
+                    groundingAdhesive = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).groundingAdhesive,
+                    conformityCertificateMarking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).conformityCertificateMarking,
+                    controlGRVForeignId = serialNumber
+                )
+            )
+    }
+
+    suspend fun updateControlGRVStep(controlGRVStepBusiness: ControlGRVStepBusiness, serialNumber: Int): Boolean = when (controlGRVStepBusiness) {
+        is ControlGRVStepBusiness.ControlGRVStep0 ->
+            controlGRVStepLocalRepository.updateLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep0(
+                    reference = serialNumber,
+                    reportNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).reportNumber,
+                    customer = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customer,
+                    customerSerialNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customerSerialNumber,
+                    serialNumberAlorem = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).serialNumberAlorem,
+                    type = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).type,
+                    controlGRVForeignId = serialNumber
+                )
+            )
+        is ControlGRVStepBusiness.ControlGRVStep1 ->
+            controlGRVStepLocalRepository.updateLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep1(
+                    reference = serialNumber,
+                    fabricationPlateAdr = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).fabricationPlateAdr,
+                    aloremPlate = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).aloremPlate,
+                    bookletPouch = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).bookletPouch,
+                    userManual = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).userManual,
+                    instructionOfUse = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).instructionOfUse,
+                    certificatesADR = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).certificatesADR,
+                    groundingAdhesive = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).groundingAdhesive,
+                    conformityCertificateMarking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).conformityCertificateMarking,
                     controlGRVForeignId = serialNumber
                 )
             )
