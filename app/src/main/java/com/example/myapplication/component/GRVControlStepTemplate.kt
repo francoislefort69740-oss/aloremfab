@@ -1,8 +1,7 @@
 package com.example.myapplication.component
 
 import android.content.Context
-import android.text.InputType
-import com.example.myapplication.R
+import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.utils.getStepRecyclerItemFunction

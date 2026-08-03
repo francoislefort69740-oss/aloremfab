@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.utils.GRVControlStepEnum
 import com.example.domain.utils.RETURN_TO_ADD_LIST_GRV_CONTROL
 import com.example.myapplication.R
 import com.example.myapplication.callback.ChildViewPagerGRVInterface
@@ -60,7 +61,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         }
 
         controlComponent.next().setOnClickListener {
-            viewModel.checkSaveOrNextControlGRV(controlComponent.getControl().serialNumber!!)
+            viewModel.checkSaveOrNextControlGRV(reference = controlComponent.getControl().serialNumber!!, currentStep = controlComponent.getStepControlEnum())
         }
 
         controlComponent.back().setOnClickListener {
@@ -74,7 +75,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         )
         controlGRVPageRecyclerView.adapter = mAdapterControlGRVPage
 
-        viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.getControl().currentStep)
+        viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.getStepControlEnum())
 
     }
 
@@ -104,6 +105,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
         viewModel.getStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
+                controlComponent.setStepControl(stepControlGRV = stepControlGRV)
                 viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
                 controlComponent.setUpBackButton(stepControlGRV::class != StepControlGRV.Step0ControlGRV::class)
             }
@@ -111,13 +113,15 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
         viewModel.createStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
-                viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.incrementStep())
+                val nextStep = controlComponent.incrementStep()
+                viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = nextStep)
             }
         }
 
-        viewModel.getControlGRVNotFound().observe(this) {
+        viewModel.getControlStepGrvNotInitialized().observe(this) { it ->
             if (::mAdapterControlGRVPage.isInitialized) {
-                 viewModel.loadTemplate(template = GRVControlStepTemplate(controlComponent.initializeNewControl(), context = requireContext()))
+                controlComponent.setUpBackButton(it != GRVControlStepEnum.STEP_0)
+                 viewModel.loadTemplate(template = GRVControlStepTemplate(controlComponent.initializeStepControl(it), context = requireContext()))
             }
         }
 
@@ -135,10 +139,48 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
         viewModel.checkSaveOrNextControlGRVLiveData().observe(this){ checking ->
             if (checking.first) {
+
+                // THE CONTROL EXIST
+
                 if (checking.second) {
-                    viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.incrementStep())
-                } else {}
+
+                    // THE CURRENT STEP EXIST
+
+                    if (checking.third) {
+
+                        // THE NEXT STEP EXIST
+
+                        val nextStep = controlComponent.incrementStep()
+                        viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = nextStep)
+                    } else {
+
+                        // THE NEXT STEP DON'T EXIST : this call will update the current step of the control
+
+                        val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
+                        viewModel.createStepControlGrV(step = result.second, controlGRV = result.first)
+
+                    }
+                } else {
+
+                    // THE CURRENT STEP DON'T EXIST : this call will create the current step of the control
+
+                    val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
+                    viewModel.createStepControlGrV(step = result.second, controlGRV = result.first)
+                }
+
+
+            } else {
+
+                // THE CONTROL DON'T EXIST
+
+                val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
+                viewModel.pushAndNextControlGRV(controlGRV = result.first, stepControlGRV = result.second)
             }
+        }
+
+        viewModel.createStepAlsoNextControlGRVLiveData().observe(this) {
+            val nextStep = controlComponent.incrementStep()
+            viewModel.getStepControlGrv(reference = it, stepNumber = nextStep)
         }
 
     }

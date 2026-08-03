@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.ResultOf
 import com.example.domain.interactor.DomainInteractor
 import com.example.domain.model.ErrorBusiness
+import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.component.GRVControlStepTemplate
 import com.example.myapplication.mapper.FrontControlGRCMapper
 import com.example.myapplication.model.ControlGRV
@@ -41,10 +42,11 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val injectExistingControlLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val rejectExistingControlLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val createControlGRVLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
+    private val createStepAlsoNextControlGRVLiveData = MutableLiveData<Int>()
     private val updateControlGRVLiveData = MutableLiveData<String>()
     private val getStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
     private val createStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
-    private val checkSaveOrNextControlGRVLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
+    private val checkSaveOrNextControlGRVLiveData = MutableLiveData<Triple<Boolean, Boolean, Boolean>>()
 
 
     private val controlGRVNotFound = MutableLiveData<Boolean>()
@@ -52,6 +54,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val controlGRVUidFieldEmpty = MutableLiveData<Boolean>()
     private val deleteControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
     private val wrongSerialNumber = MutableLiveData<Boolean>()
+    private val controlStepGrvNotInitialized = MutableLiveData<GRVControlStepEnum>()
 
     fun updateLoadedControlGRVStateLiveData() = updateLoadedControlGRVStateLiveData
     fun getControlGRVLiveData() = getControlGRVLiveData
@@ -60,6 +63,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     fun getLoadedControlGRVLiveData() = getLoadedControlGRVLiveData
     fun getPushListOfAddingPageLiveData() = injectExistingControlLiveData
     fun createControlGRVLiveData() = createControlGRVLiveData
+    fun createStepAlsoNextControlGRVLiveData() = createStepAlsoNextControlGRVLiveData
     fun deleteControlGRVLiveData() = deleteControlGRVLiveData
     fun updateControlGRVLiveData() = updateControlGRVLiveData
     fun getStepControlGrVLiveData() = getStepControlGrVLiveData
@@ -67,7 +71,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     fun checkSaveOrNextControlGRVLiveData() = checkSaveOrNextControlGRVLiveData
 
 
-
+    fun getControlStepGrvNotInitialized() = controlStepGrvNotInitialized
     fun getControlGRVNotFound() = controlGRVNotFound
     fun getNoControlGRVExist() = noControlGRVExist
     fun getControlGRVUidFieldEmpty() = controlGRVUidFieldEmpty
@@ -127,9 +131,9 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
 
     // OBSERVATION
 
-    fun checkSaveOrNextControlGRV(reference: Int){
+    fun checkSaveOrNextControlGRV(reference: Int, currentStep : GRVControlStepEnum){
         viewModelScope.launch {
-            when (val result = checkSaveOrNextControlGRV.invoke(reference = reference)) {
+            when (val result = checkSaveOrNextControlGRV.invoke(reference = reference, currentStep = currentStep)) {
                 is ResultOf.Success -> checkSaveOrNextControlGRVLiveData.postValue(result.data)
                 is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.ControlGRVStepNotFound -> controlGRVNotFound.postValue(true)
@@ -138,9 +142,11 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
         }
     }
 
-    fun createStepControlGrV(reference: Int, stepNumber: Int) {
+    fun createStepControlGrV(step: StepControlGRV, controlGRV: ControlGRV) {
         viewModelScope.launch {
-            when (val result = createStepControlGrV.invoke(stepNumber = stepNumber, reference = reference)) {
+            when (val result = createStepControlGrV.invoke(
+                step = FrontControlGRCMapper.controlGRVStepFrontToBusiness(stepControlGRV = step),
+                controlGRVBusiness = FrontControlGRCMapper.controlGRVFrontToBusiness(controlGRV = controlGRV))) {
                 is ResultOf.Success -> createStepControlGrVLiveData.postValue(FrontControlGRCMapper.controlGRVStepBusinessToFront(result.data))
                 is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.ControlGRVStepNotFound -> controlGRVNotFound.postValue(true)
@@ -149,12 +155,13 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
         }
     }
 
-    fun getStepControlGrv(reference: Int, stepNumber: Int) {
+    fun getStepControlGrv(reference: Int, stepNumber: GRVControlStepEnum) {
         viewModelScope.launch {
             when (val result = getStepControlGrV.invoke(reference = reference, stepNumber = stepNumber)) {
                 is ResultOf.Success -> getStepControlGrVLiveData.postValue(FrontControlGRCMapper.controlGRVStepBusinessToFront(result.data))
                 is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.ControlGRVStepNotFound -> controlGRVNotFound.postValue(true)
+                    is ErrorBusiness.ControlGRVStepNotInitialized -> controlStepGrvNotInitialized.postValue(stepNumber)
                 }
             }
         }
@@ -219,6 +226,23 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
                     is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
                     is ErrorBusiness.UserRegistrationFieldEmpty -> controlGRVUidFieldEmpty.postValue(true)
                     is ErrorBusiness.ControlGRVWrongSerialNumber -> wrongSerialNumber().postValue(true)
+                }
+            }
+        }
+    }
+
+    fun pushAndNextControlGRV(controlGRV: ControlGRV, stepControlGRV: StepControlGRV) {
+        viewModelScope.launch {
+            when (val result = createControlGRV.invoke(
+                controlGRVBusiness = FrontControlGRCMapper.controlGRVFrontToBusiness(controlGRV = controlGRV),
+                controlGRVStepBusiness = FrontControlGRCMapper.controlGRVStepFrontToBusiness(
+                    stepControlGRV = stepControlGRV
+                )
+            )) {
+                is ResultOf.Success -> createStepAlsoNextControlGRVLiveData.postValue(result.data.second.serialNumber!!)
+                is ResultOf.Error -> when (result.exception) {
+                    is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
+                    is ErrorBusiness.UserRegistrationFieldEmpty -> controlGRVUidFieldEmpty.postValue(true)
                 }
             }
         }

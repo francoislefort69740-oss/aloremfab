@@ -16,7 +16,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     if (!controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
 
                         // CREATE FULL CONTROL GRC
-
+                        if ((controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).isValid()) controlGRVBusiness.currentStep = 1
                         val result = createGRCControl(controlGRVBusiness, serialNumber)
 
                         // Add Control STEP 0

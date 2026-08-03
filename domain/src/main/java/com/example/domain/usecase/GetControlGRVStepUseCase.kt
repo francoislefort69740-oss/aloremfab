@@ -4,24 +4,25 @@ import com.example.domain.ResultOf
 import com.example.domain.model.ControlGRVStepBusiness
 import com.example.domain.model.ErrorBusiness
 import com.example.domain.repository.db.ControlGRVStepLocalRepository
+import com.example.domain.utils.GRVControlStepEnum
 
 class GetControlGRVStepUseCase(private val controlGRVStepLocalRepository: ControlGRVStepLocalRepository) {
-    suspend operator fun invoke(reference: Int, stepNumber: Int): ResultOf<ControlGRVStepBusiness> {
+    suspend operator fun invoke(reference: Int, stepNumber: GRVControlStepEnum): ResultOf<ControlGRVStepBusiness> {
         return try {
             when (stepNumber) {
-                0 -> ResultOf.Success(controlGRVStepLocalRepository.getLocalControlGRVStepByReference(
+                GRVControlStepEnum.STEP_0 -> ResultOf.Success(controlGRVStepLocalRepository.getLocalControlGRVStepByReference(
                     reference = reference,
                     type = ControlGRVStepBusiness.ControlGRVStep0::class)
                 )
-                1 -> ResultOf.Success(controlGRVStepLocalRepository.getLocalControlGRVStepByReference(
+                GRVControlStepEnum.STEP_1 -> ResultOf.Success(controlGRVStepLocalRepository.getLocalControlGRVStepByReference(
                     reference = reference,
                     type = ControlGRVStepBusiness.ControlGRVStep1::class)
                 )
-                else -> ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
+                else -> ResultOf.Error(ErrorBusiness.ControlGRVStepNotInitialized)
             }
 
         } catch (e: Exception) {
-            ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
+            ResultOf.Error(ErrorBusiness.ControlGRVStepNotInitialized)
         }
     }
 }

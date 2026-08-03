@@ -4,8 +4,8 @@ import com.example.domain.model.ControlGRVStepBusiness
 
 // GET EMPTY CONTROL GRV STEP ( for CreateControlGRVStepUseCase )
 
-fun getEmptyControlGRVStep(stepNumber: Int, reference: Int): ControlGRVStepBusiness = when (stepNumber) {
-    0 -> ControlGRVStepBusiness.ControlGRVStep0(
+fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): ControlGRVStepBusiness = when (stepNumber) {
+    GRVControlStepEnum.STEP_0 -> ControlGRVStepBusiness.ControlGRVStep0(
         reference = reference,
         reportNumber = 0,
         customer = "",
@@ -14,7 +14,7 @@ fun getEmptyControlGRVStep(stepNumber: Int, reference: Int): ControlGRVStepBusin
         type = "",
         controlGRVForeignId = reference
     )
-    1 -> ControlGRVStepBusiness.ControlGRVStep1(
+    GRVControlStepEnum.STEP_1 -> ControlGRVStepBusiness.ControlGRVStep1(
         reference = reference,
         fabricationPlateAdr = null,
         aloremPlate = null,

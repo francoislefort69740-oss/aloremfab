@@ -2,6 +2,7 @@ package com.example.myapplication.mapper
 
 import com.example.domain.model.ControlGRVBusiness
 import com.example.domain.model.ControlGRVStepBusiness
+import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.StepControlGRV
 
@@ -18,14 +19,14 @@ object FrontControlGRCMapper {
         uid = controlGRVBusiness.uid,
         serialNumber = controlGRVBusiness.serialNumber,
         loaded = controlGRVBusiness.loaded,
-        currentStep = controlGRVBusiness.currentStep
+        currentStep = GRVControlStepEnum.getStep(controlGRVBusiness.currentStep)
     )
 
     fun controlGRVFrontToBusiness(controlGRV: ControlGRV): ControlGRVBusiness {
         val business = ControlGRVBusiness(
             uid = controlGRV.uid,
             serialNumber = controlGRV.serialNumber,
-            currentStep = controlGRV.currentStep,
+            currentStep = controlGRV.currentStep.stepNumber,
             currentlyGoingOn = true,
             loaded = controlGRV.loaded
         )
@@ -67,7 +68,7 @@ object FrontControlGRCMapper {
             controlGRVForeignId = stepControlGRV.reference ?: 0
         )
         is StepControlGRV.Step1ControlGRV -> ControlGRVStepBusiness.ControlGRVStep1(
-            reference = stepControlGRV.reference,
+            reference = stepControlGRV.reference ?: 0,
             fabricationPlateAdr = stepControlGRV.fabricationPlateAdr,
             aloremPlate = stepControlGRV.aloremPlate,
             bookletPouch = stepControlGRV.bookletPouch,

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.R
 import com.example.myapplication.callback.ChildViewPagerGRVInterface
 import com.example.myapplication.callback.GRVControlInterface
@@ -35,7 +36,7 @@ class GRVMainFragment : BaseFragment(), ChildViewPagerGRVInterface {
         controlGRVViewPager.adapter = controlGRVViewPagerAdapter
     }
 
-    override fun createNewPage(serialNumber: Int, currentStep: Int) {
+    override fun createNewPage(serialNumber: Int, currentStep: GRVControlStepEnum) {
         val newPosition = controls.size
         controls.add(ControlGRV(pageId = System.nanoTime().toInt(), serialNumber = serialNumber, currentStep = currentStep))
         controlGRVViewPagerAdapter.notifyItemInserted(newPosition)

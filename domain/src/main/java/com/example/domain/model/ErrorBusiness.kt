@@ -54,4 +54,8 @@ sealed class ErrorBusiness: Exception() {
         private fun readResolve(): Any = ControlGRVStepNotFound
     }
 
+    data object ControlGRVStepNotInitialized: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVStepNotInitialized
+    }
+
 }

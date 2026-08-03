@@ -12,7 +12,7 @@ sealed class StepControlGRV{
     ) : StepControlGRV()
 
     data class Step1ControlGRV(
-        val reference: Int,
+        val reference: Int? = null,
         var fabricationPlateAdr: Boolean? = null,
         var aloremPlate: Boolean? = null,
         var bookletPouch: Boolean? = null,

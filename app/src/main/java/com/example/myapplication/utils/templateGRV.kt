@@ -2,7 +2,7 @@ package com.example.myapplication.utils
 
 import android.content.Context
 import com.example.myapplication.R
-import com.example.myapplication.component.GRVControlStepEnum
+import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
 
@@ -17,8 +17,8 @@ import com.example.myapplication.model.StepControlGRV
 
 
 
-fun grvControlProcess(currentStep: Int, list : List<ControlGRVCheckPoint>, context: Context, serialNumber: Int?): StepControlGRV = when(currentStep) {
-    0 -> StepControlGRV.Step0ControlGRV(
+fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVCheckPoint>, context: Context, serialNumber: Int?): StepControlGRV = when(currentStep) {
+    GRVControlStepEnum.STEP_0 -> StepControlGRV.Step0ControlGRV(
         reference = serialNumber,
         reportNumber = serialNumber,
         customer = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_customer_name, list = list),
@@ -27,7 +27,7 @@ fun grvControlProcess(currentStep: Int, list : List<ControlGRVCheckPoint>, conte
         type = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_tank_category, list = list),
         controlGRVForeignId = serialNumber
     )
-    1-> StepControlGRV.Step1ControlGRV(
+    GRVControlStepEnum.STEP_1-> StepControlGRV.Step1ControlGRV(
         reference = serialNumber!!,
         fabricationPlateAdr = returnCheckPointForCheckBox(context = context, resId = R.string.control_grv_checkpoint_plate_adr, list = list),
         aloremPlate = returnCheckPointForCheckBox(context = context, resId = R.string.control_grv_checkpoint_alorem_plate, list = list),

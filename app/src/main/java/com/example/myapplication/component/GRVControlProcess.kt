@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.R
 import com.example.myapplication.childfragment.ChildControlGRVViewPagerFragment.Companion.GRV_CONTROL
 import com.example.myapplication.model.ControlGRV
@@ -27,6 +28,10 @@ class GRVControlProcess {
             if (control.serialNumber == 0) { setUpFirstTime() }
             pageId = control.pageId
         }
+    }
+
+    fun setStepControl(stepControlGRV: StepControlGRV) {
+        this.stepControlGRV = stepControlGRV
     }
 
     fun setUpNextButton(state: Boolean) {
@@ -55,17 +60,20 @@ class GRVControlProcess {
         return mView.findViewById(R.id.close_child_control_grv)
     }
 
-    fun incrementStep(): Int {
-        control.currentStep += 1
-        return control.currentStep
+    fun incrementStep(): GRVControlStepEnum {
+        control.currentStep = control.currentStep.next()
+        return getStepControlEnum()
     }
 
-    fun decrementStep(): Int {
-        control.currentStep -= 1
-        return control.currentStep
+    fun decrementStep(): GRVControlStepEnum {
+        control.currentStep = control.currentStep.back()
+        return getStepControlEnum()
     }
 
     fun getControl(): ControlGRV = control
+    fun getStepControl(): StepControlGRV = stepControlGRV
+
+    fun getStepControlEnum() = control.currentStep
 
     fun save(): FloatingActionButton = mView.findViewById(R.id.save_child_control_grv)
     fun back(): FloatingActionButton = mView.findViewById(R.id.back_child_control_grv)
@@ -73,12 +81,16 @@ class GRVControlProcess {
 
     fun serialNumberExist(): Boolean = control.serialNumber != 0
 
-    fun initializeNewControl(): StepControlGRV.Step0ControlGRV = StepControlGRV.Step0ControlGRV()
+    fun initializeStepControl(stepEnum: GRVControlStepEnum): StepControlGRV = when(stepEnum) {
+        GRVControlStepEnum.STEP_0 -> StepControlGRV.Step0ControlGRV()
+        GRVControlStepEnum.STEP_1 -> StepControlGRV.Step1ControlGRV()
+        else -> StepControlGRV.Step0ControlGRV()
+    }
 
     // TRANSLATE CONTROL STEP TO CONTROL GRV
 
     fun translateControlStepToControlGRV(list : List<ControlGRVCheckPoint>, context: Context): Pair<ControlGRV, StepControlGRV> {
-        if (control.currentStep == 0) {
+        if (control.currentStep == GRVControlStepEnum.STEP_0) {
                 var serialNUmber = (list.find {
                     (it as ControlGRVCheckPoint.EditableCheckPoint).name == context.getString(R.string.control_grv_checkpoint_report_number)
                 } as ControlGRVCheckPoint.EditableCheckPoint).value.toIntOrNull()
