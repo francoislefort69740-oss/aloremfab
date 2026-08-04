@@ -85,8 +85,12 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val _allCheckPointsCompleted = MutableLiveData(false)
     val allCheckPointsCompleted: LiveData<Boolean> = _allCheckPointsCompleted
 
+    private val _showCheckButton = MutableLiveData(false)
+    val showCheckButton: LiveData<Boolean> = _showCheckButton
+
     fun loadTemplate(template: GRVControlStepTemplate) {
         _checkPoints.value = template.getStepRecyclerItem()
+        _showCheckButton.value = template.getStepRecyclerItem().any { it is ControlGRVCheckPoint.CheckBoxCheckPoint }
         checkCompletion()
     }
 
@@ -115,13 +119,25 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
                 is ControlGRVCheckPoint.EditableCheckPoint ->
                     checkpoint.value.isNotBlank()
                 is ControlGRVCheckPoint.CheckBoxCheckPoint ->
-                    checkpoint.isChecked != null
+                    checkpoint.value != null
             }
         } ?: false
 
         Log.d("CHECK", "completed = $completed")
 
         _allCheckPointsCompleted.value = completed
+    }
+
+    fun checkAllCheckBoxes() {
+
+        val updated = _checkPoints.value?.map { checkpoint ->
+            if (checkpoint is ControlGRVCheckPoint.CheckBoxCheckPoint) checkpoint.copy(value = true, isChecked = true)
+            else checkpoint
+        } ?: emptyList()
+
+        _checkPoints.value = updated
+
+        checkCompletion()
     }
 
     fun onCheckPointChanged() {

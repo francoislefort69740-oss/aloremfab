@@ -68,6 +68,10 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
             viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.decrementStep())
         }
 
+        controlComponent.allCheck().setOnClickListener {
+            viewModel.checkAllCheckBoxes()
+        }
+
         mAdapterControlGRVPage = StepGRVListAdapter(requireContext(),
             onItemClicked = {},
             onDeleteClick = {},
@@ -135,6 +139,14 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
         viewModel.allCheckPointsCompleted.observe(viewLifecycleOwner) { completed ->
             controlComponent.setUpNextButton(completed)
+        }
+
+        viewModel.showCheckButton.observe(viewLifecycleOwner) {
+            controlComponent.setUpCheckButtons(it)
+        }
+
+        viewModel.checkPoints.observe(viewLifecycleOwner) { checkBoxes ->
+            mAdapterControlGRVPage.updateData(listCheckPoint = checkBoxes, context = requireContext())
         }
 
         viewModel.checkSaveOrNextControlGRVLiveData().observe(this){ checking ->

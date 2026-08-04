@@ -78,6 +78,7 @@ class GRVControlProcess {
     fun save(): FloatingActionButton = mView.findViewById(R.id.save_child_control_grv)
     fun back(): FloatingActionButton = mView.findViewById(R.id.back_child_control_grv)
     fun next(): FloatingActionButton = mView.findViewById(R.id.next_child_control_grv)
+    fun allCheck(): FloatingActionButton = mView.findViewById(R.id.check_all_ok_child_control_grv)
 
     fun serialNumberExist(): Boolean = control.serialNumber != 0
 
