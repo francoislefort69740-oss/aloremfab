@@ -26,5 +26,17 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         conformityCertificateMarking = null,
         controlGRVForeignId = reference
     )
+    GRVControlStepEnum.STEP_2 -> ControlGRVStepBusiness.ControlGRVStep2(
+        reference = reference,
+        tare = 0,
+        material = "",
+        capacity20 = 0,
+        grossMass = 0,
+        fabricationDate = "",
+        shellThickness = 0,
+        pictogramStacking = null,
+        weightStacking = 0,
+        controlGRVForeignId = reference
+    )
     else -> throw IllegalArgumentException("Invalid type")
 }

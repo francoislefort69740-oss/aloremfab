@@ -3,7 +3,7 @@ package com.example.domain.model
 sealed class ControlGRVStepBusiness{
 
     data class ControlGRVStep0(
-        val reference: Int,
+        override val reference: Int,
         var reportNumber: Int,
         var customer: String,
         var customerSerialNumber: Int,
@@ -11,7 +11,7 @@ sealed class ControlGRVStepBusiness{
         var type: String,
         var controlGRVForeignId: Int
     ) : ControlGRVStepBusiness() {
-        fun isValid(): Boolean {
+        override fun isValid(): Boolean {
             return  reference != 0 &&
                     reportNumber != 0 &&
                     customer != "" &&
@@ -23,7 +23,7 @@ sealed class ControlGRVStepBusiness{
     }
 
     data class ControlGRVStep1(
-        val reference: Int,
+        override val reference: Int,
         var fabricationPlateAdr: Boolean?,
         var aloremPlate: Boolean?,
         var bookletPouch: Boolean?,
@@ -34,11 +34,32 @@ sealed class ControlGRVStepBusiness{
         var conformityCertificateMarking: Boolean?,
         var controlGRVForeignId: Int
     ) : ControlGRVStepBusiness() {
-        fun isValid(): Boolean {
+        override fun isValid(): Boolean {
             return  reference != 0 &&
                     controlGRVForeignId != 0
         }
     }
 
+    data class ControlGRVStep2(
+        override val reference: Int,
+        var tare: Int,
+        var material: String,
+        var capacity20: Int,
+        var grossMass: Int,
+        var fabricationDate: String,
+        var shellThickness: Int,
+        var pictogramStacking: Boolean?,
+        var weightStacking: Int,
+        var controlGRVForeignId: Int
+    ) : ControlGRVStepBusiness() {
+        override fun isValid(): Boolean {
+            return  reference != 0 &&
+                    controlGRVForeignId != 0
+        }
+    }
+
+    abstract val reference: Int
+
+    abstract fun isValid(): Boolean
 
 }

@@ -2,6 +2,7 @@ package com.example.data.mapper
 
 import com.example.data.database.entities.ControlGRVStep0Local
 import com.example.data.database.entities.ControlGRVStep1Local
+import com.example.data.database.entities.ControlGRVStep2Local
 import com.example.domain.model.ControlGRVStepBusiness
 
 object ControlGRVStepMapper {
@@ -31,6 +32,21 @@ object ControlGRVStepMapper {
             controlGRVForeignId = controlGRVStep1Local.foreignKey
         )
 
+    fun controlGRVStep2LocalToBusiness(controlGRVStep2Local: ControlGRVStep2Local): ControlGRVStepBusiness =
+        ControlGRVStepBusiness.ControlGRVStep2(
+            reference = controlGRVStep2Local.reference,
+            tare = controlGRVStep2Local.tare,
+            material = controlGRVStep2Local.material,
+            capacity20 = controlGRVStep2Local.capacity20,
+            grossMass = controlGRVStep2Local.grossMass,
+            fabricationDate = controlGRVStep2Local.fabricationDate,
+            shellThickness = controlGRVStep2Local.shellThickness,
+            pictogramStacking = controlGRVStep2Local.pictogramStacking,
+            weightStacking = controlGRVStep2Local.weightStacking,
+            controlGRVForeignId = controlGRVStep2Local.foreignKey
+        )
+
+
     fun controlGRVStepBusinessToLocal0(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep0): ControlGRVStep0Local =
         ControlGRVStep0Local(
             reference = controlGRVStepBusiness.reference,
@@ -56,6 +72,17 @@ object ControlGRVStepMapper {
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 
-
-
+    fun controlGRVStepBusinessToLocal2(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep2): ControlGRVStep2Local =
+        ControlGRVStep2Local(
+            reference = controlGRVStepBusiness.reference,
+            tare = controlGRVStepBusiness.tare,
+            material = controlGRVStepBusiness.material,
+            capacity20 = controlGRVStepBusiness.capacity20,
+            grossMass = controlGRVStepBusiness.grossMass,
+            fabricationDate = controlGRVStepBusiness.fabricationDate,
+            shellThickness = controlGRVStepBusiness.shellThickness,
+            pictogramStacking = controlGRVStepBusiness.pictogramStacking,
+            weightStacking = controlGRVStepBusiness.weightStacking,
+            foreignKey = controlGRVStepBusiness.controlGRVForeignId
+        )
 }

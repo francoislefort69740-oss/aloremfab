@@ -10,7 +10,9 @@ import com.example.myapplication.childfragment.ChildControlGRVViewPagerFragment.
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
+import com.example.myapplication.utils.getEmptyStep
 import com.example.myapplication.utils.grvControlProcess
+import com.example.myapplication.utils.returnCheckPointForEditableInt
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class GRVControlProcess {
@@ -82,21 +84,15 @@ class GRVControlProcess {
 
     fun serialNumberExist(): Boolean = control.serialNumber != 0
 
-    fun initializeStepControl(stepEnum: GRVControlStepEnum): StepControlGRV = when(stepEnum) {
-        GRVControlStepEnum.STEP_0 -> StepControlGRV.Step0ControlGRV()
-        GRVControlStepEnum.STEP_1 -> StepControlGRV.Step1ControlGRV()
-        else -> StepControlGRV.Step0ControlGRV()
-    }
+    fun initializeStepControl(stepEnum: GRVControlStepEnum): StepControlGRV = getEmptyStep(stepEnum)
 
     // TRANSLATE CONTROL STEP TO CONTROL GRV
 
     fun translateControlStepToControlGRV(list : List<ControlGRVCheckPoint>, context: Context): Pair<ControlGRV, StepControlGRV> {
         if (control.currentStep == GRVControlStepEnum.STEP_0) {
-                var serialNUmber = (list.find {
-                    (it as ControlGRVCheckPoint.EditableCheckPoint).name == context.getString(R.string.control_grv_checkpoint_report_number)
-                } as ControlGRVCheckPoint.EditableCheckPoint).value.toIntOrNull()
+                var serialNUmber = returnCheckPointForEditableInt(context, R.string.control_grv_checkpoint_report_number, list)
 
-                if (serialNUmber == null || serialNUmber == 0) {
+                if (serialNUmber == 0) {
                     serialNUmber = null
                 }
 

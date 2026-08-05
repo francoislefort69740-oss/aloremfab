@@ -39,6 +39,18 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
         conformityCertificateMarking = returnCheckPointForCheckBox(context = context, resId = R.string.control_grv_checkpoint_conformity_certificate_marking, list = list),
         controlGRVForeignId = serialNumber
     )
+    GRVControlStepEnum.STEP_2 -> StepControlGRV.Step2ControlGRV(
+        reference = serialNumber!!,
+        tare = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_tare, list = list) ?: 0,
+        material = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_material, list = list),
+        capacity20 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_capacity_20, list = list) ?: 0,
+        grossMass = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_gross_mass, list = list) ?: 0,
+        fabricationDate = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_fabrication_date, list = list),
+        shellThickness = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_shell_thickness, list = list) ?: 0,
+        pictogramStacking = returnCheckPointForCheckBox(context = context, resId = R.string.control_grv_checkpoint_pictogram_stacking, list = list),
+        weightStacking = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_weight_stacking, list = list) ?: 0,
+        controlGRVForeignId = serialNumber
+    )
     else -> throw IllegalArgumentException("Invalid type")
 }
 
@@ -57,11 +69,20 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
 fun getStepRecyclerItemFunction(mStepControlGRV: StepControlGRV?, mContext: Context): List<ControlGRVCheckPoint> = when (getType(mStepControlGRV)) {
     GRVControlStepEnum.STEP_0 -> getStep0RecyclerItem(data = mStepControlGRV as StepControlGRV.Step0ControlGRV?, mContext = mContext)
     GRVControlStepEnum.STEP_1 -> getStep1RecyclerItem(data = mStepControlGRV as StepControlGRV.Step1ControlGRV?, mContext = mContext)
+    GRVControlStepEnum.STEP_2 -> getStep2RecyclerItem(data = mStepControlGRV as StepControlGRV.Step2ControlGRV?, mContext = mContext)
     else -> getStep0RecyclerItem(data = mStepControlGRV as StepControlGRV.Step0ControlGRV?, mContext = mContext)
 }
 
 fun getType(mStepControlGRV: StepControlGRV?): GRVControlStepEnum = when(mStepControlGRV) {
     is StepControlGRV.Step0ControlGRV -> GRVControlStepEnum.STEP_0
     is StepControlGRV.Step1ControlGRV -> GRVControlStepEnum.STEP_1
+    is StepControlGRV.Step2ControlGRV -> GRVControlStepEnum.STEP_2
     else -> GRVControlStepEnum.STEP_0
+}
+
+fun getEmptyStep(stepEnum: GRVControlStepEnum): StepControlGRV = when(stepEnum) {
+    GRVControlStepEnum.STEP_0 -> StepControlGRV.Step0ControlGRV()
+    GRVControlStepEnum.STEP_1 -> StepControlGRV.Step1ControlGRV()
+    GRVControlStepEnum.STEP_2 -> StepControlGRV.Step2ControlGRV()
+    else -> StepControlGRV.Step0ControlGRV()
 }

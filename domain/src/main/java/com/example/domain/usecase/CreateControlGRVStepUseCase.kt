@@ -11,48 +11,38 @@ import com.example.domain.utils.getEmptyControlGRVStep
 
 class CreateControlGRVStepUseCase(private val controlGRVStepLocalRepository: ControlGRVStepLocalRepository, private val controlGRVLocalRepository: ControlGRVLocalRepository) {
     suspend operator fun invoke(step: ControlGRVStepBusiness, controlGRVBusiness: ControlGRVBusiness): ResultOf<ControlGRVStepBusiness> {
+
         return try {
-            when (step) {
-                is ControlGRVStepBusiness.ControlGRVStep0 -> {
-                    if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = step.reference)) {
-                        val result = if (controlGRVStepLocalRepository.checkIfControlGRVStepExist(step.reference, ControlGRVStepBusiness.ControlGRVStep0::class)) {
-                            controlGRVStepLocalRepository.updateLocalControlGRVStep(controlGRVStepBusiness = step)
-                        } else {
-                            controlGRVStepLocalRepository.createLocalControlGRVStep(controlGRVStepBusiness = step)
-                        }
-                            if (result) {
-                                if (step.isValid()) {
-                                    controlGRVBusiness.currentStep = 1
-                                    val controlUpdated = controlGRVLocalRepository.updateLocalControlGRV(controlGRVBusiness = controlGRVBusiness)
-                                    if (controlUpdated != 0) ResultOf.Success(step)
-                                    else ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
-                                } else {
-                                    ResultOf.Success(step)
-                                }
-                            } else ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
 
-                        } else ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
-                }
-
-                is ControlGRVStepBusiness.ControlGRVStep1 -> {
-                    val result = if (controlGRVStepLocalRepository.checkIfControlGRVStepExist(step.reference, ControlGRVStepBusiness.ControlGRVStep1::class))  {
-                        controlGRVStepLocalRepository.updateLocalControlGRVStep(controlGRVStepBusiness = step)
-                    } else {
-                        controlGRVStepLocalRepository.createLocalControlGRVStep(controlGRVStepBusiness = step)
-                    }
-
-                    if (result) {
-                        if (step.isValid()) {
-                            controlGRVBusiness.currentStep = 2
-                            val controlUpdated = controlGRVLocalRepository.updateLocalControlGRV(controlGRVBusiness = controlGRVBusiness)
-                            if (controlUpdated != 0) ResultOf.Success(step)
-                            else ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
-                        } else {
-                            ResultOf.Success(step)
-                        }
-                    } else ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
-                }
+            if (step is ControlGRVStepBusiness.ControlGRVStep0 &&
+                !controlGRVLocalRepository.checkIfControlGRVExist(step.reference)
+            ) {
+                return ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
             }
+
+            val type = step::class
+
+            val saved = if (controlGRVStepLocalRepository.checkIfControlGRVStepExist(controlGRVStepId = step.reference, type = type)) {
+                controlGRVStepLocalRepository.updateLocalControlGRVStep(step)
+            } else {
+                controlGRVStepLocalRepository.createLocalControlGRVStep(step)
+            }
+
+            if (!saved) return ResultOf.Error(ErrorBusiness.ControlGRVStepNotFound)
+
+            if (!step.isValid()) return ResultOf.Success(step)
+
+            controlGRVBusiness.currentStep = when (step) {
+                is ControlGRVStepBusiness.ControlGRVStep0 -> 1
+                is ControlGRVStepBusiness.ControlGRVStep1 -> 2
+                is ControlGRVStepBusiness.ControlGRVStep2 -> 3
+            }
+
+            val updated = controlGRVLocalRepository.updateLocalControlGRV(controlGRVBusiness)
+
+            if (updated != 0) ResultOf.Success(step)
+            else ResultOf.Error(ErrorBusiness.ControlGRVNotFound)
+
         } catch (e: Exception) {
             ResultOf.Error(e)
         }

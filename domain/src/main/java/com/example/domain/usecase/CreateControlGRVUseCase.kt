@@ -114,6 +114,21 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     controlGRVForeignId = serialNumber
                 )
             )
+        is ControlGRVStepBusiness.ControlGRVStep2 ->
+            controlGRVStepLocalRepository.createLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep2(
+                    reference = serialNumber,
+                    tare = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).tare,
+                    material = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).material,
+                    capacity20 = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).capacity20,
+                    grossMass = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).grossMass,
+                    fabricationDate = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).fabricationDate,
+                    shellThickness = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).shellThickness,
+                    pictogramStacking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).pictogramStacking,
+                    weightStacking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).weightStacking,
+                    controlGRVForeignId = serialNumber
+                )
+            )
     }
 
     suspend fun updateControlGRVStep(controlGRVStepBusiness: ControlGRVStepBusiness, serialNumber: Int): Boolean = when (controlGRVStepBusiness) {
@@ -141,6 +156,21 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     certificatesADR = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).certificatesADR,
                     groundingAdhesive = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).groundingAdhesive,
                     conformityCertificateMarking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).conformityCertificateMarking,
+                    controlGRVForeignId = serialNumber
+                )
+            )
+        is ControlGRVStepBusiness.ControlGRVStep2 ->
+            controlGRVStepLocalRepository.updateLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep2(
+                    reference = serialNumber,
+                    tare = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).tare,
+                    material = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).material,
+                    capacity20 = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).capacity20,
+                    grossMass = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).grossMass,
+                    fabricationDate = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).fabricationDate,
+                    shellThickness = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).shellThickness,
+                    pictogramStacking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).pictogramStacking,
+                    weightStacking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).weightStacking,
                     controlGRVForeignId = serialNumber
                 )
             )

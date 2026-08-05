@@ -14,12 +14,14 @@ class CheckSaveOrNextControlGRVUseCase(private val controlGRVStepUseCase: Contro
             val type = when (currentStep) {
                 GRVControlStepEnum.STEP_0 -> ControlGRVStepBusiness.ControlGRVStep0::class
                 GRVControlStepEnum.STEP_1 -> ControlGRVStepBusiness.ControlGRVStep1::class
+                GRVControlStepEnum.STEP_2 -> ControlGRVStepBusiness.ControlGRVStep2::class
                 else -> throw IllegalArgumentException("Invalid type")
             }
             val nextStep = GRVControlStepEnum.getStepNumber(currentStep) +1
             val nextType = when (GRVControlStepEnum.getStep(nextStep)) {
                 GRVControlStepEnum.STEP_0 -> ControlGRVStepBusiness.ControlGRVStep0::class
                 GRVControlStepEnum.STEP_1 -> ControlGRVStepBusiness.ControlGRVStep1::class
+                GRVControlStepEnum.STEP_2 -> ControlGRVStepBusiness.ControlGRVStep2::class
                 else -> throw IllegalArgumentException("Invalid type")
             }
             val currentStepExist = controlGRVStepUseCase.checkIfControlGRVStepExist(reference, type = type)

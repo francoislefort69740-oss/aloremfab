@@ -55,6 +55,18 @@ object FrontControlGRCMapper {
             conformityCertificateMarking = controlGRVStepBusiness.conformityCertificateMarking,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
+        is ControlGRVStepBusiness.ControlGRVStep2 -> StepControlGRV.Step2ControlGRV(
+            reference = controlGRVStepBusiness.reference,
+            tare = controlGRVStepBusiness.tare,
+            material = controlGRVStepBusiness.material,
+            capacity20 = controlGRVStepBusiness.capacity20,
+            grossMass = controlGRVStepBusiness.grossMass,
+            fabricationDate = controlGRVStepBusiness.fabricationDate,
+            shellThickness = controlGRVStepBusiness.shellThickness,
+            pictogramStacking = controlGRVStepBusiness.pictogramStacking,
+            weightStacking = controlGRVStepBusiness.weightStacking,
+            controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
+        )
     }
 
     fun controlGRVStepFrontToBusiness(stepControlGRV: StepControlGRV): ControlGRVStepBusiness = when(stepControlGRV) {
@@ -77,6 +89,18 @@ object FrontControlGRCMapper {
             certificatesADR = stepControlGRV.certificatesADR,
             groundingAdhesive = stepControlGRV.groundingAdhesive,
             conformityCertificateMarking = stepControlGRV.conformityCertificateMarking,
+            controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
+        )
+        is StepControlGRV.Step2ControlGRV -> ControlGRVStepBusiness.ControlGRVStep2(
+            reference = stepControlGRV.reference ?: 0,
+            tare = stepControlGRV.tare ?: 0,
+            material = stepControlGRV.material ?: "",
+            capacity20 = stepControlGRV.capacity20 ?: 0,
+            grossMass = stepControlGRV.grossMass ?: 0,
+            fabricationDate = stepControlGRV.fabricationDate ?: "",
+            shellThickness = stepControlGRV.shellThickness ?: 0,
+            pictogramStacking = stepControlGRV.pictogramStacking,
+            weightStacking = stepControlGRV.weightStacking ?: 0,
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
     }

@@ -33,6 +33,7 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/rounded_item_selector"
             android:backgroundTint="@color/white"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_child_control_grv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

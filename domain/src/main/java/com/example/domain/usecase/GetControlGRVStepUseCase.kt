@@ -18,6 +18,10 @@ class GetControlGRVStepUseCase(private val controlGRVStepLocalRepository: Contro
                     reference = reference,
                     type = ControlGRVStepBusiness.ControlGRVStep1::class)
                 )
+                GRVControlStepEnum.STEP_2 -> ResultOf.Success(controlGRVStepLocalRepository.getLocalControlGRVStepByReference(
+                    reference = reference,
+                    type = ControlGRVStepBusiness.ControlGRVStep2::class)
+                )
                 else -> ResultOf.Error(ErrorBusiness.ControlGRVStepNotInitialized)
             }
 
