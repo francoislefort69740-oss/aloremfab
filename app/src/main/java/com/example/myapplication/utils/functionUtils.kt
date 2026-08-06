@@ -1,6 +1,7 @@
 package com.example.myapplication.utils
 
 import android.content.Context
+import android.util.Log
 import com.example.myapplication.model.ControlGRVCheckPoint
 
 fun returnCheckPointForCheckBox(context: Context, resId: Int, list: List<ControlGRVCheckPoint>): Boolean? {
@@ -19,4 +20,27 @@ fun returnCheckPointForEditableInt(context: Context, resId: Int, list: List<Cont
     val checkpoint = list.filterIsInstance<ControlGRVCheckPoint.EditableCheckPoint>()
         .find { it.name == context.getString(resId) }
     return checkpoint?.value?.toIntOrNull()
+}
+
+fun getCheckLogControlGRV(list: List<ControlGRVCheckPoint>?, result: Boolean) {
+    Log.d("CHECK_GRV", " ")
+    Log.d("CHECK_GRV", " ")
+    Log.d("CHECK_GRV", "================== NOUVEAU TEST ==================")
+    Log.d("CHECK_GRV", " ")
+    list?.forEachIndexed { index, checkpoint ->
+        when (checkpoint) {
+            is ControlGRVCheckPoint.EditableCheckPoint ->
+                Log.d(
+                    CHECK_GRV,
+                    "$index : title='${checkpoint.name}' value='${checkpoint.value}'"
+                )
+
+            is ControlGRVCheckPoint.CheckBoxCheckPoint ->
+                Log.d(
+                    CHECK_GRV,
+                    "$index : title='${checkpoint.name}' value='${checkpoint.value}' isChecked='${checkpoint.isChecked}"
+                )
+        }
+    }
+    Log.d(CHECK_GRV, "completed = $result")
 }

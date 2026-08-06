@@ -18,18 +18,23 @@ sealed class StepGRVListHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
         private val title = itemView.findViewById<TextView>(R.id.title_editable_item_card_data)
         private val input = itemView.findViewById<EditText>(R.id.input_editable_item_card_data)
 
+        private var currentItem: ControlGRVCheckPoint.EditableCheckPoint? = null
+
+        init { input.doAfterTextChanged {
+                currentItem?.let { item ->
+                    item.value = it.toString()
+                }
+            }
+        }
+
         fun setItem(item: ControlGRVCheckPoint.EditableCheckPoint?, onItemClicked: (Int) -> Unit, onDeleteClick: (Int) -> Unit, onValueChanged: () -> Unit) {
+            currentItem = item
             title.text = item?.name ?: ""
-            input.setText(item?.value ?: "")
+            if (input.text.toString() != item?.value) input.setText(item?.value ?: "")
             input.inputType = item?.inputType ?: InputType.TYPE_CLASS_TEXT
             input.isEnabled = item?.isEnable ?: false
             input.isFocusable = item?.isEnable ?: false
             input.isFocusableInTouchMode = item?.isEnable ?: false
-
-            input.doAfterTextChanged {
-                item?.value = it.toString()
-                onValueChanged()
-            }
         }
     }
 
@@ -40,7 +45,24 @@ sealed class StepGRVListHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
         private val btnOk = itemView.findViewById<MaterialButton>(R.id.btnConforme_checkable_item_card_data)
         private val btnKo = itemView.findViewById<MaterialButton>(R.id.btnNonConforme_checkable_item_card_data)
 
+        private var currentItem: ControlGRVCheckPoint.CheckBoxCheckPoint? = null
+
+        init {
+            btnOk.setOnClickListener { currentItem?.apply {
+                    value = true
+                    isChecked = true
+                }
+            }
+
+            btnKo.setOnClickListener { currentItem?.apply {
+                    value = false
+                    isChecked = true
+                }
+            }
+        }
+
         fun setItem(item: ControlGRVCheckPoint.CheckBoxCheckPoint?, onItemClicked: (Int) -> Unit, onDeleteClick: (Int) -> Unit, onValueChanged: () -> Unit) {
+            currentItem = item
             title.text = item?.name ?: ""
             if (item?.isChecked == true) {
                 when(item.value){
@@ -48,18 +70,6 @@ sealed class StepGRVListHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
                     false -> input.check(R.id.btnNonConforme_checkable_item_card_data)
                     else -> input.clearChecked()
                 }
-            }
-
-            btnOk.setOnClickListener {
-                item?.value = true
-                item?.isChecked = true
-                onValueChanged()
-            }
-
-            btnKo.setOnClickListener {
-                item?.value = false
-                item?.isChecked = true
-                onValueChanged()
             }
         }
     }

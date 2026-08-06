@@ -14,6 +14,7 @@ import com.example.myapplication.mapper.FrontControlGRCMapper
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
+import com.example.myapplication.utils.getCheckLogControlGRV
 import kotlinx.coroutines.launch
 
 
@@ -88,10 +89,34 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val _showCheckButton = MutableLiveData(false)
     val showCheckButton: LiveData<Boolean> = _showCheckButton
 
+    private val _hasUnsavedChanges = MutableLiveData(false)
+    val hasUnsavedChanges: LiveData<Boolean> = _hasUnsavedChanges
+
+    private var initialCheckPoints: List<ControlGRVCheckPoint> = emptyList()
+
     fun loadTemplate(template: GRVControlStepTemplate) {
-        _checkPoints.value = template.getStepRecyclerItem()
-        _showCheckButton.value = template.getStepRecyclerItem().any { it is ControlGRVCheckPoint.CheckBoxCheckPoint }
+        val items = template.getStepRecyclerItem()
+        _checkPoints.value = items
+        initialCheckPoints = items.map  { it.duplicate() }
+        _showCheckButton.value = items.any { it is ControlGRVCheckPoint.CheckBoxCheckPoint }
+        updateState()
+    }
+
+    private fun updateState() {
         checkCompletion()
+        checkUnsavedChanges()
+    }
+
+    private fun checkUnsavedChanges() {
+        val current = _checkPoints.value ?: emptyList()
+        _hasUnsavedChanges.value = current != initialCheckPoints
+    }
+
+    fun validateCurrentState() {
+        initialCheckPoints =
+            _checkPoints.value?.map { it.duplicate() } ?: emptyList()
+
+        _hasUnsavedChanges.value = false
     }
 
     fun getResult(): List<ControlGRVCheckPoint> {
@@ -99,21 +124,6 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     }
 
     private fun checkCompletion() {
-        _checkPoints.value?.forEachIndexed { index, checkpoint ->
-            when (checkpoint) {
-                is ControlGRVCheckPoint.EditableCheckPoint ->
-                    Log.d(
-                        "CHECK",
-                        "$index : title='${checkpoint.name}' value='${checkpoint.value}'"
-                    )
-                is ControlGRVCheckPoint.CheckBoxCheckPoint ->
-                    Log.d(
-                        "CHECK",
-                        "$index : title='${checkpoint.name}' value='${checkpoint.value}' isChecked='${checkpoint.isChecked}"
-                    )
-            }
-        }
-
         val completed = _checkPoints.value?.all { checkpoint ->
             when (checkpoint) {
                 is ControlGRVCheckPoint.EditableCheckPoint ->
@@ -123,7 +133,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
             }
         } ?: false
 
-        Log.d("CHECK", "completed = $completed")
+        getCheckLogControlGRV(list = _checkPoints.value, result = completed)
 
         _allCheckPointsCompleted.value = completed
     }
@@ -141,7 +151,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     }
 
     fun onCheckPointChanged() {
-        checkCompletion()
+        updateState()
     }
 
 

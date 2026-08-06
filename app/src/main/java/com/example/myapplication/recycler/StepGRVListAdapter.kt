@@ -1,70 +1,107 @@
 package com.example.myapplication.recycler
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.example.myapplication.R
 import com.example.myapplication.component.GRVControlStepTemplate
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
+import com.example.myapplication.utils.PERF_GRV
 
-class StepGRVListAdapter(context: Context,
-                         private val onItemClicked: (Int) -> Unit,
-                         private val onDeleteClick: (Int) -> Unit,
-                         private val onValueChanged: () -> Unit) : RecyclerView.Adapter<StepGRVListHolder>() {
+class StepGRVListAdapter(
+    private val context: Context,
+    private val onItemClicked: (Int) -> Unit,
+    private val onDeleteClick: (Int) -> Unit,
+    private val onValueChanged: () -> Unit
+) : ListAdapter<ControlGRVCheckPoint, StepGRVListHolder>(DiffCallback()) {
+
 
     private var mTemplate = GRVControlStepTemplate(context = context)
-    private var mItems = mutableListOf<ControlGRVCheckPoint>()
-
-    override fun getItemCount(): Int = mItems.size
 
     override fun getItemViewType(position: Int): Int {
-        return when (mItems[position]) {
-            is ControlGRVCheckPoint.EditableCheckPoint -> VIEW_TYPE_EDITABLE
-            is ControlGRVCheckPoint.CheckBoxCheckPoint -> VIEW_TYPE_CHECKBOX
+        return when (getItem(position)) {
+            is ControlGRVCheckPoint.EditableCheckPoint ->
+                VIEW_TYPE_EDITABLE
+            is ControlGRVCheckPoint.CheckBoxCheckPoint ->
+                VIEW_TYPE_CHECKBOX
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StepGRVListHolder {
-
         val inflater = LayoutInflater.from(parent.context)
 
+        Log.d(PERF_GRV, "onCreateViewHolder type=$viewType")
+
         return when (viewType) {
-            VIEW_TYPE_EDITABLE -> StepGRVListHolder.EditableCheckPoint(
-                inflater.inflate(R.layout.item_grv_data_card_editable, parent, false))
-
-            VIEW_TYPE_CHECKBOX -> StepGRVListHolder.CheckBoxCheckPoint(
-                inflater.inflate(R.layout.item_grv_data_card_checkable, parent, false))
-
+            VIEW_TYPE_EDITABLE -> {
+                StepGRVListHolder.EditableCheckPoint(inflater.inflate(R.layout.item_grv_data_card_editable, parent, false))
+            }
+            VIEW_TYPE_CHECKBOX -> {
+                StepGRVListHolder.CheckBoxCheckPoint(inflater.inflate(R.layout.item_grv_data_card_checkable, parent, false))
+            }
             else -> throw IllegalArgumentException("Unknown viewType : $viewType")
         }
     }
 
     override fun onBindViewHolder(holder: StepGRVListHolder, position: Int) {
-        when (val item = mItems[position]) {
-            is ControlGRVCheckPoint.EditableCheckPoint -> (holder as StepGRVListHolder.EditableCheckPoint).setItem(item, onItemClicked, onDeleteClick, onValueChanged)
-            is ControlGRVCheckPoint.CheckBoxCheckPoint -> (holder as StepGRVListHolder.CheckBoxCheckPoint).setItem(item, onItemClicked, onDeleteClick, onValueChanged)
+
+        val start = System.currentTimeMillis()
+        Log.d(PERF_GRV, "START bind position=$position")
+
+        when (val item = getItem(position)) {
+            is ControlGRVCheckPoint.EditableCheckPoint -> {
+                (holder as StepGRVListHolder.EditableCheckPoint).setItem(
+                        item = item,
+                        onItemClicked = onItemClicked,
+                        onDeleteClick = onDeleteClick,
+                        onValueChanged = onValueChanged
+                )
+            }
+            is ControlGRVCheckPoint.CheckBoxCheckPoint -> {
+                (holder as StepGRVListHolder.CheckBoxCheckPoint).setItem(
+                        item = item,
+                        onItemClicked = onItemClicked,
+                        onDeleteClick = onDeleteClick,
+                        onValueChanged = onValueChanged
+                )
+            }
         }
+
+        Log.d(PERF_GRV, "END bind position=$position : ${System.currentTimeMillis() - start} ms")
     }
 
-    fun updateData(stepControlGRV: StepControlGRV? = null, context: Context, listCheckPoint: List<ControlGRVCheckPoint>? = null) {
-        stepControlGRV?.let { stepControl ->
-            mTemplate = GRVControlStepTemplate(stepControl, context = context)
-            mItems.clear()
-            mItems.addAll(mTemplate.getStepRecyclerItem())
+    fun updateData(stepControlGRV: StepControlGRV? = null, listCheckPoint: List<ControlGRVCheckPoint>? = null) {
+        val newList = when {
+            stepControlGRV != null -> {
+                mTemplate = GRVControlStepTemplate(stepControlGRV, context)
+                mTemplate.getStepRecyclerItem()
+            }
+            listCheckPoint != null -> {
+                listCheckPoint
+            }
+            else -> emptyList()
         }
-
-        listCheckPoint?.let {
-            mItems.clear()
-            mItems.addAll(it)
-        }
-
-        notifyDataSetChanged()
+        submitList(newList)
     }
 
     companion object {
         private const val VIEW_TYPE_EDITABLE = 0
-        private const val VIEW_TYPE_CHECKBOX = 2
+        private const val VIEW_TYPE_CHECKBOX = 1
+    }
+
+    class DiffCallback :
+        DiffUtil.ItemCallback<ControlGRVCheckPoint>() {
+
+        override fun areItemsTheSame(oldItem: ControlGRVCheckPoint, newItem: ControlGRVCheckPoint): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: ControlGRVCheckPoint, newItem: ControlGRVCheckPoint): Boolean {
+            return oldItem == newItem
+        }
     }
 }

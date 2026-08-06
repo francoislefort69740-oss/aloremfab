@@ -2,6 +2,7 @@ package com.example.myapplication.childfragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,8 @@ import com.example.myapplication.fragment.BaseFragment
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.recycler.StepGRVListAdapter
+import com.example.myapplication.utils.CHECK_GRV
+import com.example.myapplication.utils.PERF_GRV
 import com.example.myapplication.viewmodel.ControlGRVViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
@@ -111,6 +114,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
             if (::mAdapterControlGRVPage.isInitialized) {
                 controlComponent.setStepControl(stepControlGRV = stepControlGRV)
                 viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
+                Log.d(CHECK_GRV, "loadTemplate")
                 controlComponent.setUpBackButton(stepControlGRV::class != StepControlGRV.Step0ControlGRV::class)
             }
         }
@@ -134,7 +138,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         }
 
         viewModel.checkPoints.observe(viewLifecycleOwner) { list ->
-            mAdapterControlGRVPage.updateData(listCheckPoint = list, context = requireContext())
+            mAdapterControlGRVPage.updateData(listCheckPoint = list)
         }
 
         viewModel.allCheckPointsCompleted.observe(viewLifecycleOwner) { completed ->
@@ -146,7 +150,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         }
 
         viewModel.checkPoints.observe(viewLifecycleOwner) { checkBoxes ->
-            mAdapterControlGRVPage.updateData(listCheckPoint = checkBoxes, context = requireContext())
+            mAdapterControlGRVPage.updateData(listCheckPoint = checkBoxes)
         }
 
         viewModel.checkSaveOrNextControlGRVLiveData().observe(this){ checking ->
@@ -216,5 +220,15 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         super.onAttach(context)
         try { mCallback = parentFragment as ChildViewPagerGRVInterface }
         catch (e: ClassCastException) { throw ClassCastException("$e must implemented MainInterface") }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(PERF_GRV, "onResume")
+    }
+
+    override fun onPause() {
+        Log.d(PERF_GRV, "onPause")
+        super.onPause()
     }
 }
