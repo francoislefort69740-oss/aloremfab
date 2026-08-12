@@ -45,13 +45,6 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.15"/>
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_2_grv_control"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.3"/>
-
         <TextView
             android:id="@+id/title_grv_control"
             android:layout_width="wrap_content"
@@ -68,30 +61,14 @@
             android:id="@+id/viewPager_grv_control"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/menu_guideline_2_grv_control"
-            app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_grv_control" />
-
-        <ImageView
-            android:id="@+id/temp_area_grv_control"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/rect_border_stroke"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_2_grv_control"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_grv_control" />
-
-
 
 
 

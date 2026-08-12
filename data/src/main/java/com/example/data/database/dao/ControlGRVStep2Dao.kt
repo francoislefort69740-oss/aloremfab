@@ -17,10 +17,10 @@ interface ControlGRVStep2Dao {
 
     // READ
 
-    @Query("SELECT * FROM controlGRVStep2InternalData WHERE GRVStepReference = :reference")
+    @Query("SELECT * FROM controlGRVStep2InternalData WHERE GRVStep2Reference = :reference")
     fun findControlGRVStep2ByReference(reference: Int): ControlGRVStep2Local
 
-    @Query("SELECT EXISTS(SELECT * FROM controlGRVStep2InternalData WHERE GRVStepReference = :controlGRVStep2Id)")
+    @Query("SELECT EXISTS(SELECT * FROM controlGRVStep2InternalData WHERE GRVStep2Reference = :controlGRVStep2Id)")
     fun controlGRVStep2IdExist(controlGRVStep2Id: Int): Boolean
 
     // UPDATE
@@ -30,7 +30,7 @@ interface ControlGRVStep2Dao {
 
     // DELETE
 
-    @Query("DELETE FROM controlGRVStep2InternalData WHERE GRVStepReference = :id")
+    @Query("DELETE FROM controlGRVStep2InternalData WHERE GRVStep2Reference = :id")
     fun deleteControlGRVStep2ById(id: Int)
 
 }

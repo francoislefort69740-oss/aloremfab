@@ -28,6 +28,8 @@ class StepGRVListAdapter(
                 VIEW_TYPE_EDITABLE
             is ControlGRVCheckPoint.CheckBoxCheckPoint ->
                 VIEW_TYPE_CHECKBOX
+            is ControlGRVCheckPoint.FourStateCheckPoint ->
+                VIEW_TYPE_FOUR_STATE
         }
     }
 
@@ -38,10 +40,13 @@ class StepGRVListAdapter(
 
         return when (viewType) {
             VIEW_TYPE_EDITABLE -> {
-                StepGRVListHolder.EditableCheckPoint(inflater.inflate(R.layout.item_grv_data_card_editable, parent, false))
+                EditableCheckPointHolder(inflater.inflate(R.layout.item_grv_data_card_editable, parent, false))
             }
             VIEW_TYPE_CHECKBOX -> {
-                StepGRVListHolder.CheckBoxCheckPoint(inflater.inflate(R.layout.item_grv_data_card_checkable, parent, false))
+                CheckBoxCheckPointHolder(inflater.inflate(R.layout.item_grv_data_card_checkable, parent, false))
+            }
+            VIEW_TYPE_FOUR_STATE -> {
+                FourStateCheckPointHolder(inflater.inflate(R.layout.item_grv_data_card_four_state, parent, false))
             }
             else -> throw IllegalArgumentException("Unknown viewType : $viewType")
         }
@@ -54,7 +59,7 @@ class StepGRVListAdapter(
 
         when (val item = getItem(position)) {
             is ControlGRVCheckPoint.EditableCheckPoint -> {
-                (holder as StepGRVListHolder.EditableCheckPoint).setItem(
+                (holder as EditableCheckPointHolder).setItem(
                         item = item,
                         onItemClicked = onItemClicked,
                         onDeleteClick = onDeleteClick,
@@ -62,11 +67,19 @@ class StepGRVListAdapter(
                 )
             }
             is ControlGRVCheckPoint.CheckBoxCheckPoint -> {
-                (holder as StepGRVListHolder.CheckBoxCheckPoint).setItem(
+                (holder as CheckBoxCheckPointHolder).setItem(
                         item = item,
                         onItemClicked = onItemClicked,
                         onDeleteClick = onDeleteClick,
                         onValueChanged = onValueChanged
+                )
+            }
+            is ControlGRVCheckPoint.FourStateCheckPoint -> {
+                (holder as FourStateCheckPointHolder).setItem(
+                    item = item,
+                    onItemClicked = onItemClicked,
+                    onDeleteClick = onDeleteClick,
+                    onValueChanged = onValueChanged
                 )
             }
         }
@@ -91,6 +104,7 @@ class StepGRVListAdapter(
     companion object {
         private const val VIEW_TYPE_EDITABLE = 0
         private const val VIEW_TYPE_CHECKBOX = 1
+        private const val VIEW_TYPE_FOUR_STATE = 2
     }
 
     class DiffCallback :

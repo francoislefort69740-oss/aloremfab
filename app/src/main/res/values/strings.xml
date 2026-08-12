@@ -13,6 +13,9 @@
     <string name="NOK">NOK</string>
     <string name="conforme">CONFORME</string>
     <string name="non_conforme">NON CONFORME</string>
+    <string name="anomalie">ANOMALIE</string>
+    <string name="mineure">MINEURE</string>
+    <string name="majeure">MAJEURE</string>
 
     <string name="utilisateur_menu">UTILISATEUR</string>
     <string name="nom_menu">nom :</string>
@@ -69,6 +72,16 @@
     <string name="control_grv_checkpoint_shell_thickness">Epaisseur de la cuve (mm)</string>
     <string name="control_grv_checkpoint_pictogram_stacking">pictogramme gerbage</string>
     <string name="control_grv_checkpoint_weight_stacking">Poids gerbage (kg)</string>
+
+    <string name="control_grv_checkpoint_bottom_retention_face">Retention face avant</string>
+    <string name="control_grv_checkpoint_bottom_retention_right">Retention face droite</string>
+    <string name="control_grv_checkpoint_bottom_retention_left">Retention face gauche</string>
+    <string name="control_grv_checkpoint_bottom_retention_behind">Retention face arrière</string>
+    <string name="control_grv_checkpoint_upper_retention">Retention partie haute</string>
+    <string name="control_grv_checkpoint_lifting_rings">Anneaux de levage</string>
+    <string name="control_grv_checkpoint_forklift_pass">Passage de fourche</string>
+    <string name="control_grv_checkpoint_dashboard">Tableau de bord</string>
+    <string name="control_grv_checkpoint_unauthorized_repair">Réparation non autorisée</string>
 
 
 

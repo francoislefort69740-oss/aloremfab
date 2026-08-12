@@ -13,6 +13,7 @@
     <color name="background">#F5F6F8</color>
     <color name="success">#2E7D32</color>
     <color name="advertising">#F9A825</color>
+    <color name="warning">#f96c25</color>
 
     <color name="light_grey">#e6e7e8</color>
     <color name="medium_grey">#929496</color>

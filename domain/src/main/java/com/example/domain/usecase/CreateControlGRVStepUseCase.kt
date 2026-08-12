@@ -36,6 +36,7 @@ class CreateControlGRVStepUseCase(private val controlGRVStepLocalRepository: Con
                 is ControlGRVStepBusiness.ControlGRVStep0 -> 1
                 is ControlGRVStepBusiness.ControlGRVStep1 -> 2
                 is ControlGRVStepBusiness.ControlGRVStep2 -> 3
+                is ControlGRVStepBusiness.ControlGRVStep3 -> 4
             }
 
             val updated = controlGRVLocalRepository.updateLocalControlGRV(controlGRVBusiness)

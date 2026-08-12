@@ -35,7 +35,7 @@ data class ControlGRVStep2Local(
 ){
     companion object {
         const val TABLE_NAME = "controlGRVStep2InternalData"
-        const val REFERENCE = "GRVStepReference"
+        const val REFERENCE = "GRVStep2Reference"
         const val TARE = "tare"
         const val MATERIAL = "material"
         const val CAPACITY20 = "capacity20"

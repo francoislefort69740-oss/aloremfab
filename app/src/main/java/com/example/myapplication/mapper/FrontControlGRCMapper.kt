@@ -67,6 +67,19 @@ object FrontControlGRCMapper {
             weightStacking = controlGRVStepBusiness.weightStacking,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
+        is ControlGRVStepBusiness.ControlGRVStep3 -> StepControlGRV.Step3ControlGRV(
+            reference = controlGRVStepBusiness.reference,
+            bottomRetentionFace = controlGRVStepBusiness.bottomRetentionFace,
+            bottomRetentionRight = controlGRVStepBusiness.bottomRetentionRight,
+            bottomRetentionLeft = controlGRVStepBusiness.bottomRetentionLeft,
+            bottomRetentionBehind = controlGRVStepBusiness.bottomRetentionBehind,
+            upperRetention = controlGRVStepBusiness.upperRetention,
+            liftingRings = controlGRVStepBusiness.liftingRings,
+            forkliftPass = controlGRVStepBusiness.forkliftPass,
+            dashboard = controlGRVStepBusiness.dashboard,
+            unauthorizedRepair = controlGRVStepBusiness.unauthorizedRepair,
+            controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
+        )
     }
 
     fun controlGRVStepFrontToBusiness(stepControlGRV: StepControlGRV): ControlGRVStepBusiness = when(stepControlGRV) {
@@ -101,6 +114,19 @@ object FrontControlGRCMapper {
             shellThickness = stepControlGRV.shellThickness ?: 0,
             pictogramStacking = stepControlGRV.pictogramStacking,
             weightStacking = stepControlGRV.weightStacking ?: 0,
+            controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
+        )
+        is StepControlGRV.Step3ControlGRV -> ControlGRVStepBusiness.ControlGRVStep3(
+            reference = stepControlGRV.reference ?: 0,
+            bottomRetentionFace = stepControlGRV.bottomRetentionFace,
+            bottomRetentionRight = stepControlGRV.bottomRetentionRight,
+            bottomRetentionLeft = stepControlGRV.bottomRetentionLeft,
+            bottomRetentionBehind = stepControlGRV.bottomRetentionBehind,
+            upperRetention = stepControlGRV.upperRetention,
+            liftingRings = stepControlGRV.liftingRings,
+            forkliftPass = stepControlGRV.forkliftPass,
+            dashboard = stepControlGRV.dashboard,
+            unauthorizedRepair = stepControlGRV.unauthorizedRepair,
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
     }

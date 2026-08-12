@@ -126,10 +126,9 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private fun checkCompletion() {
         val completed = _checkPoints.value?.all { checkpoint ->
             when (checkpoint) {
-                is ControlGRVCheckPoint.EditableCheckPoint ->
-                    checkpoint.value.isNotBlank()
-                is ControlGRVCheckPoint.CheckBoxCheckPoint ->
-                    checkpoint.value != null
+                is ControlGRVCheckPoint.EditableCheckPoint -> checkpoint.value.isNotBlank()
+                is ControlGRVCheckPoint.CheckBoxCheckPoint -> checkpoint.value != null
+                is ControlGRVCheckPoint.FourStateCheckPoint -> checkpoint.value != null
             }
         } ?: false
 
@@ -141,8 +140,11 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     fun checkAllCheckBoxes() {
 
         val updated = _checkPoints.value?.map { checkpoint ->
-            if (checkpoint is ControlGRVCheckPoint.CheckBoxCheckPoint) checkpoint.copy(value = true, isChecked = true)
-            else checkpoint
+            when (checkpoint) {
+                is ControlGRVCheckPoint.CheckBoxCheckPoint -> checkpoint.copy(value = true, isChecked = true)
+                is ControlGRVCheckPoint.FourStateCheckPoint -> checkpoint.copy(value = 1, isChecked = true)
+                else -> checkpoint
+            }
         } ?: emptyList()
 
         _checkPoints.value = updated

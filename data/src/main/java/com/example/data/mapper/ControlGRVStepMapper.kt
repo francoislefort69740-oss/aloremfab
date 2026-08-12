@@ -3,6 +3,7 @@ package com.example.data.mapper
 import com.example.data.database.entities.ControlGRVStep0Local
 import com.example.data.database.entities.ControlGRVStep1Local
 import com.example.data.database.entities.ControlGRVStep2Local
+import com.example.data.database.entities.ControlGRVStep3Local
 import com.example.domain.model.ControlGRVStepBusiness
 
 object ControlGRVStepMapper {
@@ -46,6 +47,21 @@ object ControlGRVStepMapper {
             controlGRVForeignId = controlGRVStep2Local.foreignKey
         )
 
+    fun controlGRVStep3LocalToBusiness(controlGRVStep3Local: ControlGRVStep3Local): ControlGRVStepBusiness =
+        ControlGRVStepBusiness.ControlGRVStep3(
+            reference = controlGRVStep3Local.reference,
+            bottomRetentionFace = controlGRVStep3Local.bottomRetentionFace,
+            bottomRetentionRight = controlGRVStep3Local.bottomRetentionRight,
+            bottomRetentionLeft = controlGRVStep3Local.bottomRetentionLeft,
+            bottomRetentionBehind = controlGRVStep3Local.bottomRetentionBehind,
+            upperRetention = controlGRVStep3Local.upperRetention,
+            liftingRings = controlGRVStep3Local.liftingRings,
+            forkliftPass = controlGRVStep3Local.forkliftPass,
+            dashboard = controlGRVStep3Local.dashboard,
+            unauthorizedRepair = controlGRVStep3Local.unauthorizedRepair,
+            controlGRVForeignId = controlGRVStep3Local.foreignKey
+        )
+
 
     fun controlGRVStepBusinessToLocal0(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep0): ControlGRVStep0Local =
         ControlGRVStep0Local(
@@ -83,6 +99,21 @@ object ControlGRVStepMapper {
             shellThickness = controlGRVStepBusiness.shellThickness,
             pictogramStacking = controlGRVStepBusiness.pictogramStacking,
             weightStacking = controlGRVStepBusiness.weightStacking,
+            foreignKey = controlGRVStepBusiness.controlGRVForeignId
+        )
+
+    fun controlGRVStepBusinessToLocal3(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep3): ControlGRVStep3Local =
+        ControlGRVStep3Local(
+            reference = controlGRVStepBusiness.reference,
+            bottomRetentionFace = controlGRVStepBusiness.bottomRetentionFace,
+            bottomRetentionRight = controlGRVStepBusiness.bottomRetentionRight,
+            bottomRetentionLeft = controlGRVStepBusiness.bottomRetentionLeft,
+            bottomRetentionBehind = controlGRVStepBusiness.bottomRetentionBehind,
+            upperRetention = controlGRVStepBusiness.upperRetention,
+            liftingRings = controlGRVStepBusiness.liftingRings,
+            forkliftPass = controlGRVStepBusiness.forkliftPass,
+            dashboard = controlGRVStepBusiness.dashboard,
+            unauthorizedRepair = controlGRVStepBusiness.unauthorizedRepair,
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 }

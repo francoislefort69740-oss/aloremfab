@@ -1,6 +1,7 @@
 package com.example.domain.utils
 
 import com.example.domain.model.ControlGRVStepBusiness
+import kotlin.reflect.KClass
 
 // GET EMPTY CONTROL GRV STEP ( for CreateControlGRVStepUseCase )
 
@@ -38,5 +39,26 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         weightStacking = 0,
         controlGRVForeignId = reference
     )
+    GRVControlStepEnum.STEP_3 -> ControlGRVStepBusiness.ControlGRVStep3(
+        reference = reference,
+        bottomRetentionFace = null,
+        bottomRetentionRight = null,
+        bottomRetentionLeft = null,
+        bottomRetentionBehind = null,
+        upperRetention = null,
+        liftingRings = null,
+        forkliftPass = null,
+        dashboard = null,
+        unauthorizedRepair = null,
+        controlGRVForeignId = reference
+    )
+    else -> throw IllegalArgumentException("Invalid type")
+}
+
+fun getKClass(stepNumber: GRVControlStepEnum): KClass<out ControlGRVStepBusiness> = when(stepNumber) {
+    GRVControlStepEnum.STEP_0 -> ControlGRVStepBusiness.ControlGRVStep0::class
+    GRVControlStepEnum.STEP_1 -> ControlGRVStepBusiness.ControlGRVStep1::class
+    GRVControlStepEnum.STEP_2 -> ControlGRVStepBusiness.ControlGRVStep2::class
+    GRVControlStepEnum.STEP_3 -> ControlGRVStepBusiness.ControlGRVStep3::class
     else -> throw IllegalArgumentException("Invalid type")
 }

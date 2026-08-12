@@ -3,6 +3,13 @@ package com.example.myapplication.utils
 import android.content.Context
 import android.util.Log
 import com.example.myapplication.model.ControlGRVCheckPoint
+import org.koin.core.qualifier.named
+
+fun returnCheckPointForFourState(context: Context, resId: Int, list: List<ControlGRVCheckPoint>): Int? {
+    val checkpoint = list.filterIsInstance<ControlGRVCheckPoint.FourStateCheckPoint>()
+        .find { it.name == context.getString(resId) }
+    return if (checkpoint?.isChecked == true) checkpoint.value else null
+}
 
 fun returnCheckPointForCheckBox(context: Context, resId: Int, list: List<ControlGRVCheckPoint>): Boolean? {
     val checkpoint = list.filterIsInstance<ControlGRVCheckPoint.CheckBoxCheckPoint>()
@@ -36,6 +43,11 @@ fun getCheckLogControlGRV(list: List<ControlGRVCheckPoint>?, result: Boolean) {
                 )
 
             is ControlGRVCheckPoint.CheckBoxCheckPoint ->
+                Log.d(
+                    CHECK_GRV,
+                    "$index : title='${checkpoint.name}' value='${checkpoint.value}' isChecked='${checkpoint.isChecked}"
+                )
+            is ControlGRVCheckPoint.FourStateCheckPoint ->
                 Log.d(
                     CHECK_GRV,
                     "$index : title='${checkpoint.name}' value='${checkpoint.value}' isChecked='${checkpoint.isChecked}"

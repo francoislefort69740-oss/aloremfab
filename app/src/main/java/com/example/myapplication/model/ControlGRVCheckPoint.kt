@@ -23,4 +23,14 @@ sealed class ControlGRVCheckPoint{
     ): ControlGRVCheckPoint() {
         override fun duplicate() = copy()
     }
+
+    data class FourStateCheckPoint(
+        val name: String = "",
+        var value: Int? = null,
+        var isChecked: Boolean? = null,
+        var secondLineIsVisible: Boolean = false,
+        val isEnable: Boolean = true
+    ) : ControlGRVCheckPoint() {
+        override fun duplicate() = copy()
+    }
 }
