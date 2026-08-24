@@ -33,4 +33,13 @@ sealed class ControlGRVCheckPoint{
     ) : ControlGRVCheckPoint() {
         override fun duplicate() = copy()
     }
+
+    data class SingleCheckCheckPoint(
+        val name: String = "",
+        var value: Boolean = false,
+        val isEnable: Boolean = true
+    ) : ControlGRVCheckPoint(){
+        override fun duplicate() = copy()
+    }
+
 }

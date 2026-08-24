@@ -98,7 +98,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
         val items = template.getStepRecyclerItem()
         _checkPoints.value = items
         initialCheckPoints = items.map  { it.duplicate() }
-        _showCheckButton.value = items.any { it is ControlGRVCheckPoint.CheckBoxCheckPoint }
+        _showCheckButton.value = items.any { it is ControlGRVCheckPoint.CheckBoxCheckPoint || it is ControlGRVCheckPoint.FourStateCheckPoint }
         updateState()
     }
 
@@ -129,6 +129,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
                 is ControlGRVCheckPoint.EditableCheckPoint -> checkpoint.value.isNotBlank()
                 is ControlGRVCheckPoint.CheckBoxCheckPoint -> checkpoint.value != null
                 is ControlGRVCheckPoint.FourStateCheckPoint -> checkpoint.value != null
+                is ControlGRVCheckPoint.SingleCheckCheckPoint -> true
             }
         } ?: false
 

@@ -55,9 +55,8 @@ fun getStep3RecyclerItem(data: StepControlGRV.Step3ControlGRV?, mContext: Contex
             isChecked = data?.dashboard != null
         ),
 
-        ControlGRVCheckPoint.CheckBoxCheckPoint(
+        ControlGRVCheckPoint.SingleCheckCheckPoint(
             name = mContext.getString(R.string.control_grv_checkpoint_unauthorized_repair),
-            value = data?.unauthorizedRepair,
-            isChecked = data?.unauthorizedRepair != null
+            value = data?.unauthorizedRepair ?: false
         )
     )

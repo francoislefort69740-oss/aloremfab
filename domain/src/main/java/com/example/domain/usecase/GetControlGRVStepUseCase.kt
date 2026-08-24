@@ -10,7 +10,10 @@ import com.example.domain.utils.getKClass
 class GetControlGRVStepUseCase(private val controlGRVStepLocalRepository: ControlGRVStepLocalRepository) {
     suspend operator fun invoke(reference: Int, stepNumber: GRVControlStepEnum): ResultOf<ControlGRVStepBusiness> {
         return try {
-            ResultOf.Success(controlGRVStepLocalRepository.getLocalControlGRVStepByReference(reference =  reference, type = getKClass(stepNumber = stepNumber)))
+            ResultOf.Success(controlGRVStepLocalRepository.getLocalControlGRVStepByReference(
+                reference =  reference,
+                type = getKClass(stepNumber = stepNumber)
+            ))
         } catch (e: Exception) {
             ResultOf.Error(ErrorBusiness.ControlGRVStepNotInitialized)
         }

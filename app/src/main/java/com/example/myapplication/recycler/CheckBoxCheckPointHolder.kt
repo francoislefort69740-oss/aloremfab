@@ -37,11 +37,17 @@ class CheckBoxCheckPointHolder(itemView: View) : StepGRVListHolder(itemView) {
         currentItem = item
         onValueChangedCallback = onValueChanged
         title.text = item?.name ?: ""
-        if (item?.isChecked == true) {
-            when(item.value){
-                true -> input.check(R.id.btnConforme_checkable_item_card_data)
-                false -> input.check(R.id.btnNonConforme_checkable_item_card_data)
-                else -> input.clearChecked()
+        when (item?.value) {
+            true -> {
+                input.check(R.id.btnConforme_checkable_item_card_data)
+            }
+
+            false -> {
+                input.check(R.id.btnNonConforme_checkable_item_card_data)
+            }
+
+            null -> {
+                input.clearChecked()
             }
         }
     }

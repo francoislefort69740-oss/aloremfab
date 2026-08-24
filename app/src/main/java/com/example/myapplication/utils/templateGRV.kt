@@ -7,7 +7,6 @@ import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
 
 
-
 // *** ***************************************************************************************************** ***
 // *                                                                                                           *
 // *          TRANSLATION CONTROL STEP TO CONTROL GRV ( in GRVControlProcess )                                 *
@@ -61,7 +60,16 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
         liftingRings = returnCheckPointForFourState(context = context, resId = R.string.control_grv_checkpoint_lifting_rings, list = list) ?: 0,
         forkliftPass = returnCheckPointForFourState(context = context, resId = R.string.control_grv_checkpoint_forklift_pass, list = list) ?: 0,
         dashboard = returnCheckPointForFourState(context = context, resId = R.string.control_grv_checkpoint_dashboard, list = list) ?: 0,
-        unauthorizedRepair = returnCheckPointForCheckBox(context = context, resId = R.string.control_grv_checkpoint_unauthorized_repair, list = list),
+        unauthorizedRepair = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_unauthorized_repair, list = list),
+        controlGRVForeignId = serialNumber
+    )
+    GRVControlStepEnum.STEP_4 -> StepControlGRV.Step4ControlGRV(
+        reference = serialNumber!!,
+        internalNA = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_internal_na, list = list),
+        internalOK = returnCheckPointForCheckBox(context = context, resId = R.string.control_grv_checkpoint_internal_ok, list = list),
+        internalClean = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_internal_clean, list = list),
+        internalObjectInside = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_internal_object_inside, list = list),
+        internalPollution = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_internal_pollution, list = list),
         controlGRVForeignId = serialNumber
     )
     else -> throw IllegalArgumentException("Invalid type")
@@ -84,6 +92,7 @@ fun getStepRecyclerItemFunction(mStepControlGRV: StepControlGRV?, mContext: Cont
     GRVControlStepEnum.STEP_1 -> getStep1RecyclerItem(data = mStepControlGRV as StepControlGRV.Step1ControlGRV?, mContext = mContext)
     GRVControlStepEnum.STEP_2 -> getStep2RecyclerItem(data = mStepControlGRV as StepControlGRV.Step2ControlGRV?, mContext = mContext)
     GRVControlStepEnum.STEP_3 -> getStep3RecyclerItem(data = mStepControlGRV as StepControlGRV.Step3ControlGRV?, mContext = mContext)
+    GRVControlStepEnum.STEP_4 -> getStep4RecyclerItem(data = mStepControlGRV as StepControlGRV.Step4ControlGRV?, mContext = mContext)
     else -> getStep0RecyclerItem(data = mStepControlGRV as StepControlGRV.Step0ControlGRV?, mContext = mContext)
 }
 
@@ -92,6 +101,7 @@ fun getType(mStepControlGRV: StepControlGRV?): GRVControlStepEnum = when(mStepCo
     is StepControlGRV.Step1ControlGRV -> GRVControlStepEnum.STEP_1
     is StepControlGRV.Step2ControlGRV -> GRVControlStepEnum.STEP_2
     is StepControlGRV.Step3ControlGRV -> GRVControlStepEnum.STEP_3
+    is StepControlGRV.Step4ControlGRV -> GRVControlStepEnum.STEP_4
     else -> GRVControlStepEnum.STEP_0
 }
 
@@ -100,5 +110,6 @@ fun getEmptyStep(stepEnum: GRVControlStepEnum): StepControlGRV = when(stepEnum) 
     GRVControlStepEnum.STEP_1 -> StepControlGRV.Step1ControlGRV()
     GRVControlStepEnum.STEP_2 -> StepControlGRV.Step2ControlGRV()
     GRVControlStepEnum.STEP_3 -> StepControlGRV.Step3ControlGRV()
+    GRVControlStepEnum.STEP_4 -> StepControlGRV.Step4ControlGRV()
     else -> StepControlGRV.Step0ControlGRV()
 }

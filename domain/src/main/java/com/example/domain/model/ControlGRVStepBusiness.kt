@@ -66,13 +66,26 @@ sealed class ControlGRVStepBusiness{
         var liftingRings: Int?,
         var forkliftPass: Int?,
         var dashboard: Int?,
-        var unauthorizedRepair: Boolean?,
+        var unauthorizedRepair: Boolean,
         var controlGRVForeignId: Int
     ) : ControlGRVStepBusiness() {
         override fun isValid(): Boolean {
             return reference != 0 && controlGRVForeignId != 0
         }
+    }
 
+    data class ControlGRVStep4(
+        override val reference: Int,
+        var internalNA: Boolean,
+        var internalOK: Boolean?,
+        var internalClean: Boolean,
+        var internalObjectInside: Boolean,
+        var internalPollution: Boolean,
+        var controlGRVForeignId: Int
+    ) : ControlGRVStepBusiness() {
+        override fun isValid(): Boolean {
+            return reference != 0 && controlGRVForeignId != 0
+        }
     }
 
 

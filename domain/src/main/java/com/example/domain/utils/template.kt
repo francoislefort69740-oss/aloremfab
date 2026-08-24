@@ -49,7 +49,16 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         liftingRings = null,
         forkliftPass = null,
         dashboard = null,
-        unauthorizedRepair = null,
+        unauthorizedRepair = false,
+        controlGRVForeignId = reference
+    )
+    GRVControlStepEnum.STEP_4 -> ControlGRVStepBusiness.ControlGRVStep4(
+        reference = reference,
+        internalNA = false,
+        internalOK = null,
+        internalClean = false,
+        internalObjectInside = false,
+        internalPollution = false,
         controlGRVForeignId = reference
     )
     else -> throw IllegalArgumentException("Invalid type")
@@ -60,5 +69,6 @@ fun getKClass(stepNumber: GRVControlStepEnum): KClass<out ControlGRVStepBusiness
     GRVControlStepEnum.STEP_1 -> ControlGRVStepBusiness.ControlGRVStep1::class
     GRVControlStepEnum.STEP_2 -> ControlGRVStepBusiness.ControlGRVStep2::class
     GRVControlStepEnum.STEP_3 -> ControlGRVStepBusiness.ControlGRVStep3::class
+    GRVControlStepEnum.STEP_4 -> ControlGRVStepBusiness.ControlGRVStep4::class
     else -> throw IllegalArgumentException("Invalid type")
 }

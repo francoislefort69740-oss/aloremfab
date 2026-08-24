@@ -32,7 +32,7 @@ data class ControlGRVStep3Local(
     @ColumnInfo(name = LIFTING_RINGS) val liftingRings: Int?,
     @ColumnInfo(name = FORKLIFT_PASS) val forkliftPass: Int?,
     @ColumnInfo(name = DASHBOARD) val dashboard: Int?,
-    @ColumnInfo(name = UNAUTHORIZED_REPAIR) val unauthorizedRepair: Boolean?,
+    @ColumnInfo(name = UNAUTHORIZED_REPAIR) val unauthorizedRepair: Boolean,
     @ColumnInfo(name = GRV_CONTROL_UID, index = true) val foreignKey: Int
 ) {
     companion object {

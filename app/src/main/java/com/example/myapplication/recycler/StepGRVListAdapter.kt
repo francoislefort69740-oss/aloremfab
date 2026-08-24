@@ -30,6 +30,8 @@ class StepGRVListAdapter(
                 VIEW_TYPE_CHECKBOX
             is ControlGRVCheckPoint.FourStateCheckPoint ->
                 VIEW_TYPE_FOUR_STATE
+            is ControlGRVCheckPoint.SingleCheckCheckPoint ->
+                VIEW_TYPE_SINGLE_STATE
         }
     }
 
@@ -47,6 +49,9 @@ class StepGRVListAdapter(
             }
             VIEW_TYPE_FOUR_STATE -> {
                 FourStateCheckPointHolder(inflater.inflate(R.layout.item_grv_data_card_four_state, parent, false))
+            }
+            VIEW_TYPE_SINGLE_STATE -> {
+                SingleCheckCheckPointHolder(inflater.inflate(R.layout.item_grv_data_card_single_state, parent, false))
             }
             else -> throw IllegalArgumentException("Unknown viewType : $viewType")
         }
@@ -82,6 +87,14 @@ class StepGRVListAdapter(
                     onValueChanged = onValueChanged
                 )
             }
+            is ControlGRVCheckPoint.SingleCheckCheckPoint -> {
+                (holder as SingleCheckCheckPointHolder).setItem(
+                    item = item,
+                    onItemClicked = onItemClicked,
+                    onDeleteClick = onDeleteClick,
+                    onValueChanged = onValueChanged
+                )
+            }
         }
 
         Log.d(PERF_GRV, "END bind position=$position : ${System.currentTimeMillis() - start} ms")
@@ -105,6 +118,7 @@ class StepGRVListAdapter(
         private const val VIEW_TYPE_EDITABLE = 0
         private const val VIEW_TYPE_CHECKBOX = 1
         private const val VIEW_TYPE_FOUR_STATE = 2
+        private const val VIEW_TYPE_SINGLE_STATE = 3
     }
 
     class DiffCallback :

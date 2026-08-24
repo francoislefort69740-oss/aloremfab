@@ -83,6 +83,12 @@
     <string name="control_grv_checkpoint_dashboard">Tableau de bord</string>
     <string name="control_grv_checkpoint_unauthorized_repair">Réparation non autorisée</string>
 
+    <string name="control_grv_checkpoint_internal_na">INSPECTION N/A</string>
+    <string name="control_grv_checkpoint_internal_ok">INSPECTION INTERNE</string>
+    <string name="control_grv_checkpoint_internal_clean">PROPRE</string>
+    <string name="control_grv_checkpoint_internal_object_inside">OBJET DANS LA CUVE</string>
+    <string name="control_grv_checkpoint_internal_pollution">POLLUTION</string>
+
 
 
 </resources>

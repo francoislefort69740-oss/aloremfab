@@ -145,6 +145,18 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     controlGRVForeignId = serialNumber
                 )
             )
+        is ControlGRVStepBusiness.ControlGRVStep4 ->
+            controlGRVStepLocalRepository.createLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep4(
+                    reference = serialNumber,
+                    internalNA = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalNA,
+                    internalOK = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalOK,
+                    internalClean = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalClean,
+                    internalObjectInside = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalObjectInside,
+                    internalPollution = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalPollution,
+                    controlGRVForeignId = serialNumber
+                )
+            )
     }
 
     suspend fun updateControlGRVStep(controlGRVStepBusiness: ControlGRVStepBusiness, serialNumber: Int): Boolean = when (controlGRVStepBusiness) {
@@ -203,6 +215,18 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     forkliftPass = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).forkliftPass,
                     dashboard = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).dashboard,
                     unauthorizedRepair = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).unauthorizedRepair,
+                    controlGRVForeignId = serialNumber
+                )
+            )
+        is ControlGRVStepBusiness.ControlGRVStep4 ->
+            controlGRVStepLocalRepository.updateLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep4(
+                    reference = serialNumber,
+                    internalNA = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalNA,
+                    internalOK = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalOK,
+                    internalClean = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalClean,
+                    internalObjectInside = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalObjectInside,
+                    internalPollution = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalPollution,
                     controlGRVForeignId = serialNumber
                 )
             )

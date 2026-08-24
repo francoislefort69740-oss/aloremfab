@@ -47,7 +47,17 @@ sealed class StepControlGRV{
         var liftingRings: Int? = null,
         var forkliftPass: Int? = null,
         var dashboard: Int? = null,
-        var unauthorizedRepair: Boolean? = null,
+        var unauthorizedRepair: Boolean = false,
+        var controlGRVForeignId: Int? = null
+    ) : StepControlGRV()
+
+    data class Step4ControlGRV(
+        val reference: Int? = null,
+        var internalNA: Boolean = false,
+        var internalOK: Boolean? = null,
+        var internalClean: Boolean = false,
+        var internalObjectInside: Boolean = false,
+        var internalPollution: Boolean = false,
         var controlGRVForeignId: Int? = null
     ) : StepControlGRV()
 

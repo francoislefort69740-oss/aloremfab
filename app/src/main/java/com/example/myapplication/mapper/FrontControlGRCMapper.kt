@@ -80,6 +80,15 @@ object FrontControlGRCMapper {
             unauthorizedRepair = controlGRVStepBusiness.unauthorizedRepair,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
+        is ControlGRVStepBusiness.ControlGRVStep4 -> StepControlGRV.Step4ControlGRV(
+            reference = controlGRVStepBusiness.reference,
+            internalNA = controlGRVStepBusiness.internalNA,
+            internalOK = controlGRVStepBusiness.internalOK,
+            internalClean = controlGRVStepBusiness.internalClean,
+            internalObjectInside = controlGRVStepBusiness.internalObjectInside,
+            internalPollution = controlGRVStepBusiness.internalPollution,
+            controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
+        )
     }
 
     fun controlGRVStepFrontToBusiness(stepControlGRV: StepControlGRV): ControlGRVStepBusiness = when(stepControlGRV) {
@@ -127,6 +136,15 @@ object FrontControlGRCMapper {
             forkliftPass = stepControlGRV.forkliftPass,
             dashboard = stepControlGRV.dashboard,
             unauthorizedRepair = stepControlGRV.unauthorizedRepair,
+            controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
+        )
+        is StepControlGRV.Step4ControlGRV -> ControlGRVStepBusiness.ControlGRVStep4(
+            reference = stepControlGRV.reference ?: 0,
+            internalNA = stepControlGRV.internalNA,
+            internalOK = stepControlGRV.internalOK,
+            internalClean = stepControlGRV.internalClean,
+            internalObjectInside = stepControlGRV.internalObjectInside,
+            internalPollution = stepControlGRV.internalPollution,
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
     }

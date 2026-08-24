@@ -4,6 +4,7 @@ import com.example.data.database.entities.ControlGRVStep0Local
 import com.example.data.database.entities.ControlGRVStep1Local
 import com.example.data.database.entities.ControlGRVStep2Local
 import com.example.data.database.entities.ControlGRVStep3Local
+import com.example.data.database.entities.ControlGRVStep4Local
 import com.example.domain.model.ControlGRVStepBusiness
 
 object ControlGRVStepMapper {
@@ -62,6 +63,17 @@ object ControlGRVStepMapper {
             controlGRVForeignId = controlGRVStep3Local.foreignKey
         )
 
+    fun controlGRVStep4LocalToBusiness(controlGRVStep4Local: ControlGRVStep4Local): ControlGRVStepBusiness =
+        ControlGRVStepBusiness.ControlGRVStep4(
+            reference = controlGRVStep4Local.reference,
+            internalNA = controlGRVStep4Local.internalNA,
+            internalOK = controlGRVStep4Local.internalOK,
+            internalClean = controlGRVStep4Local.internalClean,
+            internalObjectInside = controlGRVStep4Local.internalObjectInside,
+            internalPollution = controlGRVStep4Local.internalPollution,
+            controlGRVForeignId = controlGRVStep4Local.foreignKey
+        )
+
 
     fun controlGRVStepBusinessToLocal0(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep0): ControlGRVStep0Local =
         ControlGRVStep0Local(
@@ -114,6 +126,17 @@ object ControlGRVStepMapper {
             forkliftPass = controlGRVStepBusiness.forkliftPass,
             dashboard = controlGRVStepBusiness.dashboard,
             unauthorizedRepair = controlGRVStepBusiness.unauthorizedRepair,
+            foreignKey = controlGRVStepBusiness.controlGRVForeignId
+        )
+
+    fun controlGRVStepBusinessToLocal4(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep4): ControlGRVStep4Local =
+        ControlGRVStep4Local(
+            reference = controlGRVStepBusiness.reference,
+            internalNA = controlGRVStepBusiness.internalNA,
+            internalOK = controlGRVStepBusiness.internalOK,
+            internalClean = controlGRVStepBusiness.internalClean,
+            internalObjectInside = controlGRVStepBusiness.internalObjectInside,
+            internalPollution = controlGRVStepBusiness.internalPollution,
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 }
