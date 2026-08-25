@@ -53,7 +53,7 @@ class GRVControlProcess {
 
     fun setUpFirstTime(){
         setUpBackButton(state = false)
-        setUpNextButton(state = false)
+        setUpNextButton(state = true)
         setUpCheckButtons(state = false)
     }
 

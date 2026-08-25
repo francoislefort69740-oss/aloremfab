@@ -64,11 +64,13 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         }
 
         controlComponent.next().setOnClickListener {
-            viewModel.checkSaveOrNextControlGRV(reference = controlComponent.getControl().serialNumber!!, currentStep = controlComponent.getStepControlEnum())
+            val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
+            viewModel.checkSaveOrNextControlGRV(reference = result.first.serialNumber, currentStep = result.first.currentStep)
         }
 
         controlComponent.back().setOnClickListener {
-            viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = controlComponent.decrementStep())
+            val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
+            viewModel.pushAndNextControlGRV(controlGRV = result.first, stepControlGRV = result.second, isNext = false)
         }
 
         controlComponent.allCheck().setOnClickListener {
@@ -141,10 +143,6 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
             mAdapterControlGRVPage.updateData(listCheckPoint = list)
         }
 
-        viewModel.allCheckPointsCompleted.observe(viewLifecycleOwner) { completed ->
-            controlComponent.setUpNextButton(completed)
-        }
-
         viewModel.showCheckButton.observe(viewLifecycleOwner) {
             controlComponent.setUpCheckButtons(it)
         }
@@ -156,47 +154,21 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         viewModel.checkSaveOrNextControlGRVLiveData().observe(this){ checking ->
             if (checking.first) {
 
-                // THE CONTROL EXIST
-
-                if (checking.second) {
-
-                    // THE CURRENT STEP EXIST
-
-                    if (checking.third) {
-
-                        // THE NEXT STEP EXIST
-
-                        val nextStep = controlComponent.incrementStep()
-                        viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = nextStep)
-                    } else {
-
-                        // THE NEXT STEP DON'T EXIST : this call will update the current step of the control
-
-                        val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
-                        viewModel.createStepControlGrV(step = result.second, controlGRV = result.first)
-
-                    }
-                } else {
-
-                    // THE CURRENT STEP DON'T EXIST : this call will create the current step of the control
-
-                    val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
-                    viewModel.createStepControlGrV(step = result.second, controlGRV = result.first)
-                }
-
-
+                // THE CONTROL EXISTS
+                val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
+                viewModel.createStepControlGrV(step = result.second, controlGRV = result.first)
             } else {
 
-                // THE CONTROL DON'T EXIST
-
+                // THE CONTROL DOESN'T EXIST
                 val result = controlComponent.translateControlStepToControlGRV(list = viewModel.getResult(), context = requireContext())
                 viewModel.pushAndNextControlGRV(controlGRV = result.first, stepControlGRV = result.second)
             }
         }
 
         viewModel.createStepAlsoNextControlGRVLiveData().observe(this) {
-            val nextStep = controlComponent.incrementStep()
-            viewModel.getStepControlGrv(reference = it, stepNumber = nextStep)
+            val nextStep = if (it.second) controlComponent.incrementStep() else controlComponent.decrementStep()
+            controlComponent.setUpBackButton(nextStep != GRVControlStepEnum.STEP_0)
+            viewModel.getStepControlGrv(reference = it.first, stepNumber = nextStep)
         }
 
     }

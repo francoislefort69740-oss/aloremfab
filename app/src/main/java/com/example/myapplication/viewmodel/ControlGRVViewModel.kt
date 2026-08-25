@@ -43,7 +43,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val injectExistingControlLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val rejectExistingControlLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val createControlGRVLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
-    private val createStepAlsoNextControlGRVLiveData = MutableLiveData<Int>()
+    private val createStepAlsoNextControlGRVLiveData = MutableLiveData< Pair<Int, Boolean>>()
     private val updateControlGRVLiveData = MutableLiveData<String>()
     private val getStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
     private val createStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
@@ -83,14 +83,8 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val _checkPoints = MutableLiveData<List<ControlGRVCheckPoint>>()
     val checkPoints: LiveData<List<ControlGRVCheckPoint>> = _checkPoints
 
-    private val _allCheckPointsCompleted = MutableLiveData(false)
-    val allCheckPointsCompleted: LiveData<Boolean> = _allCheckPointsCompleted
-
     private val _showCheckButton = MutableLiveData(false)
     val showCheckButton: LiveData<Boolean> = _showCheckButton
-
-    private val _hasUnsavedChanges = MutableLiveData(false)
-    val hasUnsavedChanges: LiveData<Boolean> = _hasUnsavedChanges
 
     private var initialCheckPoints: List<ControlGRVCheckPoint> = emptyList()
 
@@ -103,39 +97,11 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     }
 
     private fun updateState() {
-        checkCompletion()
-        checkUnsavedChanges()
-    }
-
-    private fun checkUnsavedChanges() {
-        val current = _checkPoints.value ?: emptyList()
-        _hasUnsavedChanges.value = current != initialCheckPoints
-    }
-
-    fun validateCurrentState() {
-        initialCheckPoints =
-            _checkPoints.value?.map { it.duplicate() } ?: emptyList()
-
-        _hasUnsavedChanges.value = false
+        // if we want to have view observation
     }
 
     fun getResult(): List<ControlGRVCheckPoint> {
         return _checkPoints.value ?: emptyList()
-    }
-
-    private fun checkCompletion() {
-        val completed = _checkPoints.value?.all { checkpoint ->
-            when (checkpoint) {
-                is ControlGRVCheckPoint.EditableCheckPoint -> checkpoint.value.isNotBlank()
-                is ControlGRVCheckPoint.CheckBoxCheckPoint -> checkpoint.value != null
-                is ControlGRVCheckPoint.FourStateCheckPoint -> checkpoint.value != null
-                is ControlGRVCheckPoint.SingleCheckCheckPoint -> true
-            }
-        } ?: false
-
-        getCheckLogControlGRV(list = _checkPoints.value, result = completed)
-
-        _allCheckPointsCompleted.value = completed
     }
 
     fun checkAllCheckBoxes() {
@@ -149,8 +115,6 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
         } ?: emptyList()
 
         _checkPoints.value = updated
-
-        checkCompletion()
     }
 
     fun onCheckPointChanged() {
@@ -160,12 +124,13 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
 
     // OBSERVATION
 
-    fun checkSaveOrNextControlGRV(reference: Int, currentStep : GRVControlStepEnum){
+    fun checkSaveOrNextControlGRV(reference: Int?, currentStep : GRVControlStepEnum){
         viewModelScope.launch {
             when (val result = checkSaveOrNextControlGRV.invoke(reference = reference, currentStep = currentStep)) {
                 is ResultOf.Success -> checkSaveOrNextControlGRVLiveData.postValue(result.data)
                 is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.ControlGRVStepNotFound -> controlGRVNotFound.postValue(true)
+                    is ErrorBusiness.ControlGRVWrongSerialNumber -> wrongSerialNumber().postValue(true)
                 }
             }
         }
@@ -260,7 +225,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
         }
     }
 
-    fun pushAndNextControlGRV(controlGRV: ControlGRV, stepControlGRV: StepControlGRV) {
+    fun pushAndNextControlGRV(controlGRV: ControlGRV, stepControlGRV: StepControlGRV, isNext: Boolean = true) {
         viewModelScope.launch {
             when (val result = createControlGRV.invoke(
                 controlGRVBusiness = FrontControlGRCMapper.controlGRVFrontToBusiness(controlGRV = controlGRV),
@@ -268,7 +233,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
                     stepControlGRV = stepControlGRV
                 )
             )) {
-                is ResultOf.Success -> createStepAlsoNextControlGRVLiveData.postValue(result.data.second.serialNumber!!)
+                is ResultOf.Success -> createStepAlsoNextControlGRVLiveData.postValue(Pair(result.data.second.serialNumber!!, isNext))
                 is ResultOf.Error -> when (result.exception) {
                     is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
                     is ErrorBusiness.UserRegistrationFieldEmpty -> controlGRVUidFieldEmpty.postValue(true)
