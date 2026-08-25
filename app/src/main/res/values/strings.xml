@@ -50,6 +50,7 @@
 
     <string name="control_grv_control_step_wrong_report_number">MAUVAIS N° RAPPORT</string>
 
+    <string name="control_grv_checkpoint_step0_title">FICHE DE CONTROLE GRV</string>
     <string name="control_grv_checkpoint_report_number">N° RAPPORT</string>
     <string name="control_grv_checkpoint_customer_name">NOM CLIENT</string>
     <string name="control_grv_checkpoint_tank_category">TYPE CUVE</string>
@@ -87,7 +88,7 @@
     <string name="control_grv_checkpoint_dashboard">Tableau de bord</string>
     <string name="control_grv_checkpoint_unauthorized_repair">Réparation non autorisée</string>
 
-    <string name="control_grv_checkpoint_step4_title">INSPECTION DE LA CUVE</string>
+    <string name="control_grv_checkpoint_step4_title">INSPECTION INTERNE DE LA CUVE</string>
     <string name="control_grv_checkpoint_internal_na">INSPECTION N/A</string>
     <string name="control_grv_checkpoint_internal_ok">INSPECTION INTERNE</string>
     <string name="control_grv_checkpoint_internal_clean">PROPRE</string>

@@ -1,8 +1,6 @@
 package com.example.myapplication.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -12,7 +10,6 @@ import com.example.myapplication.callback.MenuInterface
 import com.example.myapplication.callback.RegistrationInterface
 import com.example.myapplication.fragment.CreateUserFragment
 import com.example.myapplication.fragment.GRVMainFragment
-import com.example.myapplication.fragment.MainFragment
 import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.fragment.RegistrationFragment
 import com.example.myapplication.fragment.UpdateUserFragment
@@ -27,11 +24,9 @@ class MainActivity : BaseActivity(), RegistrationInterface, GRVControlInterface,
     override fun getFragment(): Fragment = MenuFragment.newInstance()
 
     override fun childBody(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            v.setPadding(0, 0, 0, 0)
             insets
         }
     }

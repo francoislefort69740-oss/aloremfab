@@ -6,6 +6,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.myapplication.utils.fragmentManagerBusinessByTAG
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 abstract class BaseActivity : AppCompatActivity()  {
     abstract fun getActivityId(): Int
@@ -19,6 +22,12 @@ abstract class BaseActivity : AppCompatActivity()  {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            hide(WindowInsetsCompat.Type.systemBars())
+
+            systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
         setContentView(getActivityId())
         configureFragment(bundle = savedInstanceState)
         childBody(savedInstanceState = savedInstanceState)

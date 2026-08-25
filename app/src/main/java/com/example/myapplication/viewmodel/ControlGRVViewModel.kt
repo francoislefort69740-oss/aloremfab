@@ -1,6 +1,5 @@
 package com.example.myapplication.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +13,6 @@ import com.example.myapplication.mapper.FrontControlGRCMapper
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
-import com.example.myapplication.utils.getCheckLogControlGRV
 import kotlinx.coroutines.launch
 
 

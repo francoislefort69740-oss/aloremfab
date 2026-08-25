@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -115,6 +116,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         viewModel.getStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
                 controlComponent.setStepControl(stepControlGRV = stepControlGRV)
+                view?.findViewById<TextView>(R.id.step_title_child_control_grv)?.text = context?.getString(stepControlGRV.title)
                 viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
                 Log.d(CHECK_GRV, "loadTemplate")
                 controlComponent.setUpBackButton(stepControlGRV::class != StepControlGRV.Step0ControlGRV::class)
