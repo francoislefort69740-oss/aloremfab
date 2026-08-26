@@ -16,8 +16,8 @@ class ControlGRVStep4LocalDataSourceImpl(private val controlGRVStep4Dao: Control
         return ControlGRVStepMapper.controlGRVStep4LocalToBusiness(controlGRVStep4Local = controlGRVStep4Dao.findControlGRVStep4ByReference(reference = reference))
     }
 
-    override suspend fun controlGRVStep4IdExist(controlGRVStep1Id: Int): Boolean {
-        return controlGRVStep4Dao.controlGRVStep4IdExist(controlGRVStep4Id = controlGRVStep1Id)
+    override suspend fun controlGRVStep4IdExist(controlGRVStepId: Int): Boolean {
+        return controlGRVStep4Dao.controlGRVStep4IdExist(controlGRVStep4Id = controlGRVStepId)
     }
 
     override suspend fun updateControlGRVStep4(controlGRVStepLocal: ControlGRVStepBusiness): Boolean {

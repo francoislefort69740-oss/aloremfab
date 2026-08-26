@@ -11,7 +11,7 @@ interface ControlGRVStep4LocalDataSource {
     suspend fun controlGRVStep4IdExist(controlGRVStepId: Int): Boolean
 
     // UPDATE
-    suspend fun updateControlGRVStep4(controlGRVStep1Local: ControlGRVStepBusiness): Boolean
+    suspend fun updateControlGRVStep4(controlGRVStepLocal: ControlGRVStepBusiness): Boolean
 
     // DELETE
     suspend fun deleteControlGRVStep4ById(id: Int): Boolean

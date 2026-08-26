@@ -61,6 +61,35 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         internalPollution = false,
         controlGRVForeignId = reference
     )
+    GRVControlStepEnum.STEP_5 -> ControlGRVStepBusiness.ControlGRVStep5(
+        reference = reference,
+        epaisseurNA = false,
+        epaisseurMinSideFront = 0,
+        epaisseurMinSideBack = 0,
+        epaisseurMinSideRight = 0,
+        epaisseurMinSideLeft = 0,
+        epaisseurSideFrontResult1 = 0,
+        epaisseurSideFrontResult2 = 0,
+        epaisseurSideFrontResult3 = 0,
+        epaisseurSideFrontResult4 = 0,
+        epaisseurSideFrontResult5 = 0,
+        epaisseurSideBackResult1 = 0,
+        epaisseurSideBackResult2 = 0,
+        epaisseurSideBackResult3 = 0,
+        epaisseurSideBackResult4 = 0,
+        epaisseurSideBackResult5 = 0,
+        epaisseurSideRightResult1 = 0,
+        epaisseurSideRightResult2 = 0,
+        epaisseurSideRightResult3 = 0,
+        epaisseurSideRightResult4 = 0,
+        epaisseurSideRightResult5 = 0,
+        epaisseurSideLeftResult1 = 0,
+        epaisseurSideLeftResult2 = 0,
+        epaisseurSideLeftResult3 = 0,
+        epaisseurSideLeftResult4 = 0,
+        epaisseurSideLeftResult5 = 0,
+        controlGRVForeignId = reference
+    )
     else -> throw IllegalArgumentException("Invalid type")
 }
 
@@ -70,5 +99,6 @@ fun getKClass(stepNumber: GRVControlStepEnum): KClass<out ControlGRVStepBusiness
     GRVControlStepEnum.STEP_2 -> ControlGRVStepBusiness.ControlGRVStep2::class
     GRVControlStepEnum.STEP_3 -> ControlGRVStepBusiness.ControlGRVStep3::class
     GRVControlStepEnum.STEP_4 -> ControlGRVStepBusiness.ControlGRVStep4::class
+    GRVControlStepEnum.STEP_5 -> ControlGRVStepBusiness.ControlGRVStep5::class
     else -> throw IllegalArgumentException("Invalid type")
 }

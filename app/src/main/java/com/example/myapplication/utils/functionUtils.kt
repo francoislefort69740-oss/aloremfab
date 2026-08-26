@@ -99,7 +99,7 @@ fun returnHolder(parent: ViewGroup, viewType: CheckPointHolderEnum, inflater: La
 
 fun returnItemViewType(item: ControlGRVCheckPoint): Int = when(item) {
     is ControlGRVCheckPoint.EditableCheckPoint ->
-        CheckPointHolderEnum.getStepNumber(CheckPointHolderEnum.VIEW_TYPE_SINGLE_STATE)
+        CheckPointHolderEnum.getStepNumber(CheckPointHolderEnum.VIEW_TYPE_EDITABLE)
     is ControlGRVCheckPoint.CheckBoxCheckPoint ->
         CheckPointHolderEnum.getStepNumber(CheckPointHolderEnum.VIEW_TYPE_CHECKBOX)
     is ControlGRVCheckPoint.FourStateCheckPoint ->

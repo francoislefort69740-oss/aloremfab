@@ -6,7 +6,6 @@ import com.example.domain.model.ControlGRVStepBusiness
 import com.example.domain.model.ErrorBusiness
 import com.example.domain.repository.db.ControlGRVLocalRepository
 import com.example.domain.repository.db.ControlGRVStepLocalRepository
-import kotlin.reflect.KClass
 
 class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVLocalRepository, private val controlGRVStepLocalRepository: ControlGRVStepLocalRepository) {
     suspend operator fun invoke(controlGRVBusiness: ControlGRVBusiness, controlGRVStepBusiness: ControlGRVStepBusiness): ResultOf<Pair<List<ControlGRVBusiness>, ControlGRVBusiness>> {
@@ -16,7 +15,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     if (!controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
 
                         // CREATE FULL CONTROL GRC
-                        if ((controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).isValid()) controlGRVBusiness.currentStep = 1
+                        if (controlGRVStepBusiness is ControlGRVStepBusiness.ControlGRVStep0 && controlGRVStepBusiness.isValid()) controlGRVBusiness.currentStep = 1
                         val result = createGRCControl(controlGRVBusiness, serialNumber)
 
                         // Add Control STEP 0
@@ -91,11 +90,11 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.createLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep0(
                     reference = serialNumber,
-                    reportNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).reportNumber,
-                    customer = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customer,
-                    customerSerialNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customerSerialNumber,
-                    serialNumberAlorem = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).serialNumberAlorem,
-                    type = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).type,
+                    reportNumber = controlGRVStepBusiness.reportNumber,
+                    customer = controlGRVStepBusiness.customer,
+                    customerSerialNumber = controlGRVStepBusiness.customerSerialNumber,
+                    serialNumberAlorem = controlGRVStepBusiness.serialNumberAlorem,
+                    type = controlGRVStepBusiness.type,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -103,14 +102,14 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.createLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep1(
                     reference = serialNumber,
-                    fabricationPlateAdr = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).fabricationPlateAdr,
-                    aloremPlate = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).aloremPlate,
-                    bookletPouch = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).bookletPouch,
-                    userManual = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).userManual,
-                    instructionOfUse = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).instructionOfUse,
-                    certificatesADR = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).certificatesADR,
-                    groundingAdhesive = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).groundingAdhesive,
-                    conformityCertificateMarking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).conformityCertificateMarking,
+                    fabricationPlateAdr = controlGRVStepBusiness.fabricationPlateAdr,
+                    aloremPlate = controlGRVStepBusiness.aloremPlate,
+                    bookletPouch = controlGRVStepBusiness.bookletPouch,
+                    userManual = controlGRVStepBusiness.userManual,
+                    instructionOfUse = controlGRVStepBusiness.instructionOfUse,
+                    certificatesADR = controlGRVStepBusiness.certificatesADR,
+                    groundingAdhesive = controlGRVStepBusiness.groundingAdhesive,
+                    conformityCertificateMarking = controlGRVStepBusiness.conformityCertificateMarking,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -118,14 +117,14 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.createLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep2(
                     reference = serialNumber,
-                    tare = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).tare,
-                    material = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).material,
-                    capacity20 = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).capacity20,
-                    grossMass = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).grossMass,
-                    fabricationDate = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).fabricationDate,
-                    shellThickness = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).shellThickness,
-                    pictogramStacking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).pictogramStacking,
-                    weightStacking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).weightStacking,
+                    tare = controlGRVStepBusiness.tare,
+                    material = controlGRVStepBusiness.material,
+                    capacity20 = controlGRVStepBusiness.capacity20,
+                    grossMass = controlGRVStepBusiness.grossMass,
+                    fabricationDate = controlGRVStepBusiness.fabricationDate,
+                    shellThickness = controlGRVStepBusiness.shellThickness,
+                    pictogramStacking = controlGRVStepBusiness.pictogramStacking,
+                    weightStacking = controlGRVStepBusiness.weightStacking,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -133,15 +132,15 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.createLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep3(
                     reference = serialNumber,
-                    bottomRetentionFace = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).bottomRetentionFace,
-                    bottomRetentionRight = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).bottomRetentionRight,
-                    bottomRetentionLeft = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).bottomRetentionLeft,
-                    bottomRetentionBehind = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).bottomRetentionBehind,
-                    upperRetention = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).upperRetention,
-                    liftingRings = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).liftingRings,
-                    forkliftPass = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).forkliftPass,
-                    dashboard = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).dashboard,
-                    unauthorizedRepair = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).unauthorizedRepair,
+                    bottomRetentionFace = controlGRVStepBusiness.bottomRetentionFace,
+                    bottomRetentionRight = controlGRVStepBusiness.bottomRetentionRight,
+                    bottomRetentionLeft = controlGRVStepBusiness.bottomRetentionLeft,
+                    bottomRetentionBehind = controlGRVStepBusiness.bottomRetentionBehind,
+                    upperRetention = controlGRVStepBusiness.upperRetention,
+                    liftingRings = controlGRVStepBusiness.liftingRings,
+                    forkliftPass = controlGRVStepBusiness.forkliftPass,
+                    dashboard = controlGRVStepBusiness.dashboard,
+                    unauthorizedRepair = controlGRVStepBusiness.unauthorizedRepair,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -149,11 +148,43 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.createLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep4(
                     reference = serialNumber,
-                    internalNA = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalNA,
-                    internalOK = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalOK,
-                    internalClean = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalClean,
-                    internalObjectInside = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalObjectInside,
-                    internalPollution = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalPollution,
+                    internalNA = controlGRVStepBusiness.internalNA,
+                    internalOK = controlGRVStepBusiness.internalOK,
+                    internalClean = controlGRVStepBusiness.internalClean,
+                    internalObjectInside = controlGRVStepBusiness.internalObjectInside,
+                    internalPollution = controlGRVStepBusiness.internalPollution,
+                    controlGRVForeignId = serialNumber
+                )
+            )
+        is ControlGRVStepBusiness.ControlGRVStep5 ->
+            controlGRVStepLocalRepository.createLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep5(
+                    reference = serialNumber,
+                    epaisseurNA = controlGRVStepBusiness.epaisseurNA,
+                    epaisseurMinSideFront = controlGRVStepBusiness.epaisseurMinSideFront,
+                    epaisseurMinSideBack = controlGRVStepBusiness.epaisseurMinSideBack,
+                    epaisseurMinSideRight = controlGRVStepBusiness.epaisseurMinSideRight,
+                    epaisseurMinSideLeft = controlGRVStepBusiness.epaisseurMinSideLeft,
+                    epaisseurSideFrontResult1 = controlGRVStepBusiness.epaisseurSideFrontResult1,
+                    epaisseurSideFrontResult2 = controlGRVStepBusiness.epaisseurSideFrontResult2,
+                    epaisseurSideFrontResult3 = controlGRVStepBusiness.epaisseurSideFrontResult3,
+                    epaisseurSideFrontResult4 = controlGRVStepBusiness.epaisseurSideFrontResult4,
+                    epaisseurSideFrontResult5 = controlGRVStepBusiness.epaisseurSideFrontResult5,
+                    epaisseurSideBackResult1 = controlGRVStepBusiness.epaisseurSideBackResult1,
+                    epaisseurSideBackResult2 = controlGRVStepBusiness.epaisseurSideBackResult2,
+                    epaisseurSideBackResult3 = controlGRVStepBusiness.epaisseurSideBackResult3,
+                    epaisseurSideBackResult4 = controlGRVStepBusiness.epaisseurSideBackResult4,
+                    epaisseurSideBackResult5 = controlGRVStepBusiness.epaisseurSideBackResult5,
+                    epaisseurSideRightResult1 = controlGRVStepBusiness.epaisseurSideRightResult1,
+                    epaisseurSideRightResult2 = controlGRVStepBusiness.epaisseurSideRightResult2,
+                    epaisseurSideRightResult3 = controlGRVStepBusiness.epaisseurSideRightResult3,
+                    epaisseurSideRightResult4 = controlGRVStepBusiness.epaisseurSideRightResult4,
+                    epaisseurSideRightResult5 = controlGRVStepBusiness.epaisseurSideRightResult5,
+                    epaisseurSideLeftResult1 = controlGRVStepBusiness.epaisseurSideLeftResult1,
+                    epaisseurSideLeftResult2 = controlGRVStepBusiness.epaisseurSideLeftResult2,
+                    epaisseurSideLeftResult3 = controlGRVStepBusiness.epaisseurSideLeftResult3,
+                    epaisseurSideLeftResult4 = controlGRVStepBusiness.epaisseurSideLeftResult4,
+                    epaisseurSideLeftResult5 = controlGRVStepBusiness.epaisseurSideLeftResult5,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -164,11 +195,11 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.updateLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep0(
                     reference = serialNumber,
-                    reportNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).reportNumber,
-                    customer = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customer,
-                    customerSerialNumber = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).customerSerialNumber,
-                    serialNumberAlorem = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).serialNumberAlorem,
-                    type = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep0).type,
+                    reportNumber = controlGRVStepBusiness.reportNumber,
+                    customer = controlGRVStepBusiness.customer,
+                    customerSerialNumber = controlGRVStepBusiness.customerSerialNumber,
+                    serialNumberAlorem = controlGRVStepBusiness.serialNumberAlorem,
+                    type = controlGRVStepBusiness.type,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -176,14 +207,14 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.updateLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep1(
                     reference = serialNumber,
-                    fabricationPlateAdr = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).fabricationPlateAdr,
-                    aloremPlate = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).aloremPlate,
-                    bookletPouch = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).bookletPouch,
-                    userManual = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).userManual,
-                    instructionOfUse = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).instructionOfUse,
-                    certificatesADR = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).certificatesADR,
-                    groundingAdhesive = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).groundingAdhesive,
-                    conformityCertificateMarking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep1).conformityCertificateMarking,
+                    fabricationPlateAdr = controlGRVStepBusiness.fabricationPlateAdr,
+                    aloremPlate = controlGRVStepBusiness.aloremPlate,
+                    bookletPouch = controlGRVStepBusiness.bookletPouch,
+                    userManual = controlGRVStepBusiness.userManual,
+                    instructionOfUse = controlGRVStepBusiness.instructionOfUse,
+                    certificatesADR = controlGRVStepBusiness.certificatesADR,
+                    groundingAdhesive = controlGRVStepBusiness.groundingAdhesive,
+                    conformityCertificateMarking = controlGRVStepBusiness.conformityCertificateMarking,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -191,14 +222,14 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.updateLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep2(
                     reference = serialNumber,
-                    tare = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).tare,
-                    material = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).material,
-                    capacity20 = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).capacity20,
-                    grossMass = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).grossMass,
-                    fabricationDate = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).fabricationDate,
-                    shellThickness = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).shellThickness,
-                    pictogramStacking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).pictogramStacking,
-                    weightStacking = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep2).weightStacking,
+                    tare = controlGRVStepBusiness.tare,
+                    material = controlGRVStepBusiness.material,
+                    capacity20 = controlGRVStepBusiness.capacity20,
+                    grossMass = controlGRVStepBusiness.grossMass,
+                    fabricationDate = controlGRVStepBusiness.fabricationDate,
+                    shellThickness = controlGRVStepBusiness.shellThickness,
+                    pictogramStacking = controlGRVStepBusiness.pictogramStacking,
+                    weightStacking = controlGRVStepBusiness.weightStacking,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -206,15 +237,15 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.updateLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep3(
                     reference = serialNumber,
-                    bottomRetentionFace = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).bottomRetentionFace,
-                    bottomRetentionRight = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).bottomRetentionRight,
-                    bottomRetentionLeft = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).bottomRetentionLeft,
-                    bottomRetentionBehind = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).bottomRetentionBehind,
-                    upperRetention = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).upperRetention,
-                    liftingRings = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).liftingRings,
-                    forkliftPass = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).forkliftPass,
-                    dashboard = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).dashboard,
-                    unauthorizedRepair = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep3).unauthorizedRepair,
+                    bottomRetentionFace = controlGRVStepBusiness.bottomRetentionFace,
+                    bottomRetentionRight = controlGRVStepBusiness.bottomRetentionRight,
+                    bottomRetentionLeft = controlGRVStepBusiness.bottomRetentionLeft,
+                    bottomRetentionBehind = controlGRVStepBusiness.bottomRetentionBehind,
+                    upperRetention = controlGRVStepBusiness.upperRetention,
+                    liftingRings = controlGRVStepBusiness.liftingRings,
+                    forkliftPass = controlGRVStepBusiness.forkliftPass,
+                    dashboard = controlGRVStepBusiness.dashboard,
+                    unauthorizedRepair = controlGRVStepBusiness.unauthorizedRepair,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -222,11 +253,43 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.updateLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep4(
                     reference = serialNumber,
-                    internalNA = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalNA,
-                    internalOK = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalOK,
-                    internalClean = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalClean,
-                    internalObjectInside = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalObjectInside,
-                    internalPollution = (controlGRVStepBusiness as ControlGRVStepBusiness.ControlGRVStep4).internalPollution,
+                    internalNA = controlGRVStepBusiness.internalNA,
+                    internalOK = controlGRVStepBusiness.internalOK,
+                    internalClean = controlGRVStepBusiness.internalClean,
+                    internalObjectInside = controlGRVStepBusiness.internalObjectInside,
+                    internalPollution = controlGRVStepBusiness.internalPollution,
+                    controlGRVForeignId = serialNumber
+                )
+            )
+        is ControlGRVStepBusiness.ControlGRVStep5 ->
+            controlGRVStepLocalRepository.updateLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep5(
+                    reference = serialNumber,
+                    epaisseurNA = controlGRVStepBusiness.epaisseurNA,
+                    epaisseurMinSideFront = controlGRVStepBusiness.epaisseurMinSideFront,
+                    epaisseurMinSideBack = controlGRVStepBusiness.epaisseurMinSideBack,
+                    epaisseurMinSideRight = controlGRVStepBusiness.epaisseurMinSideRight,
+                    epaisseurMinSideLeft = controlGRVStepBusiness.epaisseurMinSideLeft,
+                    epaisseurSideFrontResult1 = controlGRVStepBusiness.epaisseurSideFrontResult1,
+                    epaisseurSideFrontResult2 = controlGRVStepBusiness.epaisseurSideFrontResult2,
+                    epaisseurSideFrontResult3 = controlGRVStepBusiness.epaisseurSideFrontResult3,
+                    epaisseurSideFrontResult4 = controlGRVStepBusiness.epaisseurSideFrontResult4,
+                    epaisseurSideFrontResult5 = controlGRVStepBusiness.epaisseurSideFrontResult5,
+                    epaisseurSideBackResult1 = controlGRVStepBusiness.epaisseurSideBackResult1,
+                    epaisseurSideBackResult2 = controlGRVStepBusiness.epaisseurSideBackResult2,
+                    epaisseurSideBackResult3 = controlGRVStepBusiness.epaisseurSideBackResult3,
+                    epaisseurSideBackResult4 = controlGRVStepBusiness.epaisseurSideBackResult4,
+                    epaisseurSideBackResult5 = controlGRVStepBusiness.epaisseurSideBackResult5,
+                    epaisseurSideRightResult1 = controlGRVStepBusiness.epaisseurSideRightResult1,
+                    epaisseurSideRightResult2 = controlGRVStepBusiness.epaisseurSideRightResult2,
+                    epaisseurSideRightResult3 = controlGRVStepBusiness.epaisseurSideRightResult3,
+                    epaisseurSideRightResult4 = controlGRVStepBusiness.epaisseurSideRightResult4,
+                    epaisseurSideRightResult5 = controlGRVStepBusiness.epaisseurSideRightResult5,
+                    epaisseurSideLeftResult1 = controlGRVStepBusiness.epaisseurSideLeftResult1,
+                    epaisseurSideLeftResult2 = controlGRVStepBusiness.epaisseurSideLeftResult2,
+                    epaisseurSideLeftResult3 = controlGRVStepBusiness.epaisseurSideLeftResult3,
+                    epaisseurSideLeftResult4 = controlGRVStepBusiness.epaisseurSideLeftResult4,
+                    epaisseurSideLeftResult5 = controlGRVStepBusiness.epaisseurSideLeftResult5,
                     controlGRVForeignId = serialNumber
                 )
             )

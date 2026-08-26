@@ -88,6 +88,40 @@ sealed class ControlGRVStepBusiness{
         }
     }
 
+    data class ControlGRVStep5(
+        override val reference: Int,
+        var epaisseurNA: Boolean,
+        var epaisseurMinSideFront: Int,
+        var epaisseurMinSideBack: Int,
+        var epaisseurMinSideRight: Int,
+        var epaisseurMinSideLeft: Int,
+        var epaisseurSideFrontResult1: Int,
+        var epaisseurSideFrontResult2: Int,
+        var epaisseurSideFrontResult3: Int,
+        var epaisseurSideFrontResult4: Int,
+        var epaisseurSideFrontResult5: Int,
+        var epaisseurSideBackResult1: Int,
+        var epaisseurSideBackResult2: Int,
+        var epaisseurSideBackResult3: Int,
+        var epaisseurSideBackResult4: Int,
+        var epaisseurSideBackResult5: Int,
+        var epaisseurSideRightResult1: Int,
+        var epaisseurSideRightResult2: Int,
+        var epaisseurSideRightResult3: Int,
+        var epaisseurSideRightResult4: Int,
+        var epaisseurSideRightResult5: Int,
+        var epaisseurSideLeftResult1: Int,
+        var epaisseurSideLeftResult2: Int,
+        var epaisseurSideLeftResult3: Int,
+        var epaisseurSideLeftResult4: Int,
+        var epaisseurSideLeftResult5: Int,
+        var controlGRVForeignId: Int
+    ) : ControlGRVStepBusiness() {
+        override fun isValid(): Boolean {
+            return reference != 0 && controlGRVForeignId != 0
+        }
+    }
+
 
     abstract val reference: Int
 

@@ -73,4 +73,35 @@ sealed class StepControlGRV{
         var controlGRVForeignId: Int? = null
     ) : StepControlGRV()
 
+    data class Step5ControlGRV(
+        override val title: Int = R.string.control_grv_checkpoint_step5_title,
+        val reference: Int? = null,
+        var epaisseurNA: Boolean = false,
+        var epaisseurMinSideFront: Int? = null,
+        var epaisseurMinSideBack: Int? = null,
+        var epaisseurMinSideRight: Int? = null,
+        var epaisseurMinSideLeft: Int? = null,
+        var epaisseurSideFrontResult1: Int? = null,
+        var epaisseurSideFrontResult2: Int? = null,
+        var epaisseurSideFrontResult3: Int? = null,
+        var epaisseurSideFrontResult4: Int? = null,
+        var epaisseurSideFrontResult5: Int? = null,
+        var epaisseurSideBackResult1: Int? = null,
+        var epaisseurSideBackResult2: Int? = null,
+        var epaisseurSideBackResult3: Int? = null,
+        var epaisseurSideBackResult4: Int? = null,
+        var epaisseurSideBackResult5: Int? = null,
+        var epaisseurSideRightResult1: Int? = null,
+        var epaisseurSideRightResult2: Int? = null,
+        var epaisseurSideRightResult3: Int? = null,
+        var epaisseurSideRightResult4: Int? = null,
+        var epaisseurSideRightResult5: Int? = null,
+        var epaisseurSideLeftResult1: Int? = null,
+        var epaisseurSideLeftResult2: Int? = null,
+        var epaisseurSideLeftResult3: Int? = null,
+        var epaisseurSideLeftResult4: Int? = null,
+        var epaisseurSideLeftResult5: Int? = null,
+        var controlGRVForeignId: Int? = null,
+    ) : StepControlGRV()
+
 }

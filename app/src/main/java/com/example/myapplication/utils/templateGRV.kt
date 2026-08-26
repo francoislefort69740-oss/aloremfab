@@ -72,6 +72,35 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
         internalPollution = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_internal_pollution, list = list),
         controlGRVForeignId = serialNumber
     )
+    GRVControlStepEnum.STEP_5 -> StepControlGRV.Step5ControlGRV(
+        reference = serialNumber!!,
+        epaisseurNA = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_epaisseur_na, list = list),
+        epaisseurMinSideFront = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_min_side_front, list = list) ?: 0,
+        epaisseurMinSideBack = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_min_side_back, list = list) ?: 0,
+        epaisseurMinSideRight = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_min_side_right, list = list) ?: 0,
+        epaisseurMinSideLeft = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_min_side_left, list = list) ?: 0,
+        epaisseurSideFrontResult1 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_front_result_1, list = list) ?: 0,
+        epaisseurSideFrontResult2 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_front_result_2, list = list) ?: 0,
+        epaisseurSideFrontResult3 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_front_result_3, list = list) ?: 0,
+        epaisseurSideFrontResult4 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_front_result_4, list = list) ?: 0,
+        epaisseurSideFrontResult5 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_front_result_5, list = list) ?: 0,
+        epaisseurSideBackResult1 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_back_result_1, list = list) ?: 0,
+        epaisseurSideBackResult2 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_back_result_2, list = list) ?: 0,
+        epaisseurSideBackResult3 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_back_result_3, list = list) ?: 0,
+        epaisseurSideBackResult4 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_back_result_4, list = list) ?: 0,
+        epaisseurSideBackResult5 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_back_result_5, list = list) ?: 0,
+        epaisseurSideRightResult1 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_right_result_1, list = list) ?: 0,
+        epaisseurSideRightResult2 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_right_result_2, list = list) ?: 0,
+        epaisseurSideRightResult3 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_right_result_3, list = list) ?: 0,
+        epaisseurSideRightResult4 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_right_result_4, list = list) ?: 0,
+        epaisseurSideRightResult5 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_right_result_5, list = list) ?: 0,
+        epaisseurSideLeftResult1 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_left_result_1, list = list) ?: 0,
+        epaisseurSideLeftResult2 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_left_result_2, list = list) ?: 0,
+        epaisseurSideLeftResult3 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_left_result_3, list = list) ?: 0,
+        epaisseurSideLeftResult4 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_left_result_4, list = list) ?: 0,
+        epaisseurSideLeftResult5 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_epaisseur_side_left_result_5, list = list) ?: 0,
+        controlGRVForeignId = serialNumber
+    )
     else -> throw IllegalArgumentException("Invalid type")
 }
 
@@ -93,6 +122,7 @@ fun getStepRecyclerItemFunction(mStepControlGRV: StepControlGRV?, mContext: Cont
     GRVControlStepEnum.STEP_2 -> getStep2RecyclerItem(data = mStepControlGRV as StepControlGRV.Step2ControlGRV?, mContext = mContext)
     GRVControlStepEnum.STEP_3 -> getStep3RecyclerItem(data = mStepControlGRV as StepControlGRV.Step3ControlGRV?, mContext = mContext)
     GRVControlStepEnum.STEP_4 -> getStep4RecyclerItem(data = mStepControlGRV as StepControlGRV.Step4ControlGRV?, mContext = mContext)
+    GRVControlStepEnum.STEP_5 -> getStep5RecyclerItem(data = mStepControlGRV as StepControlGRV.Step5ControlGRV?, mContext = mContext)
     else -> getStep0RecyclerItem(data = mStepControlGRV as StepControlGRV.Step0ControlGRV?, mContext = mContext)
 }
 
@@ -102,6 +132,7 @@ fun getType(mStepControlGRV: StepControlGRV?): GRVControlStepEnum = when(mStepCo
     is StepControlGRV.Step2ControlGRV -> GRVControlStepEnum.STEP_2
     is StepControlGRV.Step3ControlGRV -> GRVControlStepEnum.STEP_3
     is StepControlGRV.Step4ControlGRV -> GRVControlStepEnum.STEP_4
+    is StepControlGRV.Step5ControlGRV -> GRVControlStepEnum.STEP_5
     else -> GRVControlStepEnum.STEP_0
 }
 
@@ -111,5 +142,6 @@ fun getEmptyStep(stepEnum: GRVControlStepEnum): StepControlGRV = when(stepEnum) 
     GRVControlStepEnum.STEP_2 -> StepControlGRV.Step2ControlGRV()
     GRVControlStepEnum.STEP_3 -> StepControlGRV.Step3ControlGRV()
     GRVControlStepEnum.STEP_4 -> StepControlGRV.Step4ControlGRV()
+    GRVControlStepEnum.STEP_5 -> StepControlGRV.Step5ControlGRV()
     else -> StepControlGRV.Step0ControlGRV()
 }

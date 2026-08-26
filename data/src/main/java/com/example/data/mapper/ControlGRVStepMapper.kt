@@ -5,9 +5,12 @@ import com.example.data.database.entities.ControlGRVStep1Local
 import com.example.data.database.entities.ControlGRVStep2Local
 import com.example.data.database.entities.ControlGRVStep3Local
 import com.example.data.database.entities.ControlGRVStep4Local
+import com.example.data.database.entities.ControlGRVStep5Local
 import com.example.domain.model.ControlGRVStepBusiness
 
 object ControlGRVStepMapper {
+
+    /// ---> LOCAL TO BUSINESS
 
     fun controlGRVStep0LocalToBusiness(controlGRVStep0Local: ControlGRVStep0Local): ControlGRVStepBusiness =
         ControlGRVStepBusiness.ControlGRVStep0(
@@ -74,6 +77,44 @@ object ControlGRVStepMapper {
             controlGRVForeignId = controlGRVStep4Local.foreignKey
         )
 
+    fun controlGRVStep5LocalToBusiness(controlGRVStep5Local: ControlGRVStep5Local): ControlGRVStepBusiness =
+        ControlGRVStepBusiness.ControlGRVStep5(
+            reference = controlGRVStep5Local.reference,
+            epaisseurNA = controlGRVStep5Local.epaisseurNA,
+            epaisseurMinSideFront = controlGRVStep5Local.epaisseurMinSideFront,
+            epaisseurMinSideBack = controlGRVStep5Local.epaisseurMinSideBack,
+            epaisseurMinSideRight = controlGRVStep5Local.epaisseurMinSideRight,
+            epaisseurMinSideLeft = controlGRVStep5Local.epaisseurMinSideLeft,
+            epaisseurSideFrontResult1 = controlGRVStep5Local.epaisseurSideFrontResult1,
+            epaisseurSideFrontResult2 = controlGRVStep5Local.epaisseurSideFrontResult2,
+            epaisseurSideFrontResult3 = controlGRVStep5Local.epaisseurSideFrontResult3,
+            epaisseurSideFrontResult4 = controlGRVStep5Local.epaisseurSideFrontResult4,
+            epaisseurSideFrontResult5 = controlGRVStep5Local.epaisseurSideFrontResult5,
+            epaisseurSideBackResult1 = controlGRVStep5Local.epaisseurSideBackResult1,
+            epaisseurSideBackResult2 = controlGRVStep5Local.epaisseurSideBackResult2,
+            epaisseurSideBackResult3 = controlGRVStep5Local.epaisseurSideBackResult3,
+            epaisseurSideBackResult4 = controlGRVStep5Local.epaisseurSideBackResult4,
+            epaisseurSideBackResult5 = controlGRVStep5Local.epaisseurSideBackResult5,
+            epaisseurSideRightResult1 = controlGRVStep5Local.epaisseurSideRightResult1,
+            epaisseurSideRightResult2 = controlGRVStep5Local.epaisseurSideRightResult2,
+            epaisseurSideRightResult3 = controlGRVStep5Local.epaisseurSideRightResult3,
+            epaisseurSideRightResult4 = controlGRVStep5Local.epaisseurSideRightResult4,
+            epaisseurSideRightResult5 = controlGRVStep5Local.epaisseurSideRightResult5,
+            epaisseurSideLeftResult1 = controlGRVStep5Local.epaisseurSideLeftResult1,
+            epaisseurSideLeftResult2 = controlGRVStep5Local.epaisseurSideLeftResult2,
+            epaisseurSideLeftResult3 = controlGRVStep5Local.epaisseurSideLeftResult3,
+            epaisseurSideLeftResult4 = controlGRVStep5Local.epaisseurSideLeftResult4,
+            epaisseurSideLeftResult5 = controlGRVStep5Local.epaisseurSideLeftResult5,
+            controlGRVForeignId = controlGRVStep5Local.foreignKey
+        )
+
+
+
+
+
+
+    /// ---> BUSINESS TO LOCAL
+
 
     fun controlGRVStepBusinessToLocal0(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep0): ControlGRVStep0Local =
         ControlGRVStep0Local(
@@ -137,6 +178,37 @@ object ControlGRVStepMapper {
             internalClean = controlGRVStepBusiness.internalClean,
             internalObjectInside = controlGRVStepBusiness.internalObjectInside,
             internalPollution = controlGRVStepBusiness.internalPollution,
+            foreignKey = controlGRVStepBusiness.controlGRVForeignId
+        )
+
+    fun controlGRVStepBusinessToLocal5(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep5): ControlGRVStep5Local =
+        ControlGRVStep5Local(
+            reference = controlGRVStepBusiness.reference,
+            epaisseurNA = controlGRVStepBusiness.epaisseurNA,
+            epaisseurMinSideFront = controlGRVStepBusiness.epaisseurMinSideFront,
+            epaisseurMinSideBack = controlGRVStepBusiness.epaisseurMinSideBack,
+            epaisseurMinSideRight = controlGRVStepBusiness.epaisseurMinSideRight,
+            epaisseurMinSideLeft = controlGRVStepBusiness.epaisseurMinSideLeft,
+            epaisseurSideFrontResult1 = controlGRVStepBusiness.epaisseurSideFrontResult1,
+            epaisseurSideFrontResult2 = controlGRVStepBusiness.epaisseurSideFrontResult2,
+            epaisseurSideFrontResult3 = controlGRVStepBusiness.epaisseurSideFrontResult3,
+            epaisseurSideFrontResult4 = controlGRVStepBusiness.epaisseurSideFrontResult4,
+            epaisseurSideFrontResult5 = controlGRVStepBusiness.epaisseurSideFrontResult5,
+            epaisseurSideBackResult1 = controlGRVStepBusiness.epaisseurSideBackResult1,
+            epaisseurSideBackResult2 = controlGRVStepBusiness.epaisseurSideBackResult2,
+            epaisseurSideBackResult3 = controlGRVStepBusiness.epaisseurSideBackResult3,
+            epaisseurSideBackResult4 = controlGRVStepBusiness.epaisseurSideBackResult4,
+            epaisseurSideBackResult5 = controlGRVStepBusiness.epaisseurSideBackResult5,
+            epaisseurSideRightResult1 = controlGRVStepBusiness.epaisseurSideRightResult1,
+            epaisseurSideRightResult2 = controlGRVStepBusiness.epaisseurSideRightResult2,
+            epaisseurSideRightResult3 = controlGRVStepBusiness.epaisseurSideRightResult3,
+            epaisseurSideRightResult4 = controlGRVStepBusiness.epaisseurSideRightResult4,
+            epaisseurSideRightResult5 = controlGRVStepBusiness.epaisseurSideRightResult5,
+            epaisseurSideLeftResult1 = controlGRVStepBusiness.epaisseurSideLeftResult1,
+            epaisseurSideLeftResult2 = controlGRVStepBusiness.epaisseurSideLeftResult2,
+            epaisseurSideLeftResult3 = controlGRVStepBusiness.epaisseurSideLeftResult3,
+            epaisseurSideLeftResult4 = controlGRVStepBusiness.epaisseurSideLeftResult4,
+            epaisseurSideLeftResult5 = controlGRVStepBusiness.epaisseurSideLeftResult5,
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 }

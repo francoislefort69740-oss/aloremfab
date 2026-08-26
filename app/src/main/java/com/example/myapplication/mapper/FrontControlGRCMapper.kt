@@ -89,6 +89,35 @@ object FrontControlGRCMapper {
             internalPollution = controlGRVStepBusiness.internalPollution,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
+        is ControlGRVStepBusiness.ControlGRVStep5 -> StepControlGRV.Step5ControlGRV(
+            reference = controlGRVStepBusiness.reference,
+            epaisseurNA = controlGRVStepBusiness.epaisseurNA,
+            epaisseurMinSideFront = controlGRVStepBusiness.epaisseurMinSideFront,
+            epaisseurMinSideBack = controlGRVStepBusiness.epaisseurMinSideBack,
+            epaisseurMinSideRight = controlGRVStepBusiness.epaisseurMinSideRight,
+            epaisseurMinSideLeft = controlGRVStepBusiness.epaisseurMinSideLeft,
+            epaisseurSideFrontResult1 = controlGRVStepBusiness.epaisseurSideFrontResult1,
+            epaisseurSideFrontResult2 = controlGRVStepBusiness.epaisseurSideFrontResult2,
+            epaisseurSideFrontResult3 = controlGRVStepBusiness.epaisseurSideFrontResult3,
+            epaisseurSideFrontResult4 = controlGRVStepBusiness.epaisseurSideFrontResult4,
+            epaisseurSideFrontResult5 = controlGRVStepBusiness.epaisseurSideFrontResult5,
+            epaisseurSideBackResult1 = controlGRVStepBusiness.epaisseurSideBackResult1,
+            epaisseurSideBackResult2 = controlGRVStepBusiness.epaisseurSideBackResult2,
+            epaisseurSideBackResult3 = controlGRVStepBusiness.epaisseurSideBackResult3,
+            epaisseurSideBackResult4 = controlGRVStepBusiness.epaisseurSideBackResult4,
+            epaisseurSideBackResult5 = controlGRVStepBusiness.epaisseurSideBackResult5,
+            epaisseurSideRightResult1 = controlGRVStepBusiness.epaisseurSideRightResult1,
+            epaisseurSideLeftResult1 = controlGRVStepBusiness.epaisseurSideLeftResult1,
+            epaisseurSideRightResult2 = controlGRVStepBusiness.epaisseurSideRightResult2,
+            epaisseurSideLeftResult2 = controlGRVStepBusiness.epaisseurSideLeftResult2,
+            epaisseurSideRightResult3 = controlGRVStepBusiness.epaisseurSideRightResult3,
+            epaisseurSideLeftResult3 = controlGRVStepBusiness.epaisseurSideLeftResult3,
+            epaisseurSideRightResult4 = controlGRVStepBusiness.epaisseurSideRightResult4,
+            epaisseurSideLeftResult4 = controlGRVStepBusiness.epaisseurSideLeftResult4,
+            epaisseurSideRightResult5 = controlGRVStepBusiness.epaisseurSideRightResult5,
+            epaisseurSideLeftResult5 = controlGRVStepBusiness.epaisseurSideLeftResult5,
+            controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
+        )
     }
 
     fun controlGRVStepFrontToBusiness(stepControlGRV: StepControlGRV): ControlGRVStepBusiness = when(stepControlGRV) {
@@ -145,6 +174,35 @@ object FrontControlGRCMapper {
             internalClean = stepControlGRV.internalClean,
             internalObjectInside = stepControlGRV.internalObjectInside,
             internalPollution = stepControlGRV.internalPollution,
+            controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
+        )
+        is StepControlGRV.Step5ControlGRV -> ControlGRVStepBusiness.ControlGRVStep5(
+            reference = stepControlGRV.reference ?: 0,
+            epaisseurNA = stepControlGRV.epaisseurNA,
+            epaisseurMinSideFront = stepControlGRV.epaisseurMinSideFront ?: 0,
+            epaisseurMinSideBack = stepControlGRV.epaisseurMinSideBack ?: 0,
+            epaisseurMinSideRight = stepControlGRV.epaisseurMinSideRight ?: 0,
+            epaisseurMinSideLeft = stepControlGRV.epaisseurMinSideLeft ?: 0,
+            epaisseurSideFrontResult1 = stepControlGRV.epaisseurSideFrontResult1 ?: 0,
+            epaisseurSideFrontResult2 = stepControlGRV.epaisseurSideFrontResult2 ?: 0,
+            epaisseurSideFrontResult3 = stepControlGRV.epaisseurSideFrontResult3 ?: 0,
+            epaisseurSideFrontResult4 = stepControlGRV.epaisseurSideFrontResult4 ?: 0,
+            epaisseurSideFrontResult5 = stepControlGRV.epaisseurSideFrontResult5 ?: 0,
+            epaisseurSideBackResult1 = stepControlGRV.epaisseurSideBackResult1 ?: 0,
+            epaisseurSideBackResult2 = stepControlGRV.epaisseurSideBackResult2 ?: 0,
+            epaisseurSideBackResult3 = stepControlGRV.epaisseurSideBackResult3 ?: 0,
+            epaisseurSideBackResult4 = stepControlGRV.epaisseurSideBackResult4 ?: 0,
+            epaisseurSideBackResult5 = stepControlGRV.epaisseurSideBackResult5 ?: 0,
+            epaisseurSideRightResult1 = stepControlGRV.epaisseurSideRightResult1 ?: 0,
+            epaisseurSideLeftResult1 = stepControlGRV.epaisseurSideLeftResult1 ?: 0,
+            epaisseurSideRightResult2 = stepControlGRV.epaisseurSideRightResult2 ?: 0,
+            epaisseurSideLeftResult2 = stepControlGRV.epaisseurSideLeftResult2 ?: 0,
+            epaisseurSideRightResult3 = stepControlGRV.epaisseurSideRightResult3 ?: 0,
+            epaisseurSideLeftResult3 = stepControlGRV.epaisseurSideLeftResult3 ?: 0,
+            epaisseurSideRightResult4 = stepControlGRV.epaisseurSideRightResult4 ?: 0,
+            epaisseurSideLeftResult4 = stepControlGRV.epaisseurSideLeftResult4 ?: 0,
+            epaisseurSideRightResult5 = stepControlGRV.epaisseurSideRightResult5 ?: 0,
+            epaisseurSideLeftResult5 = stepControlGRV.epaisseurSideLeftResult5 ?: 0,
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
     }

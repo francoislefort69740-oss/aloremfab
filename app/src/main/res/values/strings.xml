@@ -95,6 +95,32 @@
     <string name="control_grv_checkpoint_internal_object_inside">OBJET DANS LA CUVE</string>
     <string name="control_grv_checkpoint_internal_pollution">POLLUTION</string>
 
+    <string name="control_grv_checkpoint_step5_title">MESURE D\'EPAISSEUR</string>
+    <string name="control_grv_checkpoint_epaisseur_na">CONTROLE EPAISSEUR N/A</string>
+    <string name="control_grv_checkpoint_epaisseur_min_side_front">EPAISSEUR MIN. FACE AVANT</string>
+    <string name="control_grv_checkpoint_epaisseur_min_side_back">EPAISSEUR MIN. FACE ARRIERE</string>
+    <string name="control_grv_checkpoint_epaisseur_min_side_right">EPAISSEUR MIN. FACE DROITE</string>
+    <string name="control_grv_checkpoint_epaisseur_min_side_left">EPAISSEUR MIN. FACE GAUCHE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_front_result_1">EPAISSEUR RESULTAT 1 FACE AVANT</string>
+    <string name="control_grv_checkpoint_epaisseur_side_front_result_2">EPAISSEUR RESULTAT 2 FACE AVANT</string>
+    <string name="control_grv_checkpoint_epaisseur_side_front_result_3">EPAISSEUR RESULTAT 3 FACE AVANT</string>
+    <string name="control_grv_checkpoint_epaisseur_side_front_result_4">EPAISSEUR RESULTAT 4 FACE AVANT</string>
+    <string name="control_grv_checkpoint_epaisseur_side_front_result_5">EPAISSEUR RESULTAT 5 FACE AVANT</string>
+    <string name="control_grv_checkpoint_epaisseur_side_back_result_1">EPAISSEUR RESULTAT 1 FACE ARRIERE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_back_result_2">EPAISSEUR RESULTAT 2 FACE ARRIERE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_back_result_3">EPAISSEUR RESULTAT 3 FACE ARRIERE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_back_result_4">EPAISSEUR RESULTAT 4 FACE ARRIERE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_back_result_5">EPAISSEUR RESULTAT 5 FACE ARRIERE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_right_result_1">EPAISSEUR RESULTAT 1 FACE DROITE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_right_result_2">EPAISSEUR RESULTAT 2 FACE DROITE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_right_result_3">EPAISSEUR RESULTAT 3 FACE DROITE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_right_result_4">EPAISSEUR RESULTAT 4 FACE DROITE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_right_result_5">EPAISSEUR RESULTAT 5 FACE DROITE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_left_result_1">EPAISSEUR RESULTAT 1 FACE GAUCHE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_left_result_2">EPAISSEUR RESULTAT 2 FACE GAUCHE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_left_result_3">EPAISSEUR RESULTAT 3 FACE GAUCHE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_left_result_4">EPAISSEUR RESULTAT 4 FACE GAUCHE</string>
+    <string name="control_grv_checkpoint_epaisseur_side_left_result_5">EPAISSEUR RESULTAT 5 FACE GAUCHE</string>
 
 
 </resources>

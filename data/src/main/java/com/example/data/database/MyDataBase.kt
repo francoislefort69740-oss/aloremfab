@@ -13,6 +13,7 @@ import com.example.data.database.dao.ControlGRVStep1Dao
 import com.example.data.database.dao.ControlGRVStep2Dao
 import com.example.data.database.dao.ControlGRVStep3Dao
 import com.example.data.database.dao.ControlGRVStep4Dao
+import com.example.data.database.dao.ControlGRVStep5Dao
 import com.example.data.database.dao.UserDao
 import com.example.data.database.entities.ActiveIdLocal
 import com.example.data.database.entities.ControlGRVLocal
@@ -21,6 +22,7 @@ import com.example.data.database.entities.ControlGRVStep1Local
 import com.example.data.database.entities.ControlGRVStep2Local
 import com.example.data.database.entities.ControlGRVStep3Local
 import com.example.data.database.entities.ControlGRVStep4Local
+import com.example.data.database.entities.ControlGRVStep5Local
 import com.example.data.database.entities.UserLocal
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +39,7 @@ import kotlin.jvm.java
         ControlGRVStep2Local::class,
         ControlGRVStep3Local::class,
         ControlGRVStep4Local::class,
+        ControlGRVStep5Local:: class,
         ActiveIdLocal::class],
     version = 1,
     exportSchema = false
@@ -50,6 +53,8 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun controlGRVStep2Dao(): ControlGRVStep2Dao
     abstract fun controlGRVStep3Dao(): ControlGRVStep3Dao
     abstract fun controlGRVStep4Dao(): ControlGRVStep4Dao
+    abstract fun controlGRVStep5Dao(): ControlGRVStep5Dao
+
 
 
     companion object{
