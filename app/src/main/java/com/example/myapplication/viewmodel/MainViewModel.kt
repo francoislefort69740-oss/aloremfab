@@ -59,7 +59,7 @@ class MainViewModel(interactor: DomainInteractor): ViewModel() {
 
     // OBSERVATION
 
-    fun deleteUser(uid: Int, users: List<User>){
+    fun deleteUser(uid: Int){
         viewModelScope.launch {
             when(val result = deleteUser.invoke(uid = uid)){
                 is ResultOf.Success -> deleteUserLiveData.postValue(FrontUserMapper.allUsersBusinessToFront(result.data))

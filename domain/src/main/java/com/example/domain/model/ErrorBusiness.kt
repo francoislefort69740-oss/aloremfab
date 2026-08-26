@@ -30,4 +30,32 @@ sealed class ErrorBusiness: Exception() {
         private fun readResolve(): Any = NoUserExist
     }
 
+    data object NoControlGRVExist: ErrorBusiness() {
+        private fun readResolve(): Any = NoControlGRVExist
+    }
+
+    data object ControlGRVNotFound: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVNotFound
+    }
+
+    data object ControlGRVWrongSerialNumber: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVWrongSerialNumber
+    }
+
+    data object ControlGRVUidFieldEmpty: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVUidFieldEmpty
+    }
+
+    data object NoControlGRStepVExist: ErrorBusiness() {
+        private fun readResolve(): Any = NoControlGRStepVExist
+    }
+
+    data object ControlGRVStepNotFound: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVStepNotFound
+    }
+
+    data object ControlGRVStepNotInitialized: ErrorBusiness() {
+        private fun readResolve(): Any = ControlGRVStepNotInitialized
+    }
+
 }

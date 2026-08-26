@@ -1,12 +1,24 @@
 package com.example.domain.interactor
 
+import com.example.domain.usecase.CheckSaveOrNextControlGRVUseCase
+import com.example.domain.usecase.CreateControlGRVStepUseCase
+import com.example.domain.usecase.CreateControlGRVUseCase
 import com.example.domain.usecase.CreateUserUseCase
+import com.example.domain.usecase.DeleteControlGRVUseCase
 import com.example.domain.usecase.DeleteUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
+import com.example.domain.usecase.GetAllControlGRVUseCase
 import com.example.domain.usecase.GetAllUsersUseCase
+import com.example.domain.usecase.GetControlGRVStepUseCase
+import com.example.domain.usecase.GetControlGRVUseCase
+import com.example.domain.usecase.GetCurrentlyGoingOnControlGRVUseCase
 import com.example.domain.usecase.GetUserUseCase
 import com.example.domain.usecase.UpdateActivateIdUseCase
+import com.example.domain.usecase.UpdateControlGRCUseCase
 import com.example.domain.usecase.UpdateUserUseCase
+import com.example.domain.usecase.GetLoadedControlGRVUseCase
+import com.example.domain.usecase.GetUnLoadedControlGRVUseCase
+import com.example.domain.usecase.UpdateLoadedControlGRVStateUseCase
 
 data class DomainInteractor(
     val getUserUseCase: GetUserUseCase,
@@ -15,5 +27,17 @@ data class DomainInteractor(
     val getActiveIdUseCase: GetActiveIdUseCase,
     val createUserUseCase: CreateUserUseCase,
     val updateActiveIdUseCase: UpdateActivateIdUseCase,
-    val deleteUserUseCase: DeleteUserUseCase
+    val deleteUserUseCase: DeleteUserUseCase,
+    val getControlGRVUseCase: GetControlGRVUseCase,
+    val createControlGRVUseCase: CreateControlGRVUseCase,
+    val getAllControlGRVUseCase: GetAllControlGRVUseCase,
+    val deleteControlGRVUseCase: DeleteControlGRVUseCase,
+    val updateControlGRCUseCase: UpdateControlGRCUseCase,
+    val getCurrentlyGoingOnControlGRVUseCase: GetCurrentlyGoingOnControlGRVUseCase,
+    val getLoadedControlGRVUseCase: GetLoadedControlGRVUseCase,
+    val updateLoadedControlGRVStateUseCase: UpdateLoadedControlGRVStateUseCase,
+    val getUnLoadedControlGRVUseCase: GetUnLoadedControlGRVUseCase,
+    val getControlGRVStepUseCase: GetControlGRVStepUseCase,
+    val createControlGRVStepUseCase: CreateControlGRVStepUseCase,
+    val checkSaveOrNextControlGRVUseCase: CheckSaveOrNextControlGRVUseCase
 )

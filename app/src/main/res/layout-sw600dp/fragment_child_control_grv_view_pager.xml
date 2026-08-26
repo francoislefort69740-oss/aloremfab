@@ -16,21 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.77" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_2_child_control_grv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.9" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/menu_guideline_3_child_control_grv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.68" />
+            app:layout_constraintGuide_percent="0.90" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/menu_guideline_4_child_control_grv"
@@ -39,27 +25,13 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.05" />
 
-        <ImageView
-            android:id="@+id/add_child_control_grv"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/rounded_item_border"
-            android:src="@drawable/add_24"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_child_control_grv"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_child_control_grv" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_child_control_grv"
+            android:id="@+id/recycler_control_area_child_control_grv"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/rounded_item_selector"
-            android:backgroundTint="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_3_child_control_grv"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_child_control_grv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/menu_guideline_4_child_control_grv" />
@@ -122,7 +94,7 @@
             android:src="@drawable/ic_close"
             app:layout_constraintBottom_toTopOf="@+id/menu_guideline_4_child_control_grv"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="@+id/recycler_child_control_grv"
+            app:layout_constraintEnd_toEndOf="@+id/recycler_control_area_child_control_grv"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@android:color/white" />
 

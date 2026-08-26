@@ -58,7 +58,7 @@ class RegistrationFragment : BaseFragment() {
         viewModel.getUsersLiveData().observe(this){ resumeUsersList ->
             mAdapter = RegistrationUserListAdapter(resumeUsersList,
                 onItemClicked = { userId -> viewModel.updateId(activeId = userId, users = resumeUsersList)},
-                onDeleteClick = { userId -> viewModel.deleteUser(uid = userId, users = resumeUsersList)}
+                onDeleteClick = { userId -> viewModel.deleteUser(uid = userId)}
             )
 
             recyclerView.adapter = mAdapter

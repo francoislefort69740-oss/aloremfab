@@ -1,36 +1,39 @@
 package com.example.myapplication.component
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.Guideline
+import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.R
-import com.example.myapplication.childfragment.ChildControlGRVViewPagerFragment.Companion.GRV_ID
-import com.example.myapplication.childfragment.ChildControlGRVViewPagerFragment.Companion.GRV_PAGE_ID
+import com.example.myapplication.childfragment.ChildControlGRVViewPagerFragment.Companion.GRV_CONTROL
+import com.example.myapplication.model.ControlGRV
+import com.example.myapplication.model.ControlGRVCheckPoint
+import com.example.myapplication.model.StepControlGRV
+import com.example.myapplication.utils.getEmptyStep
+import com.example.myapplication.utils.grvControlProcess
+import com.example.myapplication.utils.returnCheckPointForEditableInt
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class GRVControlProcess {
 
     private var pageId: Int = 0
+    private lateinit var control: ControlGRV
+    private lateinit var stepControlGRV: StepControlGRV
     private lateinit var mView: View
 
     fun setUp(view: View, arguments: Bundle) {
         mView = view
-        view.findViewById<TextView>(R.id.step_title_child_control_grv).visibility = View.VISIBLE
-        view.findViewById<FloatingActionButton>(R.id.check_all_ok_child_control_grv).visibility = View.VISIBLE
-        view.findViewById<FloatingActionButton>(R.id.save_child_control_grv).visibility = View.VISIBLE
-        view.findViewById<FloatingActionButton>(R.id.back_child_control_grv).visibility = View.VISIBLE
-        view.findViewById<FloatingActionButton>(R.id.next_child_control_grv).visibility = View.VISIBLE
-        view.findViewById<ImageView>(R.id.close_child_control_grv).visibility = View.VISIBLE
-        view.findViewById<ImageView>(R.id.add_child_control_grv).visibility = View.GONE
-        view.findViewById<Guideline>(R.id.menu_guideline_3_child_control_grv).setGuidelinePercent(0.9F)
-
-        pageId = arguments.getInt(GRV_PAGE_ID)
-
-        if (arguments.getInt(GRV_ID) == 0) {
-            setUpFirstTime()
+        setUpFirstTime()
+        arguments.getParcelable(GRV_CONTROL, ControlGRV::class.java)?.let {
+            control = it
+            if (control.serialNumber == 0) { setUpFirstTime() }
+            pageId = control.pageId
         }
+    }
+
+    fun setStepControl(stepControlGRV: StepControlGRV) {
+        this.stepControlGRV = stepControlGRV
     }
 
     fun setUpNextButton(state: Boolean) {
@@ -50,12 +53,55 @@ class GRVControlProcess {
 
     fun setUpFirstTime(){
         setUpBackButton(state = false)
-        setUpNextButton(state = false)
+        setUpNextButton(state = true)
         setUpCheckButtons(state = false)
     }
 
-    fun closeButton(): ImageView = mView.findViewById(R.id.close_child_control_grv)
+    fun closeButton(): ImageView {
+        control.loaded = false
+        return mView.findViewById(R.id.close_child_control_grv)
+    }
 
-    fun getPageId(): Int = pageId
+    fun incrementStep(): GRVControlStepEnum {
+        control.currentStep = control.currentStep.next()
+        return getStepControlEnum()
+    }
+
+    fun decrementStep(): GRVControlStepEnum {
+        control.currentStep = control.currentStep.back()
+        return getStepControlEnum()
+    }
+
+    fun getControl(): ControlGRV = control
+    fun getStepControl(): StepControlGRV = stepControlGRV
+
+    fun getStepControlEnum() = control.currentStep
+
+    fun save(): FloatingActionButton = mView.findViewById(R.id.save_child_control_grv)
+    fun back(): FloatingActionButton = mView.findViewById(R.id.back_child_control_grv)
+    fun next(): FloatingActionButton = mView.findViewById(R.id.next_child_control_grv)
+    fun allCheck(): FloatingActionButton = mView.findViewById(R.id.check_all_ok_child_control_grv)
+
+    fun serialNumberExist(): Boolean = control.serialNumber != 0
+
+    fun initializeStepControl(stepEnum: GRVControlStepEnum): StepControlGRV = getEmptyStep(stepEnum)
+
+    // TRANSLATE CONTROL STEP TO CONTROL GRV
+
+    fun translateControlStepToControlGRV(list : List<ControlGRVCheckPoint>, context: Context): Pair<ControlGRV, StepControlGRV> {
+        if (control.currentStep == GRVControlStepEnum.STEP_0) {
+                var serialNUmber = returnCheckPointForEditableInt(context, R.string.control_grv_checkpoint_report_number, list)
+
+                if (serialNUmber == 0) {
+                    serialNUmber = null
+                }
+
+                control.serialNumber = serialNUmber
+                control.uid = serialNUmber
+        }
+
+        stepControlGRV = grvControlProcess(control.currentStep, list, context, control.serialNumber)
+        return Pair(control, stepControlGRV)
+    }
 
 }
