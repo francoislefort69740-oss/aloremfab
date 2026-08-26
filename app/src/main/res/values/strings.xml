@@ -122,5 +122,13 @@
     <string name="control_grv_checkpoint_epaisseur_side_left_result_4">EPAISSEUR RESULTAT 4 FACE GAUCHE</string>
     <string name="control_grv_checkpoint_epaisseur_side_left_result_5">EPAISSEUR RESULTAT 5 FACE GAUCHE</string>
 
+    <string name="control_grv_checkpoint_step6_title">TEST D\'ETANCHEITE</string>
+    <string name="control_grv_checkpoint_etancheite_conforme_1">RESULTAT ETANCHEITE 1</string>
+    <string name="control_grv_checkpoint_etancheite_date_1">DATE 1</string>
+    <string name="control_grv_checkpoint_etancheite_bar_1">BAR 1</string>
+    <string name="control_grv_checkpoint_etancheite_conforme_2">RESULTAT ETANCHEITE 2</string>
+    <string name="control_grv_checkpoint_etancheite_date_2">DATE 2</string>
+    <string name="control_grv_checkpoint_etancheite_bar_2">BAR 2</string>
+
 
 </resources>

@@ -104,4 +104,16 @@ sealed class StepControlGRV{
         var controlGRVForeignId: Int? = null,
     ) : StepControlGRV()
 
+    data class Step6ControlGRV(
+        override val title: Int = R.string.control_grv_checkpoint_step6_title,
+        val reference: Int? = null,
+        var etancheiteConforme1: Boolean? = null,
+        var etancheiteConforme2: Boolean? = null,
+        var etancheiteDate1: String? = null,
+        var etancheiteDate2: String? = null,
+        var etancheiteBar1: Float? = null,
+        var etancheiteBar2: Float? = null,
+        var controlGRVForeignId: Int? = null
+    ) : StepControlGRV()
+
 }

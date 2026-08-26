@@ -122,6 +122,21 @@ sealed class ControlGRVStepBusiness{
         }
     }
 
+    data class ControlGRVStep6(
+        override val reference: Int,
+        var etancheiteOK1: Boolean?,
+        var etancheiteDate1: String,
+        var etancheiteBar1: Float,
+        var etancheiteOK2: Boolean?,
+        var etancheiteDate2: String,
+        var etancheiteBar2: Float,
+        var controlGRVForeignId: Int
+    ) : ControlGRVStepBusiness() {
+        override fun isValid(): Boolean {
+            return reference != 0 && controlGRVForeignId != 0
+        }
+    }
+
 
     abstract val reference: Int
 

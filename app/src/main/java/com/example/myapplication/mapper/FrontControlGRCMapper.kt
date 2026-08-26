@@ -118,6 +118,16 @@ object FrontControlGRCMapper {
             epaisseurSideLeftResult5 = controlGRVStepBusiness.epaisseurSideLeftResult5,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
+        is ControlGRVStepBusiness.ControlGRVStep6 -> StepControlGRV.Step6ControlGRV(
+            reference = controlGRVStepBusiness.reference,
+            etancheiteConforme1 = controlGRVStepBusiness.etancheiteOK1,
+            etancheiteDate1 = controlGRVStepBusiness.etancheiteDate1,
+            etancheiteBar1 = controlGRVStepBusiness.etancheiteBar1,
+            etancheiteConforme2 = controlGRVStepBusiness.etancheiteOK2,
+            etancheiteDate2 = controlGRVStepBusiness.etancheiteDate2,
+            etancheiteBar2 = controlGRVStepBusiness.etancheiteBar2,
+            controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
+        )
     }
 
     fun controlGRVStepFrontToBusiness(stepControlGRV: StepControlGRV): ControlGRVStepBusiness = when(stepControlGRV) {
@@ -203,6 +213,16 @@ object FrontControlGRCMapper {
             epaisseurSideLeftResult4 = stepControlGRV.epaisseurSideLeftResult4 ?: 0,
             epaisseurSideRightResult5 = stepControlGRV.epaisseurSideRightResult5 ?: 0,
             epaisseurSideLeftResult5 = stepControlGRV.epaisseurSideLeftResult5 ?: 0,
+            controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
+        )
+        is StepControlGRV.Step6ControlGRV -> ControlGRVStepBusiness.ControlGRVStep6(
+            reference = stepControlGRV.reference ?: 0,
+            etancheiteOK1 = stepControlGRV.etancheiteConforme1,
+            etancheiteDate1 = stepControlGRV.etancheiteDate1 ?: "",
+            etancheiteBar1 = stepControlGRV.etancheiteBar1 ?: 0F,
+            etancheiteOK2 = stepControlGRV.etancheiteConforme2,
+            etancheiteDate2 = stepControlGRV.etancheiteDate2 ?: "",
+            etancheiteBar2 = stepControlGRV.etancheiteBar2 ?: 0F,
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
     }

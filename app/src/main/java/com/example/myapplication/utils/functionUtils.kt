@@ -43,6 +43,12 @@ fun returnCheckPointForEditableInt(context: Context, resId: Int, list: List<Cont
     return checkpoint?.value?.toIntOrNull()
 }
 
+fun returnCheckPointForEditableFloat(context: Context, resId: Int, list: List<ControlGRVCheckPoint>): Float? {
+    val checkpoint = list.filterIsInstance<ControlGRVCheckPoint.EditableCheckPoint>()
+        .find { it.name == context.getString(resId) }
+    return checkpoint?.value?.toFloatOrNull()
+}
+
 fun getCheckLogControlGRV(list: List<ControlGRVCheckPoint>?, result: Boolean) {
     Log.d("CHECK_GRV", " ")
     Log.d("CHECK_GRV", " ")

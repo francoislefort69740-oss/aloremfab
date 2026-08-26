@@ -188,6 +188,19 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     controlGRVForeignId = serialNumber
                 )
             )
+        is ControlGRVStepBusiness.ControlGRVStep6 ->
+            controlGRVStepLocalRepository.createLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep6(
+                    reference = serialNumber,
+                    etancheiteOK1 = controlGRVStepBusiness.etancheiteOK1,
+                    etancheiteDate1 = controlGRVStepBusiness.etancheiteDate1,
+                    etancheiteBar1 = controlGRVStepBusiness.etancheiteBar1,
+                    etancheiteOK2 = controlGRVStepBusiness.etancheiteOK2,
+                    etancheiteDate2 = controlGRVStepBusiness.etancheiteDate2,
+                    etancheiteBar2 = controlGRVStepBusiness.etancheiteBar2,
+                    controlGRVForeignId = serialNumber
+                )
+            )
     }
 
     suspend fun updateControlGRVStep(controlGRVStepBusiness: ControlGRVStepBusiness, serialNumber: Int): Boolean = when (controlGRVStepBusiness) {
@@ -290,6 +303,19 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     epaisseurSideLeftResult3 = controlGRVStepBusiness.epaisseurSideLeftResult3,
                     epaisseurSideLeftResult4 = controlGRVStepBusiness.epaisseurSideLeftResult4,
                     epaisseurSideLeftResult5 = controlGRVStepBusiness.epaisseurSideLeftResult5,
+                    controlGRVForeignId = serialNumber
+                )
+            )
+        is ControlGRVStepBusiness.ControlGRVStep6 ->
+            controlGRVStepLocalRepository.updateLocalControlGRVStep(
+                ControlGRVStepBusiness.ControlGRVStep6(
+                    reference = serialNumber,
+                    etancheiteOK1 = controlGRVStepBusiness.etancheiteOK1,
+                    etancheiteDate1 = controlGRVStepBusiness.etancheiteDate1,
+                    etancheiteBar1 = controlGRVStepBusiness.etancheiteBar1,
+                    etancheiteOK2 = controlGRVStepBusiness.etancheiteOK2,
+                    etancheiteDate2 = controlGRVStepBusiness.etancheiteDate2,
+                    etancheiteBar2 = controlGRVStepBusiness.etancheiteBar2,
                     controlGRVForeignId = serialNumber
                 )
             )

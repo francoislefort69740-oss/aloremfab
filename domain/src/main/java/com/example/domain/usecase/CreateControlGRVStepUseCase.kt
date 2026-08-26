@@ -7,6 +7,7 @@ import com.example.domain.model.ErrorBusiness
 import com.example.domain.repository.db.ControlGRVLocalRepository
 import com.example.domain.repository.db.ControlGRVStepLocalRepository
 import com.example.domain.utils.GRVControlStepEnum
+import com.example.domain.utils.getCurrentStepGRV
 import com.example.domain.utils.getEmptyControlGRVStep
 
 class CreateControlGRVStepUseCase(private val controlGRVStepLocalRepository: ControlGRVStepLocalRepository, private val controlGRVLocalRepository: ControlGRVLocalRepository) {
@@ -32,14 +33,7 @@ class CreateControlGRVStepUseCase(private val controlGRVStepLocalRepository: Con
 
             if (!step.isValid()) return ResultOf.Success(step)
 
-            controlGRVBusiness.currentStep = when (step) {
-                is ControlGRVStepBusiness.ControlGRVStep0 -> 1
-                is ControlGRVStepBusiness.ControlGRVStep1 -> 2
-                is ControlGRVStepBusiness.ControlGRVStep2 -> 3
-                is ControlGRVStepBusiness.ControlGRVStep3 -> 4
-                is ControlGRVStepBusiness.ControlGRVStep4 -> 5
-                is ControlGRVStepBusiness.ControlGRVStep5 -> 6
-            }
+            controlGRVBusiness.currentStep = getCurrentStepGRV(step = step)
 
             val updated = controlGRVLocalRepository.updateLocalControlGRV(controlGRVBusiness)
 

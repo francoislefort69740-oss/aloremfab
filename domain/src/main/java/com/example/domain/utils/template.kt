@@ -90,7 +90,16 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         epaisseurSideLeftResult5 = 0,
         controlGRVForeignId = reference
     )
-    else -> throw IllegalArgumentException("Invalid type")
+    GRVControlStepEnum.STEP_6 -> ControlGRVStepBusiness.ControlGRVStep6(
+        reference = reference,
+        etancheiteOK1 = false,
+        etancheiteDate1 = "",
+        etancheiteBar1 = 0f,
+        etancheiteOK2 = false,
+        etancheiteDate2 = "",
+        etancheiteBar2 = 0f,
+        controlGRVForeignId = reference
+    )
 }
 
 fun getKClass(stepNumber: GRVControlStepEnum): KClass<out ControlGRVStepBusiness> = when(stepNumber) {
@@ -100,5 +109,15 @@ fun getKClass(stepNumber: GRVControlStepEnum): KClass<out ControlGRVStepBusiness
     GRVControlStepEnum.STEP_3 -> ControlGRVStepBusiness.ControlGRVStep3::class
     GRVControlStepEnum.STEP_4 -> ControlGRVStepBusiness.ControlGRVStep4::class
     GRVControlStepEnum.STEP_5 -> ControlGRVStepBusiness.ControlGRVStep5::class
-    else -> throw IllegalArgumentException("Invalid type")
+    GRVControlStepEnum.STEP_6 -> ControlGRVStepBusiness.ControlGRVStep6::class
+}
+
+fun getCurrentStepGRV(step: ControlGRVStepBusiness): Int = when (step) {
+    is ControlGRVStepBusiness.ControlGRVStep0 -> 1
+    is ControlGRVStepBusiness.ControlGRVStep1 -> 2
+    is ControlGRVStepBusiness.ControlGRVStep2 -> 3
+    is ControlGRVStepBusiness.ControlGRVStep3 -> 4
+    is ControlGRVStepBusiness.ControlGRVStep4 -> 5
+    is ControlGRVStepBusiness.ControlGRVStep5 -> 6
+    is ControlGRVStepBusiness.ControlGRVStep6 -> 7
 }

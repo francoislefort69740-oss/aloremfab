@@ -6,6 +6,7 @@ import com.example.data.database.entities.ControlGRVStep2Local
 import com.example.data.database.entities.ControlGRVStep3Local
 import com.example.data.database.entities.ControlGRVStep4Local
 import com.example.data.database.entities.ControlGRVStep5Local
+import com.example.data.database.entities.ControlGRVStep6Local
 import com.example.domain.model.ControlGRVStepBusiness
 
 object ControlGRVStepMapper {
@@ -108,6 +109,19 @@ object ControlGRVStepMapper {
             controlGRVForeignId = controlGRVStep5Local.foreignKey
         )
 
+    fun controlGRVStep6LocalToBusiness(controlGRVStep6Local: ControlGRVStep6Local): ControlGRVStepBusiness =
+        ControlGRVStepBusiness.ControlGRVStep6(
+            reference = controlGRVStep6Local.reference,
+            etancheiteOK1 = controlGRVStep6Local.etancheiteOK1,
+            etancheiteDate1 = controlGRVStep6Local.etancheiteDate1,
+            etancheiteBar1 = controlGRVStep6Local.etancheiteBar1,
+            etancheiteOK2 = controlGRVStep6Local.etancheiteOK2,
+            etancheiteDate2 = controlGRVStep6Local.etancheiteDate2,
+            etancheiteBar2 = controlGRVStep6Local.etancheiteBar2,
+            controlGRVForeignId = controlGRVStep6Local.foreignKey
+        )
+
+
 
 
 
@@ -209,6 +223,18 @@ object ControlGRVStepMapper {
             epaisseurSideLeftResult3 = controlGRVStepBusiness.epaisseurSideLeftResult3,
             epaisseurSideLeftResult4 = controlGRVStepBusiness.epaisseurSideLeftResult4,
             epaisseurSideLeftResult5 = controlGRVStepBusiness.epaisseurSideLeftResult5,
+            foreignKey = controlGRVStepBusiness.controlGRVForeignId
+        )
+
+    fun controlGRVStepBusinessToLocal6(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep6): ControlGRVStep6Local =
+        ControlGRVStep6Local(
+            reference = controlGRVStepBusiness.reference,
+            etancheiteOK1 = controlGRVStepBusiness.etancheiteOK1,
+            etancheiteDate1 = controlGRVStepBusiness.etancheiteDate1,
+            etancheiteBar1 = controlGRVStepBusiness.etancheiteBar1,
+            etancheiteOK2 = controlGRVStepBusiness.etancheiteOK2,
+            etancheiteDate2 = controlGRVStepBusiness.etancheiteDate2,
+            etancheiteBar2 = controlGRVStepBusiness.etancheiteBar2,
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 }
