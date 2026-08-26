@@ -57,6 +57,7 @@ object FrontControlGRCMapper {
         )
         is ControlGRVStepBusiness.ControlGRVStep2 -> StepControlGRV.Step2ControlGRV(
             reference = controlGRVStepBusiness.reference,
+            marquePrincipale = controlGRVStepBusiness.marquePrincipale,
             tare = controlGRVStepBusiness.tare,
             material = controlGRVStepBusiness.material,
             capacity20 = controlGRVStepBusiness.capacity20,
@@ -154,6 +155,7 @@ object FrontControlGRCMapper {
         )
         is StepControlGRV.Step2ControlGRV -> ControlGRVStepBusiness.ControlGRVStep2(
             reference = stepControlGRV.reference ?: 0,
+            marquePrincipale = stepControlGRV.marquePrincipale ?: "",
             tare = stepControlGRV.tare ?: 0,
             material = stepControlGRV.material ?: "",
             capacity20 = stepControlGRV.capacity20 ?: 0,

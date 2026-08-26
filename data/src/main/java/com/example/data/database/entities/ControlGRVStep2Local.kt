@@ -23,6 +23,7 @@ import com.example.data.database.entities.ControlGRVStep2Local.Companion.TABLE_N
 data class ControlGRVStep2Local(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = REFERENCE) val reference: Int,
+    @ColumnInfo(name = MARQUE_PRINCIPALE) val marquePrincipale: String,
     @ColumnInfo(name = TARE) val tare: Int,
     @ColumnInfo(name = MATERIAL) val material: String,
     @ColumnInfo(name = CAPACITY20) val capacity20: Int,
@@ -36,6 +37,7 @@ data class ControlGRVStep2Local(
     companion object {
         const val TABLE_NAME = "controlGRVStep2InternalData"
         const val REFERENCE = "GRVStep2Reference"
+        const val MARQUE_PRINCIPALE = "marque_principale"
         const val TARE = "tare"
         const val MATERIAL = "material"
         const val CAPACITY20 = "capacity20"

@@ -36,6 +36,7 @@ sealed class StepControlGRV{
     data class Step2ControlGRV(
         override val title: Int = R.string.control_grv_checkpoint_step2_title,
         val reference: Int? = null,
+        var marquePrincipale: String? = null,
         var tare: Int? = null,
         var material: String? = null,
         var capacity20: Int? = null,

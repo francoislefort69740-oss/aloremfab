@@ -117,6 +117,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.createLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep2(
                     reference = serialNumber,
+                    marquePrincipale = controlGRVStepBusiness.marquePrincipale,
                     tare = controlGRVStepBusiness.tare,
                     material = controlGRVStepBusiness.material,
                     capacity20 = controlGRVStepBusiness.capacity20,
@@ -235,6 +236,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
             controlGRVStepLocalRepository.updateLocalControlGRVStep(
                 ControlGRVStepBusiness.ControlGRVStep2(
                     reference = serialNumber,
+                    marquePrincipale = controlGRVStepBusiness.marquePrincipale,
                     tare = controlGRVStepBusiness.tare,
                     material = controlGRVStepBusiness.material,
                     capacity20 = controlGRVStepBusiness.capacity20,

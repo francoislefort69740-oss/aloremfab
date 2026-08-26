@@ -41,6 +41,7 @@ sealed class ControlGRVStepBusiness{
 
     data class ControlGRVStep2(
         override val reference: Int,
+        var marquePrincipale: String,
         var tare: Int,
         var material: String,
         var capacity20: Int,

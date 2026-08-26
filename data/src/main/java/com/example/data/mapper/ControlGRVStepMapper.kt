@@ -41,6 +41,7 @@ object ControlGRVStepMapper {
     fun controlGRVStep2LocalToBusiness(controlGRVStep2Local: ControlGRVStep2Local): ControlGRVStepBusiness =
         ControlGRVStepBusiness.ControlGRVStep2(
             reference = controlGRVStep2Local.reference,
+            marquePrincipale = controlGRVStep2Local.marquePrincipale,
             tare = controlGRVStep2Local.tare,
             material = controlGRVStep2Local.material,
             capacity20 = controlGRVStep2Local.capacity20,
@@ -158,6 +159,7 @@ object ControlGRVStepMapper {
     fun controlGRVStepBusinessToLocal2(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep2): ControlGRVStep2Local =
         ControlGRVStep2Local(
             reference = controlGRVStepBusiness.reference,
+            marquePrincipale = controlGRVStepBusiness.marquePrincipale,
             tare = controlGRVStepBusiness.tare,
             material = controlGRVStepBusiness.material,
             capacity20 = controlGRVStepBusiness.capacity20,

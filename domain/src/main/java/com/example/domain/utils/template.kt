@@ -29,6 +29,7 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
     )
     GRVControlStepEnum.STEP_2 -> ControlGRVStepBusiness.ControlGRVStep2(
         reference = reference,
+        marquePrincipale = "",
         tare = 0,
         material = "",
         capacity20 = 0,

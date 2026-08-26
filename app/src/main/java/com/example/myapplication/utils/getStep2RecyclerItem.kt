@@ -9,6 +9,11 @@ import com.example.myapplication.model.StepControlGRV
 fun getStep2RecyclerItem(data: StepControlGRV.Step2ControlGRV?, mContext: Context): List<ControlGRVCheckPoint> =
     listOf(
         ControlGRVCheckPoint.EditableCheckPoint(
+            name = mContext.getString(R.string.control_grv_checkpoint_marque_principale),
+            value = data?.marquePrincipale.orEmpty(),
+        ),
+
+        ControlGRVCheckPoint.EditableCheckPoint(
             name = mContext.getString(R.string.control_grv_checkpoint_tare),
             value = data?.tare
                 ?.takeIf { it != 0 }

@@ -40,6 +40,7 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
     )
     GRVControlStepEnum.STEP_2 -> StepControlGRV.Step2ControlGRV(
         reference = serialNumber!!,
+        marquePrincipale = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_marque_principale, list = list),
         tare = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_tare, list = list) ?: 0,
         material = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_material, list = list),
         capacity20 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_capacity_20, list = list) ?: 0,
