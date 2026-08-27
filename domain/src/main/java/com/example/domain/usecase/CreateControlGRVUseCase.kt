@@ -32,6 +32,11 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
 
                         // UPDATE EXISTING CONTROL GRC
 
+                        if (controlGRVStepBusiness is ControlGRVStepBusiness.ControlGRVStep6) {
+                            controlGRVBusiness.currentlyGoingOn = false
+                            controlGRVBusiness.loaded = false
+                        }
+
                         val result = updateGRCControl(controlGRVBusiness, serialNumber)
 
                         if (controlGRVLocalRepository.checkIfControlGRVExist(controlGRVId = controlGRVBusiness.serialNumber)) {
@@ -79,7 +84,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                 uid = serialNumber,
                 serialNumber = serialNumber,
                 currentStep = controlGRVBusiness.currentStep,
-                currentlyGoingOn = true,
+                currentlyGoingOn = controlGRVBusiness.currentlyGoingOn,
                 loaded = false
             )
         )
