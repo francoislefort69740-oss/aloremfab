@@ -34,6 +34,11 @@ class MenuFragment : BaseFragment() {
             mCallback?.loadGRVControlFragment()
         }
 
+        view.findViewById<ImageView>(R.id.ReportControlBtn_menu).setOnClickListener {
+            mCallback?.loadReportControlFragment()
+        }
+
+
         viewModel.getUsers()
 
         getObservation(view = view)
