@@ -44,7 +44,10 @@
     <string name="mettre_a_jour_update_user_btn">METTRE A JOUR</string>
 
     <string name="controle_GRV_GRV_main">Contrôle GRV</string>
-    <string name="controle_report_report_main">Liste des RAPPORTS</string>
+    <string name="controle_report_report_main">RAPPORTS DE CONTROLE</string>
+
+    <string name="controle_report_report_subtitle">Liste des rapports</string>
+    <string name="controle_report_export_subtitle">Documents disponibles</string>
 
     <string name="title_exemple_child_control_grv">INFORMATION DE LA CUVE</string>
     <string name="control_grv_item_card_title">CONTRÔLE EN COURS :</string>

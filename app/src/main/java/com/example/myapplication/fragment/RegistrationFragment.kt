@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.callback.RegistrationInterface
-import com.example.myapplication.model.User
 import com.example.myapplication.recycler.RegistrationUserListAdapter
 import com.example.myapplication.utils.REGISTRATION_TAG
 import com.example.myapplication.viewmodel.MainViewModel
