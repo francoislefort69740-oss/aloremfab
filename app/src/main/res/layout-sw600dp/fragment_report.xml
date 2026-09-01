@@ -49,7 +49,7 @@
             android:id="@+id/title_report_control"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/controle_report_report_main"
+            android:text="RAPPORT"
             android:textSize="40sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_report_control"
@@ -150,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/controle_report_report_subtitle"
+            android:text="Liste des rapports"
             android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@+id/menu_guideline_3_report"
             app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_report"
@@ -161,13 +161,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/controle_report_export_subtitle"
+            android:text="Exportation"
             android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@+id/menu_guideline_21_report"
             app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_report"
             app:layout_constraintTop_toTopOf="@+id/menu_guideline_2_report" />
 
-        
+        <com.example.myapplication.canvas.PeriodicReportGRV
+            android:id="@+id/child_pdf_canvas"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

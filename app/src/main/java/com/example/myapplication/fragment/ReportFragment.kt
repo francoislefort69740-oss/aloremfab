@@ -1,19 +1,23 @@
 package com.example.myapplication.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.callback.ReportControlInterface
+import com.example.myapplication.canvas.PeriodicReportGRV
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.recycler.ReportGRVListAdapter
 import com.example.myapplication.utils.REPORT_TAG
 import com.example.myapplication.viewmodel.ReportViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 
 class ReportFragment : BaseFragment() {
     override fun getLayout(): Int = R.layout.fragment_report
@@ -36,7 +40,7 @@ class ReportFragment : BaseFragment() {
         recyclerViewCtrl.layoutManager = LinearLayoutManager(view.context)
 
         viewModel.getAllFinishedControlGRV()
-        observeLiveData(view= view)
+        observeLiveData(view = view)
     }
 
     // ----------------------------------------------------------------------------------------------
@@ -63,12 +67,29 @@ class ReportFragment : BaseFragment() {
     private fun updateAdapter(list: List<ControlGRV>) {
         if (::recyclerViewCtrl.isInitialized) {
             mAdapterList = ReportGRVListAdapter(grvItems = list,
-                onItemClicked = { Toast.makeText(context, "Item $it clicked", Toast.LENGTH_SHORT).show()},
+                onItemClicked = { serialNumber -> sharePdf(serialNumber) },
                 onReloadClick = { serialNumber -> viewModel.reloadControlGRV(id = serialNumber)},
                 onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
             )
             recyclerViewCtrl.adapter = mAdapterList
         }
+    }
+
+    private fun sharePdf(serialNumber: Int) {
+        val pdfFile = File(requireContext().cacheDir, "rapport_$serialNumber.pdf")
+        val reportView = PeriodicReportGRV(requireContext())
+        // Ici, il faudrait injecter les données réelles du rapport dans reportView
+        reportView.generatePdf(pdfFile)
+
+        val contentUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", pdfFile)
+
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "application/pdf"
+            putExtra(Intent.EXTRA_STREAM, contentUri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(Intent.createChooser(shareIntent, "Partager le rapport PDF"))
     }
 
     companion object {
