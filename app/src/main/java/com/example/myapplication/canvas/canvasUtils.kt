@@ -1,8 +1,14 @@
 package com.example.myapplication.canvas
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.pdf.PdfRenderer
+import android.os.ParcelFileDescriptor
 import com.example.myapplication.model.StepControlGRV
+import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import androidx.core.graphics.createBitmap
 
 fun getResultConformityOutside(exterieur: List<Int>): String {
     var result = "CONFORME"
@@ -61,6 +67,52 @@ fun getNextDateControl(d: String): String {
     } catch (e: Exception) {
         "A DEFINIR"
     }
+}
+
+fun getPdfPageAsBitmap(context: Context, assetName: String, pageIndex: Int = 0): Bitmap {
+
+    // Fichier temporaire
+    val pdfFile = File(context.cacheDir, assetName)
+
+    // Copier le PDF depuis assets
+    context.assets.open(assetName).use { input ->
+        pdfFile.outputStream().use { output ->
+            input.copyTo(output)
+        }
+    }
+
+    // Ouvrir le fichier PDF
+    val fileDescriptor = ParcelFileDescriptor.open(
+        pdfFile,
+        ParcelFileDescriptor.MODE_READ_ONLY
+    )
+
+    val pdfRenderer = PdfRenderer(fileDescriptor)
+
+    // Ouvrir la page demandée
+    val page = pdfRenderer.openPage(pageIndex)
+
+    // Création du Bitmap avec une résolution plus élevée (multipliée par 4 pour une qualité d'impression)
+    val scale = 4
+    val bitmap = createBitmap(page.width * scale, page.height * scale)
+
+    // Fond blanc
+    bitmap.eraseColor(android.graphics.Color.WHITE)
+
+    // Dessiner le PDF dans le Bitmap
+    page.render(
+        bitmap,
+        null,
+        null,
+        PdfRenderer.Page.RENDER_MODE_FOR_PRINT
+    )
+
+    // Fermeture
+    page.close()
+    pdfRenderer.close()
+    fileDescriptor.close()
+
+    return bitmap
 }
 
 
