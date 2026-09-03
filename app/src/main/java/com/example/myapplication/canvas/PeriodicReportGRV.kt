@@ -13,8 +13,11 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.myapplication.R
+import com.example.myapplication.model.StepControlGRV
 import java.io.File
 import java.io.FileOutputStream
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class PeriodicReportGRV : View {
 
@@ -26,6 +29,8 @@ class PeriodicReportGRV : View {
     private val path = Path()
     private var heightPx : Float = 0F
     private var widthPx : Float = 0F
+
+    private var reportData : StepControlGRV.StepControlGRVAll?  = null
 
     private val margin: Float = 1.45F
     var section: Float = 0F
@@ -113,19 +118,20 @@ class PeriodicReportGRV : View {
     private fun drawRect(canvas: Canvas, top: Float, left: Float, bottom: Float, right: Float) =
         canvas.drawRect(left, top, right, bottom, paint)
 
-    private fun drawText(canvas: Canvas, text: String, x: Float, y: Float) {
+    private fun drawText(canvas: Canvas, text: String, data: String?, x: Float, y: Float) {
         canvas.drawText(text, x, y, paint)
+        canvas.drawText(data ?: "", x * 10, y, paint)
         section += margin
     }
 
     private fun drawLineGraph(canvas: Canvas, unitX: Float, unitY: Float, floatY: Float) {
-        path.moveTo(unitX * 65, floatY)
-        path.lineTo(unitX * 66, floatY)
-        path.lineTo(unitX * 66, floatY + unitY/2)
-        path.lineTo(unitX * 67, floatY + unitY/2)
-        path.lineTo(unitX * 65.5F, floatY + unitY)
-        path.lineTo(unitX * 64, floatY + unitY/2)
-        path.lineTo(unitX * 65, floatY + unitY/2)
+        path.moveTo(unitX * 85, floatY)
+        path.lineTo(unitX * 86, floatY)
+        path.lineTo(unitX * 86, floatY + unitY/2)
+        path.lineTo(unitX * 87, floatY + unitY/2)
+        path.lineTo(unitX * 85.5F, floatY + unitY)
+        path.lineTo(unitX * 84, floatY + unitY/2)
+        path.lineTo(unitX * 85, floatY + unitY/2)
         path.close()
 
         canvas.drawPath(path, paint)
@@ -166,9 +172,9 @@ class PeriodicReportGRV : View {
 
     private fun createFirstSection(canvas: Canvas, unitX: Float, unitY: Float, startY: Float) {
         section = 0F
-        drawText(canvas = canvas, text = "N° de rapport : CGRV-AL-", x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = "N° Commande ALOREM :", x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = "Type de contrôle : 5 ans", x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = "N° de rapport : CGRV-AL-", x = unitX * 5, data = "", y = unitY * (startY + section))
+        drawText(canvas = canvas, text = "N° Commande ALOREM : ${reportData?.step0?.reportNumber ?:""}", x = unitX * 5, data = "", y = unitY * (startY + section))
+        drawText(canvas = canvas, text = "Type de contrôle : 5 ans", x = unitX * 5, data = "", y = unitY * (startY + section))
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -184,46 +190,44 @@ class PeriodicReportGRV : View {
         canvas.drawText(TITLE_IDENTIFICATION, unitX * 10, unitY * (startY+2F), paint)
         defineTextDefault(unitY)
 
-        drawText(canvas = canvas, text = SITE_DE_CONTROLE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = FABRICANT, x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = PROPRIETAIRE, x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = NUM_SERIE_ALO, x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = NUM_SERIE_CLIENT, x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = MARQUE_PRINCIPALE, x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = REFERENCE, x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = CAPACITE, x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = TARE, x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = SITE_DE_CONTROLE, data = "",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = FABRICANT, x = unitX * 5, data = "", y = unitY * (startY + section))
+        drawText(canvas = canvas, text = PROPRIETAIRE, data = "", x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = NUM_SERIE_ALO, data = reportData?.step0?.serialNumberAlorem.toString(), x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = NUM_SERIE_CLIENT, data = reportData?.step0?.customerSerialNumber.toString(), x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = MARQUE_PRINCIPALE, data =  reportData?.step2?.marquePrincipale, x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = REFERENCE, data = reportData?.step0?.type.toString(), x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = CAPACITE, data = reportData?.step2?.capacity20.toString(), x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = TARE, data = reportData?.step2?.tare.toString(), x = unitX * 5, y = unitY * (startY + section))
 
-        drawText(canvas = canvas, text = GROSS_MASS, x = unitX * 5, y = unitY * (startY + section))
-        canvas.drawText(MARQUES_ADDITION, unitX * 60,unitY * (startY + section), paint)
+        drawText(canvas = canvas, text = GROSS_MASS, data = reportData?.step2?.grossMass.toString(), x = unitX * 5, y = unitY * (startY + section))
+        canvas.drawText(MARQUES_ADDITION, unitX * 80,unitY * (startY + section), paint)
 
-        drawText(canvas = canvas, text = TYPE_MATERIAU, x = unitX * 5, y = unitY * (startY + section))
-        canvas.drawText(KG, unitX * 60,unitY * (startY + section), paint)
+        drawText(canvas = canvas, text = TYPE_MATERIAU, data = reportData?.step2?.material, x = unitX * 5, y = unitY * (startY + section))
+        canvas.drawText(reportData?.step2?.weightStacking.toString() + " " + KG, unitX * 80,unitY * (startY + section), paint)
 
-        drawText(canvas = canvas, text = EPAISSEUR_PAROI, x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = EPAISSEUR_PAROI, data = reportData?.step2?.shellThickness.toString(), x = unitX * 5, y = unitY * (startY + section))
 
         // GRAPH
         defineGraph(unitY)
         drawLineGraph(canvas = canvas, unitX = unitX, unitY = unitY, floatY = unitY * (startY + section))
         drawRect(canvas = canvas,
             top = unitY * (startY + section) + section/2,
-            left = unitX * 63,
+            left = unitX * 83,
             bottom = unitY * (startY + section) + (section * 1.25F)/2,
-            right = unitX * 68
+            right = unitX * 88
         )
         drawRect(canvas = canvas,
             top = unitY * (startY + section) + (section * 1.5F)/2,
-            left = unitX * 63,
+            left = unitX * 83,
             bottom = unitY * (startY + section) + (section * 3)/2,
-            right = unitX * 68
+            right = unitX * 88
         )
 
-
-
         defineTextDefault(unitY)
-        drawText(canvas = canvas, text = DATE_FAB, x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = PICTO_GERBAGE, x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = PRESSION_MAX, x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = DATE_FAB, data = reportData?.step2?.fabricationDate, x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = PICTO_GERBAGE, data =  affirmation(reportData?.step2?.pictogramStacking), x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = PRESSION_MAX, data = "", x = unitX * 5, y = unitY * (startY + section))
 
         definePaintStroke(R.color.black, unitY)
         drawRect( canvas = canvas, top = unitY * startY, left = unitX * 2, bottom = unitY * (startY+ section), right = unitX * 98)
@@ -242,17 +246,36 @@ class PeriodicReportGRV : View {
         canvas.drawText(TITLE_INSPECTION_REGLEMENTAIRE, unitX * 10, unitY * (startY+2F), paint)
         defineTextDefault(unitY)
 
-        drawText(canvas = canvas, text = INSPECTEUR, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = DATE_INSPECTION, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = FONCTIONNEMENT_EQUIPEMENT, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = ETAT_EXTERIEUR, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = ETAT_INTERIEUR, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = EPAISSEUR_PAROI, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = EPAISSEUR_PAROIS, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = MARQUES_REGLEMENTAIRE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = CONFORMITE_MODELE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = INSPECTION_REG, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = OBSERVATION, unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = INSPECTEUR, data = "", unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = DATE_INSPECTION, data = reportData?.step6?.etancheiteDate1, unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = FONCTIONNEMENT_EQUIPEMENT, data = "", unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = ETAT_EXTERIEUR, data = getResultConformityOutside(
+            listOf(
+                reportData?.step3?.bottomRetentionFace ?: 0,
+                reportData?.step3?.bottomRetentionRight ?: 0,
+                reportData?.step3?.bottomRetentionLeft ?: 0,
+                reportData?.step3?.bottomRetentionBehind ?: 0,
+                reportData?.step3?.upperRetention ?: 0,
+                reportData?.step3?.liftingRings ?: 0,
+                reportData?.step3?.forkliftPass ?: 0,
+                reportData?.step3?.dashboard ?: 0
+            )
+        ),
+            unitX * 5,
+            unitY * (startY + section)
+        )
+        drawText(canvas = canvas, text = ETAT_INTERIEUR, data = getResultConformityInside(reportData?.step4),
+            unitX * 5,
+            unitY * (startY + section)
+        )
+        drawText(canvas = canvas, text = EPAISSEUR_PAROIS, data = reportData?.step5?.let { getResultConformityThickNess(it) },
+            unitX * 5,
+            unitY * (startY + section)
+        )
+        drawText(canvas = canvas, text = MARQUES_REGLEMENTAIRE, data = "", unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = CONFORMITE_MODELE, data = "",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = INSPECTION_REG, data = "",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = OBSERVATION, data = "",unitX * 5, unitY * (startY + section))
 
         definePaintStroke(R.color.black, unitY)
         drawRect( canvas = canvas, top = unitY * startY, left = unitX * 2, bottom = unitY * (startY+ section), right = unitX * 98)
@@ -271,13 +294,13 @@ class PeriodicReportGRV : View {
         canvas.drawText(TITLE_EPREUVE_ETANCHEITE, unitX * 10, unitY * (startY+2F), paint)
         defineTextDefault(unitY)
 
-        drawText(canvas = canvas, text = PERSONNE_EPREUVE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = DATE_EPREUVE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = LIEU_EPREUVE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = PRESSION_APPLIQUEE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = DUREE_EPREUVE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = RESULTAT_EPREUVE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = CONCLUSION_EPREUVE, unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = LIEU_EPREUVE, data = "",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = PERSONNE_EPREUVE, data = reportData?.name, unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = DATE_EPREUVE, data = reportData?.step6?.etancheiteDate1,unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = PRESSION_APPLIQUEE, data = reportData?.step6?.etancheiteBar1.toString() + " bar",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = DUREE_EPREUVE, data = "10 minutes",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = RESULTAT_EPREUVE, data = conformity(reportData?.step6?.etancheiteConforme1),unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = CONCLUSION_EPREUVE, data = conformity(reportData?.step6?.etancheiteConforme1),unitX * 5, unitY * (startY + section))
 
         definePaintStroke(R.color.black, unitY)
         drawRect( canvas = canvas, top = unitY * startY, left = unitX * 2, bottom = unitY * (startY+ section), right = unitX * 98)
@@ -294,17 +317,22 @@ class PeriodicReportGRV : View {
         canvas.drawText(TITLE_CONCLUSION, unitX * 10, unitY * (startY+2F), paint)
         defineTextDefault(unitY)
 
-        drawText(canvas = canvas, text = RESULTAT, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = DATE_PROCHAIN_CONTROLE, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = FAIT_A, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = DATE_RAPPORT, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = SIGNATURE_RAPPORT, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = FONCTION, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = SIGNATURE, unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = RESULTAT, data = "",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = DATE_PROCHAIN_CONTROLE, data = getNextDateControl(reportData?.step6?.etancheiteDate1 ?: ""),unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = FAIT_A, data = "BEYNOST",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = DATE_RAPPORT, data = reportData?.step6?.etancheiteDate1,unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = SIGNATURE_RAPPORT, data = reportData?.name,unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = FONCTION, data = "Agent chargé des contrôles",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = SIGNATURE, data = "",unitX * 5, unitY * (startY + section))
 
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.signature)
+        val dst = RectF(unitX * 50, unitY * (startY + section - margin), unitX * 70, unitY * 99.2F)
+        canvas.drawBitmap(bitmap, null, dst, paint)
         definePaintStroke(R.color.black, unitY)
         drawRect( canvas = canvas, top = unitY * startY, left = unitX * 2, bottom = unitY * 99.5F, right = unitX * 98)
     }
+
+    // -----------------------------------------------------------------------------------------------
 
     fun generatePdf(file: File) {
         val pdfDocument = PdfDocument()
@@ -321,6 +349,13 @@ class PeriodicReportGRV : View {
         pdfDocument.close()
     }
 
+    fun setDataIntoReportTemplate(reportData : StepControlGRV.StepControlGRVAll) {
+        this.reportData = reportData
+        invalidate()
+    }
 
+    fun conformity(result : Boolean?) : String = if (result == true) "CONFORME" else "NON CONFORME"
+
+    fun affirmation(result : Boolean?) : String = if (result == true) "OUI" else "NON"
 
 }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +12,7 @@ import com.example.myapplication.R
 import com.example.myapplication.callback.ReportControlInterface
 import com.example.myapplication.canvas.PeriodicReportGRV
 import com.example.myapplication.model.ControlGRV
+import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.recycler.ReportGRVListAdapter
 import com.example.myapplication.utils.REPORT_TAG
 import com.example.myapplication.viewmodel.ReportViewModel
@@ -62,12 +62,16 @@ class ReportFragment : BaseFragment() {
         viewModel.updateControlGRVLiveData().observe(this) {
             viewModel.getAllFinishedControlGRV()
         }
+
+        viewModel.getFullReportLiveData().observe(this) {
+            sharePdf(it)
+        }
     }
 
     private fun updateAdapter(list: List<ControlGRV>) {
         if (::recyclerViewCtrl.isInitialized) {
             mAdapterList = ReportGRVListAdapter(grvItems = list,
-                onItemClicked = { serialNumber -> sharePdf(serialNumber) },
+                onItemClicked = { serialNumber -> viewModel.getFullReport(id = serialNumber)},
                 onReloadClick = { serialNumber -> viewModel.reloadControlGRV(id = serialNumber)},
                 onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
             )
@@ -75,10 +79,11 @@ class ReportFragment : BaseFragment() {
         }
     }
 
-    private fun sharePdf(serialNumber: Int) {
-        val pdfFile = File(requireContext().cacheDir, "rapport_$serialNumber.pdf")
+    private fun sharePdf(report: StepControlGRV.StepControlGRVAll) {
+        val pdfFile = File(requireContext().cacheDir, "rapport_${report.step0?.reference ?: "unknown"}.pdf")
         val reportView = PeriodicReportGRV(requireContext())
-        // Ici, il faudrait injecter les données réelles du rapport dans reportView
+
+        reportView.setDataIntoReportTemplate(reportData = report)
         reportView.generatePdf(pdfFile)
 
         val contentUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", pdfFile)

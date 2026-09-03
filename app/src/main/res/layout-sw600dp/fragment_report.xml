@@ -13,6 +13,7 @@
         android:backgroundTint="@color/background"
         tools:context=".activity.MainActivity">
 
+        <!--
         <ImageView
             android:id="@+id/white_report_control"
             android:layout_width="0dp"
@@ -180,6 +181,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

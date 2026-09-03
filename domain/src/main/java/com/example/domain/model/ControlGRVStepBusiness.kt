@@ -2,6 +2,16 @@ package com.example.domain.model
 
 sealed class ControlGRVStepBusiness{
 
+    data class ControlGRVAllStep(
+        var controlGRVStep0: ControlGRVStep0? = null,
+        var controlGRVStep1: ControlGRVStep1? = null,
+        var controlGRVStep2: ControlGRVStep2? = null,
+        var controlGRVStep3: ControlGRVStep3? = null,
+        var controlGRVStep4: ControlGRVStep4? = null,
+        var controlGRVStep5: ControlGRVStep5? = null,
+        var controlGRVStep6: ControlGRVStep6? = null
+    )
+
     data class ControlGRVStep0(
         override val reference: Int,
         var reportNumber: Int,
