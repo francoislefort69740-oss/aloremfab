@@ -123,9 +123,10 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
             }
         }
 
-        viewModel.createStepControlGrVLiveData().observe(this) { stepControlGRV ->
+        viewModel.createStepControlGrVLiveData().observe(this) { _ ->
             if (::mAdapterControlGRVPage.isInitialized) {
                 val nextStep = controlComponent.incrementStep()
+                controlComponent.setUpNextButton(nextStep != GRVControlStepEnum.STEP_6)
                 viewModel.getStepControlGrv(reference = controlComponent.getControl().serialNumber!!, stepNumber = nextStep)
             }
         }
@@ -133,7 +134,8 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         viewModel.getControlStepGrvNotInitialized().observe(this) { it ->
             if (::mAdapterControlGRVPage.isInitialized) {
                 controlComponent.setUpBackButton(it != GRVControlStepEnum.STEP_0)
-                 viewModel.loadTemplate(template = GRVControlStepTemplate(controlComponent.initializeStepControl(it), context = requireContext()))
+                controlComponent.setUpNextButton(it != GRVControlStepEnum.STEP_6)
+                viewModel.loadTemplate(template = GRVControlStepTemplate(controlComponent.initializeStepControl(it), context = requireContext()))
             }
         }
 
@@ -170,6 +172,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         viewModel.createStepAlsoNextControlGRVLiveData().observe(this) {
             val nextStep = if (it.second) controlComponent.incrementStep() else controlComponent.decrementStep()
             controlComponent.setUpBackButton(nextStep != GRVControlStepEnum.STEP_0)
+            controlComponent.setUpNextButton(nextStep != GRVControlStepEnum.STEP_6)
             viewModel.getStepControlGrv(reference = it.first, stepNumber = nextStep)
         }
 

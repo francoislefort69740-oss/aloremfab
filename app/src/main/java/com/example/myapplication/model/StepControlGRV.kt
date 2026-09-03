@@ -8,6 +8,17 @@ sealed class StepControlGRV{
     @get: StringRes
     abstract val title: Int
 
+    data class StepControlGRVAll(
+        var name: String? = null,
+        var step0: Step0ControlGRV?,
+        var step1: Step1ControlGRV?,
+        var step2: Step2ControlGRV?,
+        var step3: Step3ControlGRV?,
+        var step4: Step4ControlGRV?,
+        var step5: Step5ControlGRV?,
+        var step6: Step6ControlGRV?
+    )
+
     data class Step0ControlGRV(
         override val title: Int = R.string.control_grv_checkpoint_step0_title,
         var reference: Int? = null,

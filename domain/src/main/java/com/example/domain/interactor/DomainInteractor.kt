@@ -8,6 +8,8 @@ import com.example.domain.usecase.DeleteControlGRVUseCase
 import com.example.domain.usecase.DeleteUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
 import com.example.domain.usecase.GetAllControlGRVUseCase
+import com.example.domain.usecase.GetAllFinishedControlGRVUseCase
+import com.example.domain.usecase.GetAllStepControlGRVFortReportUseCase
 import com.example.domain.usecase.GetAllUsersUseCase
 import com.example.domain.usecase.GetControlGRVStepUseCase
 import com.example.domain.usecase.GetControlGRVUseCase
@@ -31,6 +33,7 @@ data class DomainInteractor(
     val getControlGRVUseCase: GetControlGRVUseCase,
     val createControlGRVUseCase: CreateControlGRVUseCase,
     val getAllControlGRVUseCase: GetAllControlGRVUseCase,
+    val getAllFinishedControlGRVUseCase: GetAllFinishedControlGRVUseCase,
     val deleteControlGRVUseCase: DeleteControlGRVUseCase,
     val updateControlGRCUseCase: UpdateControlGRCUseCase,
     val getCurrentlyGoingOnControlGRVUseCase: GetCurrentlyGoingOnControlGRVUseCase,
@@ -39,5 +42,6 @@ data class DomainInteractor(
     val getUnLoadedControlGRVUseCase: GetUnLoadedControlGRVUseCase,
     val getControlGRVStepUseCase: GetControlGRVStepUseCase,
     val createControlGRVStepUseCase: CreateControlGRVStepUseCase,
-    val checkSaveOrNextControlGRVUseCase: CheckSaveOrNextControlGRVUseCase
+    val checkSaveOrNextControlGRVUseCase: CheckSaveOrNextControlGRVUseCase,
+    val getAllStepControlGRVForReportUseCase: GetAllStepControlGRVFortReportUseCase
 )

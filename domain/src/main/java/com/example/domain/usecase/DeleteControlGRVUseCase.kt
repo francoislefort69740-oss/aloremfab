@@ -9,7 +9,7 @@ class DeleteControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
     suspend operator fun invoke(id: Int): ResultOf<List<ControlGRVBusiness>> {
         return try {
             if (controlGRVLocalRepository.deleteControlGRV(id)) {
-                val list = controlGRVLocalRepository.getAllControlGRV()
+                val list = controlGRVLocalRepository.getUnloaded()
                 return ResultOf.Success(list)
             } else {
                 ResultOf.Error(exception = ErrorBusiness.ControlGRVNotFound)

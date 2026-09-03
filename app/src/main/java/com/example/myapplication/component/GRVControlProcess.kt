@@ -34,6 +34,7 @@ class GRVControlProcess {
 
     fun setStepControl(stepControlGRV: StepControlGRV) {
         this.stepControlGRV = stepControlGRV
+        setUpNextButton(state = stepControlGRV !is StepControlGRV.Step6ControlGRV)
     }
 
     fun setUpNextButton(state: Boolean) {

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.ReportFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        tools:context=".activity.MainActivity">
+        <!--
+                <com.example.myapplication.canvas.ADRReportGRV
+                    android:id="@+id/adr_report_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:visibility="gone" />
+        -->
+
+        <ImageView
+            android:id="@+id/white_report_control"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_report_control"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView_alorem_report_control"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_item_border"
+            android:src="@drawable/alorem"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_report_control"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_1_report_control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15"/>
+
+        <TextView
+            android:id="@+id/title_report_control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RAPPORT"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_report_control"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView_alorem_report_control"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_3_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_2_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.7"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_21_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.77"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_22_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.97"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_5_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.06"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_6_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.94"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_4_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.12"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_12_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.18"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_report"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/rounded_item_selector"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_report"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_6_report"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_report"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_3_report" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_report_export"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/rounded_item_selector"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_22_report"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_6_report"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_report"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_21_report" />
+
+        <TextView
+            android:id="@+id/report_GRV_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/controle_GRV_GRV_main"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_report"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_12_report" />
+
+        <TextView
+            android:id="@+id/report_GRV_list_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Liste des rapports"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_3_report"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_report"
+            app:layout_constraintTop_toBottomOf="@+id/report_GRV_title" />
+
+        <TextView
+            android:id="@+id/report_GRV_export_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Exportation"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_21_report"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_report"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_2_report" />
+
+        <com.example.myapplication.canvas.PeriodicReportGRV
+            android:id="@+id/child_pdf_canvas"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

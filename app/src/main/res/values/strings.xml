@@ -43,7 +43,11 @@
     <string name="mettre_a_jour_update_user">METTRE A JOUR UTILISATEUR</string>
     <string name="mettre_a_jour_update_user_btn">METTRE A JOUR</string>
 
-    <string name="controle_GRV_GRV_main">Contrôle GRV</string>"
+    <string name="controle_GRV_GRV_main">Contrôle GRV</string>
+    <string name="controle_report_report_main">RAPPORTS DE CONTROLE</string>
+
+    <string name="controle_report_report_subtitle">Liste des rapports</string>
+    <string name="controle_report_export_subtitle">Documents disponibles</string>
 
     <string name="title_exemple_child_control_grv">INFORMATION DE LA CUVE</string>
     <string name="control_grv_item_card_title">CONTRÔLE EN COURS :</string>
@@ -59,7 +63,7 @@
 
     <string name="control_grv_checkpoint_step1_title">DOCUMENTATION ET MARQUAGE REGLEMENTAIRE</string>
     <string name="control_grv_checkpoint_plate_adr">Plaque ADR</string>
-    <string name="control_grv_checkpoint_alorem_plate">Plaque ALOREM</string>>
+    <string name="control_grv_checkpoint_alorem_plate">Plaque ALOREM</string>
     <string name="control_grv_checkpoint_booklet_pouch">Pochette Livret</string>
     <string name="control_grv_checkpoint_user_manual">Manuel Utilisateur</string>
     <string name="control_grv_checkpoint_instruction_of_use">Instruction d\'utilisation</string>
@@ -68,8 +72,8 @@
     <string name="control_grv_checkpoint_conformity_certificate_marking">Marquage réglementaire</string>
 
     <string name="control_grv_checkpoint_step2_title">INFORMATION PLAQUE</string>
-    <string name="control_grv_checkpoint_marque_principale">Marque principale</string>"
-    <string name="control_grv_checkpoint_tare">Tare (kg)</string>"
+    <string name="control_grv_checkpoint_marque_principale">Marque principale</string>
+    <string name="control_grv_checkpoint_tare">Tare (kg)</string>
     <string name="control_grv_checkpoint_material">Matériau</string>
     <string name="control_grv_checkpoint_capacity_20">Capacité 20°C</string>
     <string name="control_grv_checkpoint_gross_mass">Masse Brut (kg)</string>
@@ -130,6 +134,8 @@
     <string name="control_grv_checkpoint_etancheite_conforme_2">RESULTAT ETANCHEITE 2</string>
     <string name="control_grv_checkpoint_etancheite_date_2">DATE 2</string>
     <string name="control_grv_checkpoint_etancheite_bar_2">BAR 2</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

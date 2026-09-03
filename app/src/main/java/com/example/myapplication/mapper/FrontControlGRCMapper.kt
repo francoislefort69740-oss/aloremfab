@@ -33,6 +33,18 @@ object FrontControlGRCMapper {
         return business
     }
 
+    fun fullControlGRVStepBusinessToFront(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVAllStep, name: String): StepControlGRV.StepControlGRVAll =
+        StepControlGRV.StepControlGRVAll(
+            name = name,
+            step0 = controlGRVStepBusiness.controlGRVStep0?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step0ControlGRV },
+            step1 = controlGRVStepBusiness.controlGRVStep1?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step1ControlGRV },
+            step2 = controlGRVStepBusiness.controlGRVStep2?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step2ControlGRV },
+            step3 = controlGRVStepBusiness.controlGRVStep3?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step3ControlGRV },
+            step4 = controlGRVStepBusiness.controlGRVStep4?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step4ControlGRV },
+            step5 = controlGRVStepBusiness.controlGRVStep5?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step5ControlGRV },
+            step6 = controlGRVStepBusiness.controlGRVStep6?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step6ControlGRV }
+        )
+
     fun controlGRVStepBusinessToFront(controlGRVStepBusiness: ControlGRVStepBusiness): StepControlGRV = when(controlGRVStepBusiness) {
         is ControlGRVStepBusiness.ControlGRVStep0 -> StepControlGRV.Step0ControlGRV(
             reference = controlGRVStepBusiness.reference,

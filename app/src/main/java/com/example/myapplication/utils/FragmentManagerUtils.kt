@@ -7,6 +7,7 @@ import com.example.myapplication.fragment.GRVMainFragment
 import com.example.myapplication.fragment.MainFragment
 import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.fragment.RegistrationFragment
+import com.example.myapplication.fragment.ReportFragment
 import com.example.myapplication.fragment.UpdateUserFragment
 
 fun fragmentManagerBusinessByTAG(tag: String, supportFragmentManager: FragmentManager, fragmentLayout: Int, obj: Any? = null) = when(tag) {
@@ -25,6 +26,7 @@ fun fragmentManagerBusinessByTAG(tag: String, supportFragmentManager: FragmentMa
         }
         else Log.i("FAIL", "Fragment manager error : no Fragment to load")
     MAIN_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, MainFragment.newInstance(), MAIN_TAG).commit()
+    REPORT_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, ReportFragment.newInstance(), REPORT_TAG).commit()
     GRV_CONTROL_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, GRVMainFragment.newInstance(), GRV_CONTROL_TAG).commit()
     else -> Log.i("FAIL", "Fragment manager error : no Fragment to load")
 }

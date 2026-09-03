@@ -32,10 +32,10 @@ interface ControlGRVDao {
     @Query(" SELECT * FROM controlGRVInternalData WHERE currently_going_on = 1 ORDER BY serial_number")
     suspend fun getCurrentlyGoingOn(): List<ControlGRVLocal>
 
-    @Query(" SELECT * FROM controlGRVInternalData WHERE loaded = 1 ORDER BY serial_number")
+    @Query(" SELECT * FROM controlGRVInternalData WHERE loaded = 1 AND currently_going_on = 1 ORDER BY serial_number")
     suspend fun getLoaded(): List<ControlGRVLocal>
 
-    @Query(" SELECT * FROM controlGRVInternalData WHERE loaded = 0 ORDER BY serial_number")
+    @Query(" SELECT * FROM controlGRVInternalData WHERE loaded = 0 AND currently_going_on = 1 ORDER BY serial_number")
     suspend fun getUnLoaded(): List<ControlGRVLocal>
 
 
