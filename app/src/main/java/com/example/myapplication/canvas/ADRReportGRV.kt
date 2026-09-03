@@ -15,6 +15,8 @@ import com.example.myapplication.model.StepControlGRV
 import java.io.File
 import java.io.FileOutputStream
 
+const val CODE_10TCG_970_551 = "10TCG_970_551"
+
 class ADRReportGRV : View {
 
     constructor(context: Context?) : super(context)
@@ -22,14 +24,10 @@ class ADRReportGRV : View {
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private val paint = Paint()
-    private val path = Path()
     private var heightPx : Float = 0F
     private var widthPx : Float = 0F
 
-    private var reportData : StepControlGRV.StepControlGRVAll?  = null
-
-    private val margin: Float = 1.45F
-    var section: Float = 0F
+    private var reportName : String?  = null
 
     private var backgroundBitmap: Bitmap? = null
 
@@ -50,31 +48,32 @@ class ADRReportGRV : View {
     }
 
     fun getDrawing(canvas: Canvas, paint: Paint){
-        if (heightPx == 0F) heightPx = height.toFloat()
-        if (widthPx == 0F) widthPx = width.toFloat()
+        reportName?.let {
+            if (heightPx == 0F) heightPx = height.toFloat()
+            if (widthPx == 0F) widthPx = width.toFloat()
 
-        val unitY: Float = if(heightPx != 0F) heightPx* 1/100 else height.toFloat() * 1/100
-        val unitX: Float = if (widthPx != 0F) widthPx * 1/100 else width.toFloat() * 1/100
+            val unitY: Float = if(heightPx != 0F) heightPx* 1/100 else height.toFloat() * 1/100
+            val unitX: Float = if (widthPx != 0F) widthPx * 1/100 else width.toFloat() * 1/100
 
-        if (backgroundBitmap == null) {
-            backgroundBitmap = getPdfPageAsBitmap(context = context, assetName = "10TCG_V1.pdf", pageIndex = 0)
-        }
-
-        backgroundBitmap?.let {
-            val bitmapPaint = Paint().apply {
-                isFilterBitmap = true
-                isAntiAlias = true
+            if (backgroundBitmap == null) {
+                backgroundBitmap = getPdfPageAsBitmap(context = context, assetName = "${reportName}.pdf", pageIndex = 0)
             }
-            canvas.drawBitmap(it, null, RectF(0f, 0f, widthPx, heightPx), bitmapPaint)
+
+            backgroundBitmap?.let {
+                val bitmapPaint = Paint().apply {
+                    isFilterBitmap = true
+                    isAntiAlias = true
+                }
+                canvas.drawBitmap(it, null, RectF(0f, 0f, widthPx, heightPx), bitmapPaint)
+            }
+
+            definePaintStroke(R.color.medium_grey, unitY)
+
+            canvas.drawRect(unitX*13, unitY*7, unitX*17, unitY*9, paint)
+
+            //   canvas.drawLine(unitX*13, unitY*54, unitX*13, unitY*55, paint)
+            canvas.drawRect(unitX*13, unitY*53.5F, unitX*49, unitY*55, paint)
         }
-
-        definePaintStroke(R.color.medium_grey, unitY)
-
-
-        canvas.drawRect(unitX*13, unitY*7, unitX*17, unitY*9, paint)
-
-     //   canvas.drawLine(unitX*13, unitY*54, unitX*13, unitY*55, paint)
-        canvas.drawRect(unitX*13, unitY*53.5F, unitX*49, unitY*55, paint)
     }
 
     fun generatePdf(file: File) {
@@ -94,5 +93,18 @@ class ADRReportGRV : View {
         }
 
         pdfDocument.close()
+    }
+
+    fun setNameReport(name: String): String? {
+        reportName = findReportByName(name = name)
+        reportName?.let { invalidate() }
+        return reportName
+    }
+
+    private fun findReportByName(name: String): String? {
+        return when (name) {
+            CODE_10TCG_970_551 -> "10TCG_970_551"
+            else -> null
+        }
     }
 }

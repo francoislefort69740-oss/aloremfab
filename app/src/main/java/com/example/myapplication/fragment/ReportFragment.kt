@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -71,22 +72,19 @@ class ReportFragment : BaseFragment() {
             viewModel.getAllFinishedControlGRV()
         }
 
-        viewModel.getFullReportLiveData().observe(this) {
-            sharePdf(it)
+        viewModel.getFullReportForPeriodicLiveData().observe(this) {
+            sharePeriodicPdf(it)
+        }
+
+        viewModel.getFullReportForADRLiveData().observe(this) {
+            shareADRPdf(it)
         }
     }
 
     private fun updateAdapter(list: List<ControlGRV>) {
         if (::recyclerViewCtrl.isInitialized) {
             mAdapterList = ReportGRVListAdapter(grvItems = list,
-                onItemClicked = { serialNumber ->
-
-
-                    // viewModel.getFullReport(id = serialNumber)
-                    if (::mAdapterExport.isInitialized) mAdapterExport.updateNameReport(serialNumber.toString())
-
-
-                                },
+                onItemClicked = { serialNumber -> if (::mAdapterExport.isInitialized) mAdapterExport.updateNameReport(serialNumber.toString()) },
                 onReloadClick = { serialNumber -> viewModel.reloadControlGRV(id = serialNumber)},
                 onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
             )
@@ -95,35 +93,37 @@ class ReportFragment : BaseFragment() {
 
         if (::recyclerViewExport.isInitialized) {
             mAdapterExport = ReportGRVExportAdapter(nameReport = null,
-                onShareClick = { nameReport -> when(nameReport.first) {
-                    PERIODIC_GRV_REPORT -> viewModel.getFullReport(id = nameReport.second.toInt())
-                    ADR_GRV_REPORT -> shareADRPdf(null)
-                }}
+                onShareClick = { nameReport -> viewModel.getFullReport(id = nameReport.second.toInt(), type = nameReport.first) }
             )
             recyclerViewExport.adapter = mAdapterExport
         }
     }
 
     private fun shareADRPdf(report: StepControlGRV.StepControlGRVAll?) {
-        val pdfFile = File(requireContext().cacheDir, "rapport_${report?.step0?.reference ?: "unknown"}.pdf")
+        val pdfFile = File(requireContext().cacheDir, "rapport_periodic_${report?.step0?.reference ?: "unknown"}.pdf")
         val reportADRView = ADRReportGRV(requireContext())
 
     //    reportADRView.setDataIntoReportTemplate(reportData = report)
-        reportADRView.generatePdf(pdfFile)
+        reportADRView.setNameReport("${report?.step0?.type}_${report?.step2?.capacity20}_${report?.step2?.tare}")?.let {
+            reportADRView.generatePdf(pdfFile)
 
-        val contentUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", pdfFile)
+            val contentUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", pdfFile)
 
-        val shareIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "application/pdf"
-            putExtra(Intent.EXTRA_STREAM, contentUri)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            val shareIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "application/pdf"
+                putExtra(Intent.EXTRA_STREAM, contentUri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(Intent.createChooser(shareIntent, "Partager le rapport PDF"))
+        } ?: run {
+            Toast.makeText(context, "RAPPORT inconnu : ${report?.step0?.type}_${report?.step2?.capacity20}_${report?.step2?.tare}",
+                Toast.LENGTH_SHORT).show()
         }
-        startActivity(Intent.createChooser(shareIntent, "Partager le rapport PDF"))
     }
 
-    private fun sharePdf(report: StepControlGRV.StepControlGRVAll) {
-        val pdfFile = File(requireContext().cacheDir, "rapport_${report.step0?.reference ?: "unknown"}.pdf")
+    private fun sharePeriodicPdf(report: StepControlGRV.StepControlGRVAll) {
+        val pdfFile = File(requireContext().cacheDir, "rapport_adr_${report.step0?.type ?: "unknown"}.pdf")
         val reportView = PeriodicReportGRV(requireContext())
 
         reportView.setDataIntoReportTemplate(reportData = report)

@@ -10,6 +10,8 @@ import com.example.domain.utils.RETURN_TO_ADD_LIST_GRV_CONTROL
 import com.example.myapplication.mapper.FrontControlGRCMapper
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.StepControlGRV
+import com.example.myapplication.utils.ADR_GRV_REPORT
+import com.example.myapplication.utils.PERIODIC_GRV_REPORT
 import kotlinx.coroutines.launch
 
 class ReportViewModel(interactor: DomainInteractor): ViewModel() {
@@ -29,13 +31,15 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
     private val getAllFinishedControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
     private val deleteControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
     private val getControlGRVLiveData = MutableLiveData<ControlGRV>()
-    private val getReportAllStepsLiveData = MutableLiveData<StepControlGRV.StepControlGRVAll>()
+    private val getFullReportForPeriodicLiveData = MutableLiveData<StepControlGRV.StepControlGRVAll>()
+    private val getFullReportForADRLiveData = MutableLiveData<StepControlGRV.StepControlGRVAll>()
 
     fun getAllFinishedControlGRVLiveData() = getAllFinishedControlGRVLiveData
     fun deleteControlGRVLiveData() = deleteControlGRVLiveData
     fun getControlGRVLiveData() = getControlGRVLiveData
     fun updateControlGRVLiveData() = updateControlGRVLiveData
-    fun getFullReportLiveData() = getReportAllStepsLiveData
+    fun getFullReportForPeriodicLiveData() = getFullReportForPeriodicLiveData
+    fun getFullReportForADRLiveData() = getFullReportForADRLiveData
 
     // OBSERVATION
 
@@ -90,10 +94,14 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
         }
     }
 
-    fun getFullReport(id: Int) {
+    fun getFullReport(id: Int, type: String) {
         viewModelScope.launch {
             when (val result = getReportAllSteps.invoke(id)) {
-                is ResultOf.Success -> getReportAllStepsLiveData.postValue(FrontControlGRCMapper.fullControlGRVStepBusinessToFront(result.data.first, result.data.second))
+                is ResultOf.Success -> when(type) {
+                    PERIODIC_GRV_REPORT -> getFullReportForPeriodicLiveData.postValue(FrontControlGRCMapper.fullControlGRVStepBusinessToFront(result.data.first, result.data.second))
+                    ADR_GRV_REPORT -> getFullReportForADRLiveData.postValue(FrontControlGRCMapper.fullControlGRVStepBusinessToFront(result.data.first, result.data.second))
+                }
+
                 is ResultOf.Error -> when(result.exception) {
                     is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
                 }
