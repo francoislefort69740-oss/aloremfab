@@ -16,6 +16,8 @@ import java.io.File
 import java.io.FileOutputStream
 
 const val CODE_10TCG_970_551 = "10TCG_970_551"
+const val CODE_10TCG_910_484 = "10TCG_910_484"
+const val CODE_05AB_500_275 = "05AB_500_275"
 
 class ADRReportGRV : View {
 
@@ -28,11 +30,12 @@ class ADRReportGRV : View {
     private var widthPx : Float = 0F
 
     private var reportName : String?  = null
+    private var numAlorem: String = ""
 
     private var backgroundBitmap: Bitmap? = null
 
     private fun definePaintStroke(mColor: Int, unitY: Float): Paint = paint.apply {
-        textSize = Math.round(unitY * 1.8F).toFloat()
+        textSize = Math.round(unitY * 0.9F).toFloat()
         isAntiAlias = true
         isLinearText = true
         shader = null
@@ -48,7 +51,7 @@ class ADRReportGRV : View {
     }
 
     fun getDrawing(canvas: Canvas, paint: Paint){
-        reportName?.let {
+        reportName?.let { report ->
             if (heightPx == 0F) heightPx = height.toFloat()
             if (widthPx == 0F) widthPx = width.toFloat()
 
@@ -56,23 +59,23 @@ class ADRReportGRV : View {
             val unitX: Float = if (widthPx != 0F) widthPx * 1/100 else width.toFloat() * 1/100
 
             if (backgroundBitmap == null) {
-                backgroundBitmap = getPdfPageAsBitmap(context = context, assetName = "${reportName}.pdf", pageIndex = 0)
+                backgroundBitmap = getPdfPageAsBitmap(context = context, assetName = "${report}.pdf", pageIndex = 0)
             }
 
-            backgroundBitmap?.let {
+            backgroundBitmap?.let { backBitmap ->
                 val bitmapPaint = Paint().apply {
                     isFilterBitmap = true
                     isAntiAlias = true
                 }
-                canvas.drawBitmap(it, null, RectF(0f, 0f, widthPx, heightPx), bitmapPaint)
+                canvas.drawBitmap(backBitmap, null, RectF(0f, 0f, widthPx, heightPx), bitmapPaint)
             }
 
-            definePaintStroke(R.color.medium_grey, unitY)
+            definePaintStroke(R.color.black, unitY)
 
-            canvas.drawRect(unitX*13, unitY*7, unitX*17, unitY*9, paint)
+            canvas.drawText(numAlorem,unitX* 13.2F, unitY* getUnityNumberLoca(name = report), paint)
 
             //   canvas.drawLine(unitX*13, unitY*54, unitX*13, unitY*55, paint)
-            canvas.drawRect(unitX*13, unitY*53.5F, unitX*49, unitY*55, paint)
+            // canvas.drawRect(unitX*13, unitY*53.5F, unitX*49, unitY*55, paint)
         }
     }
 
@@ -95,15 +98,25 @@ class ADRReportGRV : View {
         pdfDocument.close()
     }
 
-    fun setNameReport(name: String): String? {
+    fun setNameReport(name: String, numero: String): String? {
         reportName = findReportByName(name = name)
+        numAlorem = numero
         reportName?.let { invalidate() }
         return reportName
+    }
+
+    private fun getUnityNumberLoca(name: String?): Float = when (name) {
+        CODE_10TCG_970_551 -> 8.25F
+        CODE_10TCG_910_484 -> 7.65F
+        CODE_05AB_500_275 -> 8.25F
+        else -> 0F
     }
 
     private fun findReportByName(name: String): String? {
         return when (name) {
             CODE_10TCG_970_551 -> "10TCG_970_551"
+            CODE_10TCG_910_484 -> "10TCG_910_484"
+            CODE_05AB_500_275 -> "05AB_500_275"
             else -> null
         }
     }

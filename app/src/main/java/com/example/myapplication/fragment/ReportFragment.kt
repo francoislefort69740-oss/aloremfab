@@ -103,8 +103,8 @@ class ReportFragment : BaseFragment() {
         val pdfFile = File(requireContext().cacheDir, "rapport_periodic_${report?.step0?.reference ?: "unknown"}.pdf")
         val reportADRView = ADRReportGRV(requireContext())
 
-    //    reportADRView.setDataIntoReportTemplate(reportData = report)
-        reportADRView.setNameReport("${report?.step0?.type}_${report?.step2?.capacity20}_${report?.step2?.tare}")?.let {
+        reportADRView.setNameReport("${report?.step0?.type}_${report?.step2?.capacity20}_${report?.step2?.tare}",
+            report?.step0?.serialNumberAlorem.toString())?.let {
             reportADRView.generatePdf(pdfFile)
 
             val contentUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", pdfFile)
