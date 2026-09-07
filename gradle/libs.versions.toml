@@ -28,6 +28,8 @@ cameraX = "1.6.1"
 
 glide = "5.0.7"
 
+gson = "2.14.0"
+
 mlkitDigitalInk = "19.0.0"
 mlkitTextRecognition = "16.0.1"
 
@@ -85,6 +87,9 @@ androidx-camera-extensions = { group = "androidx.camera", name = "camera-extensi
 # Glide
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+
+# GSON
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 # ML Kit
 digital-ink-recognition = { group = "com.google.mlkit", name = "digital-ink-recognition", version.ref = "mlkitDigitalInk" }

@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.80"/>
+            app:layout_constraintGuide_percent="0.75"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/menu_guideline_3_menu"
@@ -149,17 +149,32 @@
             android:src="@drawable/report_logo"
             app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_create_user"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buildControlBtn_menu"
             app:layout_constraintStart_toEndOf="@+id/GRVControlBtn_menu"
             app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_menu" />
 
-        <Button
+        <ImageView
+            android:id="@+id/buildControlBtn_menu"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/iaphotologo"
+            android:padding="30dp"
+            android:src="@drawable/outline_folder_managed_24"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_2_create_user"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ReportControlBtn_menu"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_menu" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/userChangeBtn_menu"
-            android:padding="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/primary_color"
+            android:padding="20dp"
+            android:background="@drawable/iaphotologo"
+            app:backgroundTint="@null"
             android:text="@string/change_user_menu"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

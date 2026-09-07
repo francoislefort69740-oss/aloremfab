@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.BuildFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.MainActivity">
+    <!--
+            <com.example.myapplication.canvas.ADRReportGRV
+                android:id="@+id/adr_report_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:visibility="gone" />
+    -->
+
+    <ImageView
+        android:id="@+id/white_build_control"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_build_control"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_alorem_build_control"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:padding="10dp"
+        android:background="@drawable/rounded_item_border"
+        android:src="@drawable/alorem"
+        app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_build_control"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/menu_guideline_1_build_control"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/menu_guideline_5_build"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/menu_guideline_6_build"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.94"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/menu_guideline_22_build"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.97"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/menu_guideline_4_build"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.12"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/menu_guideline_12_build"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.18"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/menu_guideline_3_build"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3"/>
+
+    <TextView
+        android:id="@+id/build_GRV_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/controle_GRV_GRV_main"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_build"
+        app:layout_constraintTop_toTopOf="@+id/menu_guideline_12_build" />
+
+    <TextView
+        android:id="@+id/build_GRV_list_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Liste des templates"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/menu_guideline_3_build"
+        app:layout_constraintStart_toStartOf="@+id/menu_guideline_4_build"
+        app:layout_constraintTop_toBottomOf="@+id/build_GRV_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_build"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rounded_item_selector"
+        android:backgroundTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btn_select_folder"
+        app:layout_constraintEnd_toStartOf="@+id/menu_guideline_6_build"
+        app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_build"
+        app:layout_constraintTop_toTopOf="@+id/menu_guideline_3_build" />
+
+    <Button
+        android:id="@+id/btn_select_folder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="SÉLECTIONNER LE DOSSIER GRVTemplate"
+        android:backgroundTint="@color/primary_500"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/menu_guideline_22_build"
+        app:layout_constraintEnd_toStartOf="@+id/menu_guideline_6_build"
+        app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_build" />
+
+    <TextView
+        android:id="@+id/title_report_control"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TEMPLATE"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_build_control"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView_alorem_build_control"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

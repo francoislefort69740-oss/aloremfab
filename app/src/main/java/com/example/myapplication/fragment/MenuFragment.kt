@@ -38,6 +38,10 @@ class MenuFragment : BaseFragment() {
             mCallback?.loadReportControlFragment()
         }
 
+        view.findViewById<ImageView>(R.id.buildControlBtn_menu).setOnClickListener {
+            mCallback?.loadBuildControlFragment()
+        }
+
 
         viewModel.getUsers()
 

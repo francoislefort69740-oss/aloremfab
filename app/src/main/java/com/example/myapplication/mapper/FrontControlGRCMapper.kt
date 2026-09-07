@@ -2,9 +2,12 @@ package com.example.myapplication.mapper
 
 import com.example.domain.model.ControlGRVBusiness
 import com.example.domain.model.ControlGRVStepBusiness
+import com.example.domain.model.TemplateGRVBusiness
 import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.StepControlGRV
+import com.example.myapplication.model.TemplateGRV
+import kotlin.collections.forEach
 
 object FrontControlGRCMapper {
     fun allControlGRVBusinessToFront(controlGRVBusiness: List<ControlGRVBusiness>): List<ControlGRV> {
@@ -32,6 +35,26 @@ object FrontControlGRCMapper {
         )
         return business
     }
+
+    fun getAllControlGRVBusinessToFront(templateGRVBusiness: List<TemplateGRVBusiness>): List<TemplateGRV> {
+        val result = mutableListOf<TemplateGRV>()
+        templateGRVBusiness.forEach {
+            result.add(controlGRVTemplateBusinessToFront(it))
+        }
+        return result
+    }
+
+    fun controlGRVTemplateBusinessToFront(templateGRVBusiness: TemplateGRVBusiness): TemplateGRV = TemplateGRV(
+        name = templateGRVBusiness.name,
+        x = templateGRVBusiness.x,
+        y = templateGRVBusiness.y
+    )
+
+    fun controlGRVTemplateFrontToBusiness(templateGRV: TemplateGRV): TemplateGRVBusiness = TemplateGRVBusiness(
+        name = templateGRV.name,
+        x = templateGRV.x,
+        y = templateGRV.y
+    )
 
     fun fullControlGRVStepBusinessToFront(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVAllStep, name: String): StepControlGRV.StepControlGRVAll =
         StepControlGRV.StepControlGRVAll(

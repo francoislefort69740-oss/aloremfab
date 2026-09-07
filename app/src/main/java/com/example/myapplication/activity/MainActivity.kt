@@ -9,6 +9,7 @@ import com.example.myapplication.callback.GRVControlInterface
 import com.example.myapplication.callback.MenuInterface
 import com.example.myapplication.callback.RegistrationInterface
 import com.example.myapplication.callback.ReportControlInterface
+import com.example.myapplication.fragment.BuildFragment
 import com.example.myapplication.fragment.CreateUserFragment
 import com.example.myapplication.fragment.GRVMainFragment
 import com.example.myapplication.fragment.MenuFragment
@@ -50,6 +51,10 @@ class MainActivity : BaseActivity(),
 
     override fun loadReportControlFragment() {
         buildInterface(ReportFragment.TAG)
+    }
+
+    override fun loadBuildControlFragment() {
+        buildInterface(BuildFragment.TAG)
     }
 
     override fun loadMenuFragment() {

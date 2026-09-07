@@ -24,12 +24,17 @@ import com.example.data.database.repository.UserLocalDataSourceImpl
 import com.example.data.repository.ActiveIdRepositoryImpl
 import com.example.data.repository.ControlGRVRepositoryImpl
 import com.example.data.repository.ControlGRVStepRepositoryImpl
+import com.example.data.repository.TemplateGRVLocalRepositoryImpl
 import com.example.data.repository.UserRepositoryImpl
+import com.example.data.serialize.dao.TemplateGRVDao
+import com.example.data.serialize.repository.TemplateGRVLocalDataSource
+import com.example.data.serialize.repository.TemplateGRVLocalDataSourceImpl
 import com.example.domain.model.ControlGRVStepBusiness
 import com.example.domain.repository.db.ActiveIdLocalRepository
 import com.example.domain.repository.db.ControlGRVLocalRepository
 import com.example.domain.repository.db.ControlGRVStepLocalRepository
 import com.example.domain.repository.db.UserLocalRepository
+import com.example.domain.repository.serialize.TemplateGRVLocalRepository
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
@@ -53,8 +58,11 @@ val dataModule = module {
     factory<UserLocalDataSource> { UserLocalDataSourceImpl(get()) }
     factory<ActiveIdLocalDataSource> { ActiveIdLocalDataSourceImpl(get()) }
     factory<ActiveIdLocalRepository> { ActiveIdRepositoryImpl(get()) }
+    factory { TemplateGRVDao() }
     factory<ControlGRVLocalDataSource> { ControlGRVLocalDataSourceImpl(get()) }
+    factory<TemplateGRVLocalDataSource> { TemplateGRVLocalDataSourceImpl(get()) }
     factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get()) }
+    factory<TemplateGRVLocalRepository> { TemplateGRVLocalRepositoryImpl(get()) }
 
     factory<ControlGRVStep0LocalDataSource> { ControlGRVStep0LocalDataSourceImpl(get()) }
     factory<ControlGRVStep1LocalDataSource> { ControlGRVStep1LocalDataSourceImpl(get()) }

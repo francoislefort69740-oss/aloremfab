@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 30
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,6 +26,8 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+
+    implementation("androidx.documentfile:documentfile:1.1.0")
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
@@ -49,5 +51,8 @@ dependencies {
     testImplementation(libs.koin.test)
     // Koin for Android
     implementation(libs.koin.android)
+
+    // GSON
+    implementation(libs.gson)
 
 }

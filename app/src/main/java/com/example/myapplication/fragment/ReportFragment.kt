@@ -32,7 +32,6 @@ class ReportFragment : BaseFragment() {
     private lateinit var recyclerViewCtrl: RecyclerView
     private lateinit var mAdapterList: ReportGRVListAdapter
     private lateinit var mAdapterExport: ReportGRVExportAdapter
-
     private lateinit var recyclerViewExport: RecyclerView
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
@@ -48,8 +47,6 @@ class ReportFragment : BaseFragment() {
 
         viewModel.getAllFinishedControlGRV()
         observeLiveData(view = view)
-
-//        shareADRPdf(null)
     }
 
     // ----------------------------------------------------------------------------------------------
