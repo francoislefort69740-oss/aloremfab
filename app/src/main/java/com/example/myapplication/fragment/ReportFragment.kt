@@ -97,25 +97,33 @@ class ReportFragment : BaseFragment() {
     }
 
     private fun shareADRPdf(report: StepControlGRV.StepControlGRVAll?) {
-        val pdfFile = File(requireContext().cacheDir, "rapport_periodic_${report?.step0?.reference ?: "unknown"}.pdf")
+        val serialNumberAlorem = "${report?.step0?.serialNumberAlorem ?: "unknown"}"
+        val pdfFile = File(requireContext().cacheDir, "$serialNumberAlorem.pdf")
         val reportADRView = ADRReportGRV(requireContext())
 
-        reportADRView.setNameReport("${report?.step0?.type}_${report?.step2?.capacity20}_${report?.step2?.tare}",
-            report?.step0?.serialNumberAlorem.toString())?.let {
+        val type = report?.step0?.type ?: ""
+        val capacity = report?.step2?.capacity20 ?: 0
+        val tare = report?.step2?.tare ?: 0
+        val reportName = "${type}_${capacity}_${tare}"
+        val foundReportName = reportADRView.setNameReport(reportName, serialNumberAlorem)
+        
+        if (foundReportName != null) {
             reportADRView.generatePdf(pdfFile)
 
-            val contentUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", pdfFile)
-
-            val shareIntent = Intent().apply {
-                action = Intent.ACTION_SEND
-                type = "application/pdf"
-                putExtra(Intent.EXTRA_STREAM, contentUri)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            if (pdfFile.exists() && pdfFile.length() > 0) {
+                val contentUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", pdfFile)
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    this.type = "application/pdf"
+                    putExtra(Intent.EXTRA_STREAM, contentUri)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                startActivity(Intent.createChooser(shareIntent, "Partager le rapport PDF"))
+            } else {
+                Toast.makeText(context, "Erreur lors de la génération du fichier PDF", Toast.LENGTH_SHORT).show()
             }
-            startActivity(Intent.createChooser(shareIntent, "Partager le rapport PDF"))
-        } ?: run {
-            Toast.makeText(context, "RAPPORT inconnu : ${report?.step0?.type}_${report?.step2?.capacity20}_${report?.step2?.tare}",
-                Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Erreur: Template non reconnu ($reportName). Vérifiez vos fichiers PDF.", Toast.LENGTH_LONG).show()
         }
     }
 

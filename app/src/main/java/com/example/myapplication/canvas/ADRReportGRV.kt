@@ -12,6 +12,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.myapplication.R
 import com.example.myapplication.model.StepControlGRV
+import com.example.myapplication.utils.NUMERO
 import java.io.File
 import java.io.FileOutputStream
 
@@ -40,6 +41,17 @@ class ADRReportGRV : View {
         isLinearText = true
         shader = null
         color = ContextCompat.getColor(context, mColor)
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.ROUND
+        paint.strokeWidth = 1F
+    }
+
+    private fun definePaintStrokeFillRed(mColor: Int, unitY: Float): Paint = paint.apply {
+        textSize = Math.round(unitY * 0.9F).toFloat()
+        isAntiAlias = true
+        isLinearText = true
+        shader = null
+        color = ContextCompat.getColor(context, mColor)
         style = Paint.Style.FILL
         strokeCap = Paint.Cap.ROUND
         paint.strokeWidth = 1F
@@ -51,57 +63,91 @@ class ADRReportGRV : View {
     }
 
     fun getDrawing(canvas: Canvas, paint: Paint){
+        android.util.Log.d("ADRReportGRV", "getDrawing called. reportName: $reportName, dimensions: ${widthPx}x${heightPx}")
+        
+        // Fond blanc forcé pour éviter les transparences dans le PDF
+        canvas.drawColor(android.graphics.Color.WHITE)
+        
         reportName?.let { report ->
             if (heightPx == 0F) heightPx = height.toFloat()
             if (widthPx == 0F) widthPx = width.toFloat()
-
+            
             val unitY: Float = if(heightPx != 0F) heightPx* 1/100 else height.toFloat() * 1/100
             val unitX: Float = if (widthPx != 0F) widthPx * 1/100 else width.toFloat() * 1/100
 
             if (backgroundBitmap == null) {
-                backgroundBitmap = getPdfPageAsBitmap(context = context, assetName = "${report}.pdf", pageIndex = 0)
+                try {
+                    val pdfFileName = if (report.lowercase().endsWith(".pdf")) report else "${report}.pdf"
+                    android.util.Log.d("ADRReportGRV", "PDF generation/load: loading $pdfFileName")
+                    backgroundBitmap = getPdfPageAsBitmap(context, pdfFileName, 0)
+                } catch (e: Exception) {
+                    android.util.Log.e("ADRReportGRV", "CRITICAL: PDF Load failed", e)
+                }
             }
 
             backgroundBitmap?.let { backBitmap ->
-                val bitmapPaint = Paint().apply {
-                    isFilterBitmap = true
-                    isAntiAlias = true
-                }
-                canvas.drawBitmap(backBitmap, null, RectF(0f, 0f, widthPx, heightPx), bitmapPaint)
+                android.util.Log.d("ADRReportGRV", "Drawing bitmap: ${backBitmap.width}x${backBitmap.height} onto ${widthPx}x${heightPx}")
+                canvas.drawBitmap(backBitmap, null, RectF(0f, 0f, widthPx, heightPx), null)
+            } ?: run {
+                android.util.Log.e("ADRReportGRV", "BITMAP IS NULL - nothing to draw as background")
+                // On dessine un rectangle de test pour voir si le canvas fonctionne
+                paint.color = android.graphics.Color.RED
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = 5f
+                canvas.drawRect(10f, 10f, widthPx - 10f, heightPx - 10f, paint)
+            }
+
+            if (numAlorem == NUMERO) {
+                definePaintStrokeFillRed(R.color.primary_color, unitY)
+                canvas.drawRect(RectF(
+                    unitX* 13.2F,
+                    unitY*getUnityNumberLoca(name = report) - unitY,
+                    unitX*19.2F,
+                    unitY*getUnityNumberLoca(name = report) + unitY / 2
+                ), paint)
             }
 
             definePaintStroke(R.color.black, unitY)
 
             canvas.drawText(numAlorem,unitX* 13.2F, unitY* getUnityNumberLoca(name = report), paint)
-
-            //   canvas.drawLine(unitX*13, unitY*54, unitX*13, unitY*55, paint)
-            // canvas.drawRect(unitX*13, unitY*53.5F, unitX*49, unitY*55, paint)
         }
     }
 
     fun generatePdf(file: File) {
+        android.util.Log.d("ADRReportGRV", "generatePdf started for report: $reportName")
         val pdfDocument = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
         val page = pdfDocument.startPage(pageInfo)
 
         widthPx = pageInfo.pageWidth.toFloat()
         heightPx = pageInfo.pageHeight.toFloat()
-
+        
+        // On s'assure que le dessin utilise bien les dimensions de la page PDF
         getDrawing(page.canvas, paint)
 
         pdfDocument.finishPage(page)
         
-        FileOutputStream(file).use { outputStream ->
-            pdfDocument.writeTo(outputStream)
+        try {
+            FileOutputStream(file).use { outputStream ->
+                pdfDocument.writeTo(outputStream)
+            }
+            android.util.Log.d("ADRReportGRV", "PDF successfully written to ${file.absolutePath}")
+        } catch (e: Exception) {
+            android.util.Log.e("ADRReportGRV", "Error writing PDF file", e)
         }
 
         pdfDocument.close()
     }
 
     fun setNameReport(name: String, numero: String): String? {
+        android.util.Log.d("ADRReportGRV", "setNameReport: $name, $numero")
         reportName = findReportByName(name = name)
         numAlorem = numero
-        reportName?.let { invalidate() }
+        android.util.Log.d("ADRReportGRV", "reportName found: $reportName")
+        reportName?.let { 
+            backgroundBitmap = null // Reset bitmap to force reload
+            invalidate() 
+        }
         return reportName
     }
 
@@ -113,11 +159,11 @@ class ADRReportGRV : View {
     }
 
     private fun findReportByName(name: String): String? {
-        return when (name) {
-            CODE_10TCG_970_551 -> "10TCG_970_551"
-            CODE_10TCG_910_484 -> "10TCG_910_484"
-            CODE_05AB_500_275 -> "05AB_500_275"
-            else -> null
+        android.util.Log.d("ADRReportGRV", "findReportByName looking for: $name")
+        // On accepte n'importe quel nom non vide pour supporter les nouveaux templates PDF
+        if (name.isNotBlank()) {
+            return name
         }
+        return null
     }
 }

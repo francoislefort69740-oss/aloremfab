@@ -15,6 +15,7 @@ import com.example.myapplication.fragment.GRVMainFragment
 import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.fragment.RegistrationFragment
 import com.example.myapplication.fragment.ReportFragment
+import com.example.myapplication.fragment.TemplateFragment
 import com.example.myapplication.fragment.UpdateUserFragment
 import com.example.myapplication.utils.MAIN_TAG
 
@@ -59,6 +60,14 @@ class MainActivity : BaseActivity(),
 
     override fun loadMenuFragment() {
         buildInterface(MenuFragment.TAG)
+    }
+
+    override fun loadBuildMenu() {
+        buildInterface(BuildFragment.TAG)
+    }
+
+    override fun loadBuildTemplate(name: String) {
+        buildInterface(TemplateFragment.TAG, obj = name)
     }
 
     override fun createRegistrationFragment(noUserExist: Boolean?) {

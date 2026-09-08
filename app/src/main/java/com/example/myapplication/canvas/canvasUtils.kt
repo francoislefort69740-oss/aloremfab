@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
 import com.example.myapplication.model.StepControlGRV
+import androidx.documentfile.provider.DocumentFile
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -69,49 +70,79 @@ fun getNextDateControl(d: String): String {
     }
 }
 
-fun getPdfPageAsBitmap(context: Context, assetName: String, pageIndex: Int = 0): Bitmap {
+fun getPdfPageAsBitmap(context: Context, fileName: String, pageIndex: Int = 0): Bitmap {
+    val cleanFileName = fileName.trim()
+    android.util.Log.d("canvasUtils", "Attempting to load PDF: '$cleanFileName'")
+    
+    val appContext = context.applicationContext
+    val sharedPrefs = appContext.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val treeUriString = sharedPrefs.getString("template_folder_uri", null)
+    
+    android.util.Log.d("canvasUtils", "SAF TreeUri from Prefs: '$treeUriString'")
+    
+    val fileDescriptor: ParcelFileDescriptor? = try {
+        if (treeUriString != null) {
+            val treeUri = android.net.Uri.parse(treeUriString)
+            
+            // On vérifie les permissions de manière plus souple (comparaison de chaines)
+            val hasPermission = appContext.contentResolver.persistedUriPermissions.any { 
+                it.uri.toString() == treeUri.toString() && it.isReadPermission 
+            }
+            android.util.Log.d("canvasUtils", "Has persisted permission: $hasPermission")
 
-    // Fichier temporaire
-    val pdfFile = File(context.cacheDir, assetName)
+            val pickedDir = DocumentFile.fromTreeUri(appContext, treeUri)
+            
+            // On cherche le fichier (tentative insensible à la casse si échec)
+            var file = pickedDir?.findFile(cleanFileName)
+            if (file == null) {
+                android.util.Log.w("canvasUtils", "File '$cleanFileName' not found directly, scanning folder...")
+                file = pickedDir?.listFiles()?.find { it.name?.equals(cleanFileName, ignoreCase = true) == true }
+            }
+            
+            if (file != null) {
+                android.util.Log.d("canvasUtils", "File found via SAF: ${file.uri}")
+                appContext.contentResolver.openFileDescriptor(file.uri, "r")
+            } else {
+                android.util.Log.e("canvasUtils", "File '$cleanFileName' NOT FOUND in selected SAF directory")
+                null
+            }
+        } else {
+            android.util.Log.e("canvasUtils", "No SAF directory selected! Background cannot be loaded.")
+            null
+        }
+    } catch (e: Exception) {
+        android.util.Log.e("canvasUtils", "CRITICAL Error opening via SAF: $cleanFileName", e)
+        null
+    }
 
-    // Copier le PDF depuis assets
-    context.assets.open(assetName).use { input ->
-        pdfFile.outputStream().use { output ->
-            input.copyTo(output)
+    if (fileDescriptor == null) {
+        return try {
+            val downloadDir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
+            val externalFile = File(downloadDir, "GRVTemplate/$cleanFileName")
+            if (externalFile.exists()) {
+                val fd = ParcelFileDescriptor.open(externalFile, ParcelFileDescriptor.MODE_READ_ONLY)
+                renderPdfToBitmap(fd, pageIndex)
+            } else {
+                throw java.io.FileNotFoundException("Fichier non trouvé sur le disque : ${externalFile.absolutePath}")
+            }
+        } catch (e: Exception) {
+            throw java.io.FileNotFoundException("Impossible de lire le PDF: $cleanFileName")
         }
     }
 
-    // Ouvrir le fichier PDF
-    val fileDescriptor = ParcelFileDescriptor.open(
-        pdfFile,
-        ParcelFileDescriptor.MODE_READ_ONLY
-    )
+    return renderPdfToBitmap(fileDescriptor, pageIndex)
+}
 
+private fun renderPdfToBitmap(fileDescriptor: ParcelFileDescriptor, pageIndex: Int): Bitmap {
     val pdfRenderer = PdfRenderer(fileDescriptor)
-
-    // Ouvrir la page demandée
     val page = pdfRenderer.openPage(pageIndex)
-
-    // Création du Bitmap avec une résolution plus élevée (multipliée par 4 pour une qualité d'impression)
     val scale = 4
     val bitmap = createBitmap(page.width * scale, page.height * scale)
-
-    // Fond blanc
     bitmap.eraseColor(android.graphics.Color.WHITE)
-
-    // Dessiner le PDF dans le Bitmap
-    page.render(
-        bitmap,
-        null,
-        null,
-        PdfRenderer.Page.RENDER_MODE_FOR_PRINT
-    )
-
-    // Fermeture
+    page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
     page.close()
     pdfRenderer.close()
     fileDescriptor.close()
-
     return bitmap
 }
 

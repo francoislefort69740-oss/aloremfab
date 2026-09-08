@@ -15,6 +15,7 @@ import com.example.myapplication.utils.BUILD_TAG
 import com.example.myapplication.viewmodel.TemplateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
+import androidx.core.content.edit
 
 class BuildFragment : BaseFragment() {
     override fun getLayout(): Int = R.layout.fragment_build
@@ -58,7 +59,7 @@ class BuildFragment : BaseFragment() {
 
             // Save URI to shared preferences
             val sharedPrefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-            sharedPrefs.edit().putString("template_folder_uri", it.toString()).apply()
+            sharedPrefs.edit { putString("template_folder_uri", it.toString()) }
 
             // Refresh templates
             viewModel.getAllTemplates(context = requireContext())
@@ -82,7 +83,7 @@ class BuildFragment : BaseFragment() {
         if (::recyclerViewTemplate.isInitialized) {
             android.util.Log.d("BuildFragment", "Updating adapter with ${list.size} templates: ${list.map { it.name }}")
             mAdapterTemplate = TemplateGRVListAdapter(grvTemplates = list,
-                onEdit = { serialNumber -> }
+                onEdit = { mCallback?.loadBuildTemplate(it) }
             )
             recyclerViewTemplate.adapter = mAdapterTemplate
             

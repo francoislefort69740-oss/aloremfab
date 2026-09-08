@@ -83,6 +83,8 @@ dependencies {
 
     implementation(libs.text.recognition)
 
+    implementation("androidx.documentfile:documentfile:1.0.1")
+
     implementation(libs.glide)
     annotationProcessor(libs.glide.compiler)
 }
