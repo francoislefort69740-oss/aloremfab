@@ -15,6 +15,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
+        <com.example.myapplication.canvas.FloatingNameGRVReport
+            android:id="@+id/adr_report_floating_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/template_guideline_1_menu"
             android:layout_width="wrap_content"
@@ -31,9 +36,10 @@
 
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/template_right_arrow"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/iaphotologo"
             android:src="@drawable/baseline_arrow_right_24"
             app:layout_constraintBottom_toTopOf="@+id/template_guideline_2_menu"
@@ -50,7 +56,7 @@
             android:src="@drawable/baseline_arrow_drop_down_24"
             app:layout_constraintBottom_toTopOf="@+id/template_guideline_2_menu"
             app:layout_constraintDimensionRatio="h,1:1"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintEnd_toStartOf="@+id/template_right_arrow"
             app:layout_constraintTop_toTopOf="@+id/template_guideline_1_menu" />
 
         <ImageView
@@ -103,6 +109,20 @@
             app:backgroundTint="@null"
             app:layout_constraintBottom_toTopOf="@+id/template_guideline_2_menu"
             app:layout_constraintStart_toEndOf="@+id/template_back_menu"
+            app:layout_constraintTop_toTopOf="@+id/template_guideline_1_menu" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/template_ladder_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/iaphotologo"
+            android:padding="20dp"
+            android:text="@string/Defaut_ladder_GRV_template"
+            android:textColor="@color/black"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toTopOf="@+id/template_guideline_2_menu"
+            app:layout_constraintEnd_toStartOf="@+id/template_left_arrow"
+            app:layout_constraintStart_toEndOf="@+id/template_validate"
             app:layout_constraintTop_toTopOf="@+id/template_guideline_1_menu" />
 
 

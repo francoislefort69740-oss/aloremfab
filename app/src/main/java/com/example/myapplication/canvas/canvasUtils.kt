@@ -72,14 +72,10 @@ fun getNextDateControl(d: String): String {
 
 fun getPdfPageAsBitmap(context: Context, fileName: String, pageIndex: Int = 0): Bitmap {
     val cleanFileName = fileName.trim()
-    android.util.Log.d("canvasUtils", "Attempting to load PDF: '$cleanFileName'")
-    
     val appContext = context.applicationContext
     val sharedPrefs = appContext.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val treeUriString = sharedPrefs.getString("template_folder_uri", null)
-    
-    android.util.Log.d("canvasUtils", "SAF TreeUri from Prefs: '$treeUriString'")
-    
+
     val fileDescriptor: ParcelFileDescriptor? = try {
         if (treeUriString != null) {
             val treeUri = android.net.Uri.parse(treeUriString)

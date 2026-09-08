@@ -25,6 +25,7 @@
     <string name="change_user_menu">Editeur utilisateur</string>
     <string name="back">RETOUR</string>
     <string name="validate">VALIDER</string>
+    <string name="Defaut_ladder_GRV_template">5.0 X</string>
 
     <string name="mettre_a_jour_registration">MAJ</string>
     <string name="nouveau_utilisateur_registration">NOUVEAU</string>

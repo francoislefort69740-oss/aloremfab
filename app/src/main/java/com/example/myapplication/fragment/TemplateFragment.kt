@@ -2,15 +2,14 @@ package com.example.myapplication.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import androidx.fragment.app.findFragment
+import android.widget.ImageView
+import android.widget.Toast
 import com.example.myapplication.R
 import com.example.myapplication.callback.ReportControlInterface
 import com.example.myapplication.canvas.ADRReportGRV
+import com.example.myapplication.canvas.FloatingDirectionNameGRV
+import com.example.myapplication.canvas.FloatingNameGRVReport
 import com.example.myapplication.utils.NUMERO
 import com.example.myapplication.utils.TEMPLATE_TAG
 import com.google.android.material.button.MaterialButton
@@ -26,6 +25,36 @@ class TemplateFragment : BaseFragment() {
 
         view.findViewById<MaterialButton>(R.id.template_back_menu).setOnClickListener {
             mCallback?.loadBuildMenu()
+        }
+
+        val floatingName = view.findViewById<FloatingNameGRVReport>(R.id.adr_report_floating_name)
+
+        view.findViewById<ImageView>(R.id.template_left_arrow).setOnClickListener {
+            floatingName.moveFloatingName(FloatingDirectionNameGRV.LEFT)
+        }
+
+        view.findViewById<ImageView>(R.id.template_up_arrow).setOnClickListener {
+            floatingName.moveFloatingName(FloatingDirectionNameGRV.UP)
+        }
+
+        view.findViewById<ImageView>(R.id.template_arrow_down).setOnClickListener {
+            floatingName.moveFloatingName(FloatingDirectionNameGRV.DOWN)
+        }
+
+        view.findViewById<ImageView>(R.id.template_right_arrow).setOnClickListener {
+            floatingName.moveFloatingName(FloatingDirectionNameGRV.RIGHT)
+        }
+
+        view.findViewById<MaterialButton>(R.id.template_validate).setOnClickListener {
+            val loca = floatingName.getLocalisation()
+            Toast.makeText(requireContext(), "X: ${loca.first} - Y: ${loca.second}", Toast.LENGTH_SHORT).show()
+        }
+
+        val scaleBtn = view.findViewById<MaterialButton>(R.id.template_ladder_menu)
+        scaleBtn.setOnClickListener {
+            val newScale = floatingName.changeScale()
+            val newTitle = "$newScale X"
+            scaleBtn.text = newTitle
         }
     }
 

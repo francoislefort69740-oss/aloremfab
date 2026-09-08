@@ -41,7 +41,7 @@ class ADRReportGRV : View {
         isLinearText = true
         shader = null
         color = ContextCompat.getColor(context, mColor)
-        style = Paint.Style.STROKE
+        style = Paint.Style.FILL
         strokeCap = Paint.Cap.ROUND
         paint.strokeWidth = 1F
     }
