@@ -80,12 +80,18 @@ class FloatingNameGRVReport : View {
         invalidate()
     }
 
+    fun setLocalisation(x: Float, y: Float) {
+        floatX = x
+        floatY = y
+        invalidate()
+    }
+
     fun changeScale(): Float {
         scale = scale.next()
         return scale.scaleNumber
     }
 
-    fun getLocalisation(): Pair<Float, Float> = (width.toFloat() * 1/100 * 50F + floatX)/(width.toFloat() * 1/100) to (height.toFloat() * 1/100* 50 + floatY)/(height.toFloat() * 1/100)
+    fun getLocalisation(): Pair<Float, Float> = floatX to floatY
 }
 
 enum class FloatingDirectionNameGRV {

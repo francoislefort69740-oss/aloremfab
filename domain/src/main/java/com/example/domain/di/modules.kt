@@ -17,6 +17,7 @@ import com.example.domain.usecase.GetControlGRVStepUseCase
 import com.example.domain.usecase.GetControlGRVUseCase
 import com.example.domain.usecase.GetCurrentlyGoingOnControlGRVUseCase
 import com.example.domain.usecase.GetLoadedControlGRVUseCase
+import com.example.domain.usecase.GetTemplateUseCase
 import com.example.domain.usecase.GetUnLoadedControlGRVUseCase
 import com.example.domain.usecase.GetUserUseCase
 import com.example.domain.usecase.SaveTemplateUseCase
@@ -29,6 +30,7 @@ import org.koin.dsl.module
 val domainModule = module {
 
     single { DomainInteractor(
+        get(),
         get(),
         get(),
         get(),
@@ -77,4 +79,5 @@ val domainModule = module {
     single { GetAllStepControlGRVFortReportUseCase(get(), get(), get()) }
     single { GetAllTemplatesUseCase(get()) }
     single { SaveTemplateUseCase(get()) }
+    single { GetTemplateUseCase(get()) }
 }

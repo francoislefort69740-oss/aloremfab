@@ -24,17 +24,16 @@ class TemplateFragment : BaseFragment() {
     private val viewModel: TemplateViewModel by viewModel()
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
+
+        val floatingName = view.findViewById<FloatingNameGRVReport>(R.id.adr_report_floating_name)
+
         arguments?.getString(NAME_TEMPLATE)?.let { name ->
             val adrView = view.findViewById<ADRReportGRV>(R.id.adr_report_template)
             adrView.setNameReport(name = name, numero = NUMERO)
 
-
             view.findViewById<MaterialButton>(R.id.template_back_menu).setOnClickListener {
                 mCallback?.loadBuildMenu()
             }
-
-            val floatingName =
-                view.findViewById<FloatingNameGRVReport>(R.id.adr_report_floating_name)
 
             view.findViewById<ImageView>(R.id.template_left_arrow).setOnClickListener {
                 floatingName.moveFloatingName(FloatingDirectionNameGRV.LEFT)
@@ -63,17 +62,23 @@ class TemplateFragment : BaseFragment() {
                 val newTitle = "$newScale X"
                 scaleBtn.text = newTitle
             }
+
+            viewModel.getTemplate(context = requireContext(), name = name)
         }
 
-        observeLiveData(view = view)
+        observeLiveData(view = view, floatingName = floatingName)
     }
 
     // ----------------------------------------------------------------------------------------------
     // OBSERVATIONS
 
-    private fun observeLiveData(view: View) {
+    private fun observeLiveData(view: View, floatingName: FloatingNameGRVReport) {
         viewModel.saveTemplateLiveData().observe(this) { success ->
             if (success) mCallback?.loadBuildMenu()
+        }
+
+        viewModel.getTemplateLiveData().observe(this) { templateGRV ->
+            floatingName.setLocalisation(templateGRV.x, templateGRV.y)
         }
     }
 
