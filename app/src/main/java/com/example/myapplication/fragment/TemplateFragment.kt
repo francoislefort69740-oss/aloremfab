@@ -10,51 +10,70 @@ import com.example.myapplication.callback.ReportControlInterface
 import com.example.myapplication.canvas.ADRReportGRV
 import com.example.myapplication.canvas.FloatingDirectionNameGRV
 import com.example.myapplication.canvas.FloatingNameGRVReport
+import com.example.myapplication.model.TemplateGRV
 import com.example.myapplication.utils.NUMERO
 import com.example.myapplication.utils.TEMPLATE_TAG
+import com.example.myapplication.viewmodel.TemplateViewModel
 import com.google.android.material.button.MaterialButton
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.getValue
 
 class TemplateFragment : BaseFragment() {
     override fun getLayout(): Int = R.layout.fragment_template
+
+    private val viewModel: TemplateViewModel by viewModel()
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
         arguments?.getString(NAME_TEMPLATE)?.let { name ->
             val adrView = view.findViewById<ADRReportGRV>(R.id.adr_report_template)
             adrView.setNameReport(name = name, numero = NUMERO)
+
+
+            view.findViewById<MaterialButton>(R.id.template_back_menu).setOnClickListener {
+                mCallback?.loadBuildMenu()
+            }
+
+            val floatingName =
+                view.findViewById<FloatingNameGRVReport>(R.id.adr_report_floating_name)
+
+            view.findViewById<ImageView>(R.id.template_left_arrow).setOnClickListener {
+                floatingName.moveFloatingName(FloatingDirectionNameGRV.LEFT)
+            }
+
+            view.findViewById<ImageView>(R.id.template_up_arrow).setOnClickListener {
+                floatingName.moveFloatingName(FloatingDirectionNameGRV.UP)
+            }
+
+            view.findViewById<ImageView>(R.id.template_arrow_down).setOnClickListener {
+                floatingName.moveFloatingName(FloatingDirectionNameGRV.DOWN)
+            }
+
+            view.findViewById<ImageView>(R.id.template_right_arrow).setOnClickListener {
+                floatingName.moveFloatingName(FloatingDirectionNameGRV.RIGHT)
+            }
+
+            view.findViewById<MaterialButton>(R.id.template_validate).setOnClickListener {
+                val loc = floatingName.getLocalisation()
+                viewModel.saveTemplate(context = requireContext(), template = TemplateGRV(name = name, x = loc.first, y = loc.second))
+            }
+
+            val scaleBtn = view.findViewById<MaterialButton>(R.id.template_ladder_menu)
+            scaleBtn.setOnClickListener {
+                val newScale = floatingName.changeScale()
+                val newTitle = "$newScale X"
+                scaleBtn.text = newTitle
+            }
         }
 
-        view.findViewById<MaterialButton>(R.id.template_back_menu).setOnClickListener {
-            mCallback?.loadBuildMenu()
-        }
+        observeLiveData(view = view)
+    }
 
-        val floatingName = view.findViewById<FloatingNameGRVReport>(R.id.adr_report_floating_name)
+    // ----------------------------------------------------------------------------------------------
+    // OBSERVATIONS
 
-        view.findViewById<ImageView>(R.id.template_left_arrow).setOnClickListener {
-            floatingName.moveFloatingName(FloatingDirectionNameGRV.LEFT)
-        }
-
-        view.findViewById<ImageView>(R.id.template_up_arrow).setOnClickListener {
-            floatingName.moveFloatingName(FloatingDirectionNameGRV.UP)
-        }
-
-        view.findViewById<ImageView>(R.id.template_arrow_down).setOnClickListener {
-            floatingName.moveFloatingName(FloatingDirectionNameGRV.DOWN)
-        }
-
-        view.findViewById<ImageView>(R.id.template_right_arrow).setOnClickListener {
-            floatingName.moveFloatingName(FloatingDirectionNameGRV.RIGHT)
-        }
-
-        view.findViewById<MaterialButton>(R.id.template_validate).setOnClickListener {
-            val loca = floatingName.getLocalisation()
-            Toast.makeText(requireContext(), "X: ${loca.first} - Y: ${loca.second}", Toast.LENGTH_SHORT).show()
-        }
-
-        val scaleBtn = view.findViewById<MaterialButton>(R.id.template_ladder_menu)
-        scaleBtn.setOnClickListener {
-            val newScale = floatingName.changeScale()
-            val newTitle = "$newScale X"
-            scaleBtn.text = newTitle
+    private fun observeLiveData(view: View) {
+        viewModel.saveTemplateLiveData().observe(this) { success ->
+            if (success) mCallback?.loadBuildMenu()
         }
     }
 

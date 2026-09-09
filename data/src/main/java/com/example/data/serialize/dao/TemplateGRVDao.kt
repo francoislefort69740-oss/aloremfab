@@ -68,29 +68,40 @@ class TemplateGRVDao {
             val selection = "${MediaStore.Downloads.DISPLAY_NAME} = ? AND ${MediaStore.Downloads.RELATIVE_PATH} IN (?, ?)"
             val selectionArgs = arrayOf(JSON_FILE_NAME, "Download/$FOLDER_NAME/", "Download/$FOLDER_NAME")
 
+            // Recherche du fichier existant avant d'écrire
             var uri: android.net.Uri? = null
-            contentResolver.query(collection, projection, selection, selectionArgs, null)?.use { cursor ->
+            // On cherche spécifiquement par DISPLAY_NAME et RELATIVE_PATH
+            val querySelection = "${MediaStore.Downloads.DISPLAY_NAME} = ? AND ${MediaStore.Downloads.RELATIVE_PATH} LIKE ?"
+            val queryArgs = arrayOf(JSON_FILE_NAME, "%$FOLDER_NAME%")
+
+            contentResolver.query(collection, arrayOf(MediaStore.Downloads._ID), querySelection, queryArgs, null)?.use { cursor ->
                 if (cursor.moveToFirst()) {
                     val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Downloads._ID))
                     uri = android.content.ContentUris.withAppendedId(collection, id)
                 }
             }
 
-            // Le fichier n'existe pas encore
             if (uri == null) {
+                android.util.Log.i("TemplateGRVDao", "FORCE LOG: Creating NEW file: $JSON_FILE_NAME")
                 val values = ContentValues().apply {
                     put(MediaStore.Downloads.DISPLAY_NAME, JSON_FILE_NAME)
                     put(MediaStore.Downloads.MIME_TYPE, "text/plain")
                     put(MediaStore.Downloads.RELATIVE_PATH, "Download/$FOLDER_NAME/")
                 }
                 uri = contentResolver.insert(collection, values)
+            } else {
+                android.util.Log.i("TemplateGRVDao", "FORCE LOG: EXISTING file found at $uri. Overwriting...")
             }
 
-            uri?.let {
-                contentResolver.openOutputStream(it, "wt")?.use { output ->
-                    output.write(json.toByteArray(Charsets.UTF_8))
+            uri?.let { targetUri ->
+                android.util.Log.i("TemplateGRVDao", "FORCE LOG: Writing JSON to: $targetUri")
+                contentResolver.openOutputStream(targetUri, "rwt")?.use { output ->
+                    val bytes = json.toByteArray(Charsets.UTF_8)
+                    output.write(bytes)
+                    output.flush()
+                    android.util.Log.i("TemplateGRVDao", "FORCE LOG: Successfully wrote ${bytes.size} bytes")
                 }
-            }
+            } ?: android.util.Log.e("TemplateGRVDao", "FORCE LOG: FAILED to get URI for writing JSON")
         }
 
 
@@ -99,6 +110,7 @@ class TemplateGRVDao {
     // ---------------------------------------------------------
 
     suspend fun createTemplate(templateGRVLocal: TemplateGRVLocal, context: Context) = withContext(Dispatchers.IO) {
+        android.util.Log.i("TemplateGRVDao", "FORCE LOG: createTemplate called for ${templateGRVLocal.name}")
         val templates = getTemplates(context).toMutableList()
         // Évite les doublons
         if (templates.none { it.name == templateGRVLocal.name }) {
@@ -134,11 +146,14 @@ class TemplateGRVDao {
     // ---------------------------------------------------------
 
     suspend fun updateTemplate(templateGRVLocal: TemplateGRVLocal, context: Context) = withContext(Dispatchers.IO) {
+        android.util.Log.i("TemplateGRVDao", "FORCE LOG: updateTemplate called for ${templateGRVLocal.name}")
         val templates = getTemplates(context).toMutableList()
         val index = templates.indexOfFirst { it.name == templateGRVLocal.name }
         if (index != -1) {
             templates[index] = templateGRVLocal
             saveTemplates(context, templates)
+        } else {
+            android.util.Log.w("TemplateGRVDao", "FORCE LOG: updateTemplate - template NOT FOUND in list")
         }
     }
 

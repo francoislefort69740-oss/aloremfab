@@ -13,11 +13,14 @@ import kotlinx.coroutines.launch
 
 class TemplateViewModel(interactor: DomainInteractor): ViewModel() {
     private val getAllTemplatesUseCase = interactor.getAllTemplatesUseCase
+    private val saveTemplateUseCase = interactor.saveTemplateUseCase
 
     private val getAllTemplatesLiveData = MutableLiveData<List<TemplateGRV>>()
+    private val saveTemplateLiveData = MutableLiveData<Boolean>()
     private val noControlGRVExist = MutableLiveData<Boolean>()
 
     fun getAllTemplatesLiveData() = getAllTemplatesLiveData
+    fun saveTemplateLiveData() = saveTemplateLiveData
 
     // OBSERVATION
 
@@ -29,6 +32,24 @@ class TemplateViewModel(interactor: DomainInteractor): ViewModel() {
                 )
                 is ResultOf.Error -> when(result.exception) {
                     is ErrorBusiness.NoControlGRVExist -> noControlGRVExist.postValue(true)
+                }
+            }
+        }
+    }
+
+    fun saveTemplate(context: Context, template: TemplateGRV) {
+        android.util.Log.i("TemplateViewModel", "saveTemplate called for: ${template.name}")
+        viewModelScope.launch {
+            when (val result = saveTemplateUseCase.invoke(template = FrontControlGRCMapper.controlGRVTemplateFrontToBusiness(templateGRV = template), context = context)) {
+                is ResultOf.Success -> {
+                    android.util.Log.i("TemplateViewModel", "saveTemplate Success")
+                    saveTemplateLiveData.postValue(result.data)
+                }
+                is ResultOf.Error -> {
+                    android.util.Log.e("TemplateViewModel", "saveTemplate Error: ${result.exception}")
+                    when(result.exception) {
+                        is ErrorBusiness.NoControlGRVExist -> noControlGRVExist.postValue(true)
+                    }
                 }
             }
         }

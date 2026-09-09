@@ -21,6 +21,7 @@ import com.example.domain.usecase.UpdateControlGRCUseCase
 import com.example.domain.usecase.UpdateUserUseCase
 import com.example.domain.usecase.GetLoadedControlGRVUseCase
 import com.example.domain.usecase.GetUnLoadedControlGRVUseCase
+import com.example.domain.usecase.SaveTemplateUseCase
 import com.example.domain.usecase.UpdateLoadedControlGRVStateUseCase
 
 data class DomainInteractor(
@@ -45,5 +46,6 @@ data class DomainInteractor(
     val createControlGRVStepUseCase: CreateControlGRVStepUseCase,
     val checkSaveOrNextControlGRVUseCase: CheckSaveOrNextControlGRVUseCase,
     val getAllStepControlGRVForReportUseCase: GetAllStepControlGRVFortReportUseCase,
-    val getAllTemplatesUseCase: GetAllTemplatesUseCase
+    val getAllTemplatesUseCase: GetAllTemplatesUseCase,
+    val saveTemplateUseCase: SaveTemplateUseCase
 )
