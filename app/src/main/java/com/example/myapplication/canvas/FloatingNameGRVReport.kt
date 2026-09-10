@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.myapplication.R
@@ -19,8 +20,8 @@ class FloatingNameGRVReport : View {
     private val paint = Paint()
     private var heightPx : Float = 0F
     private var widthPx : Float = 0F
-    private var floatX : Float = 0F
-    private var floatY : Float = 0F
+    private var floatX : Float = 50F
+    private var floatY : Float = 50F
     private var scale : FloatingScaleNameGRV = FloatingScaleNameGRV.SCALE_FIVE
 
     private fun definePaintStroke(mColor: Int, unitY: Float): Paint = paint.apply {
@@ -54,28 +55,29 @@ class FloatingNameGRVReport : View {
         if (heightPx == 0F) heightPx = height.toFloat()
         if (widthPx == 0F) widthPx = width.toFloat()
 
-        val unitY: Float = if(heightPx != 0F) heightPx* 1/100 else height.toFloat() * 1/100
-        val unitX: Float = if (widthPx != 0F) widthPx * 1/100 else width.toFloat() * 1/100
+        val unitY = heightPx / 100
+        val unitX = widthPx / 100
 
         definePaintStrokeFillRed(R.color.primary_color, unitY)
         canvas.drawRect(RectF(
-            unitX* 50F + floatX,
-            unitY* 50 - unitY + floatY,
-            unitX* 56F + floatX,
-            unitY* 50 + unitY / 2 + floatY
+            unitX * floatX,
+            unitY * floatY - unitY,
+            unitX * (6F + floatX),
+            unitY * floatY + unitY / 2
         ), paint)
 
         definePaintStroke(R.color.black, unitY)
 
-        canvas.drawText(NUMERO,unitX* 50F + floatX, unitY* 50F + floatY, paint)
+        Log.i("ADR_REPORT_FLOAT", "Floating : X : ${unitY*floatX} - Y : ${unitY*floatY}")
+        canvas.drawText(NUMERO, unitX * floatX, unitY * floatY, paint)
     }
 
     fun moveFloatingName(direction: FloatingDirectionNameGRV) {
         when (direction) {
-            FloatingDirectionNameGRV.LEFT -> floatX -= width.toFloat() * 1/100 * scale.scaleNumber
-            FloatingDirectionNameGRV.RIGHT -> floatX += width.toFloat() * 1/100 * scale.scaleNumber
-            FloatingDirectionNameGRV.UP -> floatY -= height.toFloat() * 1/100 * scale.scaleNumber
-            FloatingDirectionNameGRV.DOWN -> floatY += height.toFloat() * 1/100 * scale.scaleNumber
+            FloatingDirectionNameGRV.LEFT -> floatX -= scale.scaleNumber
+            FloatingDirectionNameGRV.RIGHT -> floatX += scale.scaleNumber
+            FloatingDirectionNameGRV.UP -> floatY -= scale.scaleNumber
+            FloatingDirectionNameGRV.DOWN -> floatY += scale.scaleNumber
         }
         invalidate()
     }

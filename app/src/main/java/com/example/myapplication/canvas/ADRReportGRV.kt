@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.pdf.PdfDocument
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.myapplication.R
@@ -23,8 +24,8 @@ class ADRReportGRV : View {
     private val paint = Paint()
     private var heightPx : Float = 0F
     private var widthPx : Float = 0F
-    private var floatX : Float = 0F
-    private var floatY : Float = 0F
+    private var floatX : Float = 50F
+    private var floatY : Float = 50F
 
     private var reportName : String?  = null
     private var numAlorem: String = ""
@@ -59,8 +60,6 @@ class ADRReportGRV : View {
     }
 
     fun getDrawing(canvas: Canvas, paint: Paint){
-        android.util.Log.d("ADRReportGRV", "getDrawing called. reportName: $reportName, dimensions: ${widthPx}x${heightPx}")
-        
         // Fond blanc forcé pour éviter les transparences dans le PDF
         canvas.drawColor(android.graphics.Color.WHITE)
         
@@ -74,7 +73,6 @@ class ADRReportGRV : View {
             if (backgroundBitmap == null) {
                 try {
                     val pdfFileName = if (report.lowercase().endsWith(".pdf")) report else "${report}.pdf"
-                    android.util.Log.d("ADRReportGRV", "PDF generation/load: loading $pdfFileName")
                     backgroundBitmap = getPdfPageAsBitmap(context, pdfFileName, 0)
                 } catch (e: Exception) {
                     android.util.Log.e("ADRReportGRV", "CRITICAL: PDF Load failed", e)
@@ -82,11 +80,8 @@ class ADRReportGRV : View {
             }
 
             backgroundBitmap?.let { backBitmap ->
-                android.util.Log.d("ADRReportGRV", "Drawing bitmap: ${backBitmap.width}x${backBitmap.height} onto ${widthPx}x${heightPx}")
                 canvas.drawBitmap(backBitmap, null, RectF(0f, 0f, widthPx, heightPx), null)
             } ?: run {
-                android.util.Log.e("ADRReportGRV", "BITMAP IS NULL - nothing to draw as background")
-                // On dessine un rectangle de test pour voir si le canvas fonctionne
                 paint.color = android.graphics.Color.RED
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = 5f
@@ -95,12 +90,12 @@ class ADRReportGRV : View {
 
             definePaintStroke(R.color.black, unitY)
 
-            if (numAlorem != NUMERO) canvas.drawText(NUMERO,unitX* 50F + floatX, unitY* 50F + floatY, paint)
+            Log.i("ADR_REPORT_FLOAT", "Report : X : ${unitY*floatX} - Y : ${unitY*floatY}")
+            if (numAlorem != NUMERO) canvas.drawText(numAlorem,unitX * floatX, unitY * floatY, paint)
         }
     }
 
     fun generatePdf(file: File) {
-        android.util.Log.d("ADRReportGRV", "generatePdf started for report: $reportName")
         val pdfDocument = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
         val page = pdfDocument.startPage(pageInfo)
@@ -117,7 +112,6 @@ class ADRReportGRV : View {
             FileOutputStream(file).use { outputStream ->
                 pdfDocument.writeTo(outputStream)
             }
-            android.util.Log.d("ADRReportGRV", "PDF successfully written to ${file.absolutePath}")
         } catch (e: Exception) {
             android.util.Log.e("ADRReportGRV", "Error writing PDF file", e)
         }
@@ -126,22 +120,18 @@ class ADRReportGRV : View {
     }
 
     fun setNameReport(name: String, numero: String, x: Float = 0F, y: Float = 0F): String? {
-        android.util.Log.d("ADRReportGRV", "setNameReport: $name, $numero")
         reportName = findReportByName(name = name)
         numAlorem = numero
         floatX = x
         floatY = y
-        android.util.Log.d("ADRReportGRV", "reportName found: $reportName")
-        reportName?.let { 
-            backgroundBitmap = null // Reset bitmap to force reload
-            invalidate() 
+        reportName?.let {
+            backgroundBitmap = null
+            invalidate()
         }
         return reportName
     }
 
     private fun findReportByName(name: String): String? {
-        android.util.Log.d("ADRReportGRV", "findReportByName looking for: $name")
-        // On accepte n'importe quel nom non vide pour supporter les nouveaux templates PDF
         if (name.isNotBlank()) {
             return name
         }
