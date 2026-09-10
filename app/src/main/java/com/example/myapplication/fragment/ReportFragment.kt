@@ -97,7 +97,7 @@ class ReportFragment : BaseFragment() {
     }
 
     private fun shareADRPdf(report: StepControlGRV.StepControlGRVAll?) {
-        val serialNumberAlorem = "${report?.step0?.serialNumberAlorem ?: "unknown"}"
+        val serialNumberAlorem = "ADR_${report?.step0?.type ?: "unknown"}_${report?.step0?.serialNumberAlorem ?: "unknown"}"
         val pdfFile = File(requireContext().cacheDir, "$serialNumberAlorem.pdf")
         val reportADRView = ADRReportGRV(requireContext())
 
@@ -128,7 +128,8 @@ class ReportFragment : BaseFragment() {
     }
 
     private fun sharePeriodicPdf(report: StepControlGRV.StepControlGRVAll) {
-        val pdfFile = File(requireContext().cacheDir, "rapport_adr_${report.step0?.type ?: "unknown"}.pdf")
+        val pdfFile = File(requireContext().cacheDir,
+            "RAPPORT_${report.step0?.reportNumber}_${report.step0?.type}_${report.step0?.serialNumberAlorem}.pdf")
         val reportView = PeriodicReportGRV(requireContext())
 
         reportView.setDataIntoReportTemplate(reportData = report)
