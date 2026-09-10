@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import com.example.myapplication.R
 import com.example.myapplication.callback.ReportControlInterface
 import com.example.myapplication.canvas.ADRReportGRV

@@ -4,21 +4,15 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.pdf.PdfDocument
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.myapplication.R
-import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.utils.NUMERO
 import java.io.File
 import java.io.FileOutputStream
-
-const val CODE_10TCG_970_551 = "10TCG_970_551"
-const val CODE_10TCG_910_484 = "10TCG_910_484"
-const val CODE_05AB_500_275 = "05AB_500_275"
 
 class ADRReportGRV : View {
 
@@ -29,6 +23,8 @@ class ADRReportGRV : View {
     private val paint = Paint()
     private var heightPx : Float = 0F
     private var widthPx : Float = 0F
+    private var floatX : Float = 0F
+    private var floatY : Float = 0F
 
     private var reportName : String?  = null
     private var numAlorem: String = ""
@@ -97,19 +93,9 @@ class ADRReportGRV : View {
                 canvas.drawRect(10f, 10f, widthPx - 10f, heightPx - 10f, paint)
             }
 
-            if (numAlorem == NUMERO) {
-                definePaintStrokeFillRed(R.color.primary_color, unitY)
-                canvas.drawRect(RectF(
-                    unitX* 13.2F,
-                    unitY*getUnityNumberLoca(name = report) - unitY,
-                    unitX*19.2F,
-                    unitY*getUnityNumberLoca(name = report) + unitY / 2
-                ), paint)
-            }
-
             definePaintStroke(R.color.black, unitY)
 
-            canvas.drawText(numAlorem,unitX* 13.2F, unitY* getUnityNumberLoca(name = report), paint)
+            if (numAlorem != NUMERO) canvas.drawText(NUMERO,unitX* 50F + floatX, unitY* 50F + floatY, paint)
         }
     }
 
@@ -139,23 +125,18 @@ class ADRReportGRV : View {
         pdfDocument.close()
     }
 
-    fun setNameReport(name: String, numero: String): String? {
+    fun setNameReport(name: String, numero: String, x: Float = 0F, y: Float = 0F): String? {
         android.util.Log.d("ADRReportGRV", "setNameReport: $name, $numero")
         reportName = findReportByName(name = name)
         numAlorem = numero
+        floatX = x
+        floatY = y
         android.util.Log.d("ADRReportGRV", "reportName found: $reportName")
         reportName?.let { 
             backgroundBitmap = null // Reset bitmap to force reload
             invalidate() 
         }
         return reportName
-    }
-
-    private fun getUnityNumberLoca(name: String?): Float = when (name) {
-        CODE_10TCG_970_551 -> 8.25F
-        CODE_10TCG_910_484 -> 7.65F
-        CODE_05AB_500_275 -> 8.25F
-        else -> 0F
     }
 
     private fun findReportByName(name: String): String? {

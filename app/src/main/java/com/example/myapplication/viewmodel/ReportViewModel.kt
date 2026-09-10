@@ -1,5 +1,6 @@
 package com.example.myapplication.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -94,9 +95,9 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
         }
     }
 
-    fun getFullReport(id: Int, type: String) {
+    fun getFullReport(id: Int, type: String, context: Context) {
         viewModelScope.launch {
-            when (val result = getReportAllSteps.invoke(id)) {
+            when (val result = getReportAllSteps.invoke(reference = id, context = context)) {
                 is ResultOf.Success -> when(type) {
                     PERIODIC_GRV_REPORT -> getFullReportForPeriodicLiveData.postValue(FrontControlGRCMapper.fullControlGRVStepBusinessToFront(result.data.first, result.data.second))
                     ADR_GRV_REPORT -> getFullReportForADRLiveData.postValue(FrontControlGRCMapper.fullControlGRVStepBusinessToFront(result.data.first, result.data.second))

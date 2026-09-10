@@ -13,6 +13,7 @@ import com.example.myapplication.recycler.RegistrationUserListAdapter
 import com.example.myapplication.utils.MENU_TAG
 import com.example.myapplication.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
 
 class MenuFragment : BaseFragment() {
     override fun getLayout(): Int = R.layout.fragment_menu
@@ -30,16 +31,26 @@ class MenuFragment : BaseFragment() {
             mCallback?.loadRegistrationFragment()
         }
 
-        view.findViewById<ImageView>(R.id.GRVControlBtn_menu).setOnClickListener {
+        val grvCtrlBtn = view.findViewById<ImageView>(R.id.GRVControlBtn_menu)
+        grvCtrlBtn.setOnClickListener {
             mCallback?.loadGRVControlFragment()
         }
 
-        view.findViewById<ImageView>(R.id.ReportControlBtn_menu).setOnClickListener {
+        val reportCtrlBtn = view.findViewById<ImageView>(R.id.ReportControlBtn_menu)
+        reportCtrlBtn.setOnClickListener {
             mCallback?.loadReportControlFragment()
         }
 
-        view.findViewById<ImageView>(R.id.buildControlBtn_menu).setOnClickListener {
+        val templateCtrlBtn = view.findViewById<ImageView>(R.id.buildControlBtn_menu)
+        templateCtrlBtn.setOnClickListener {
             mCallback?.loadBuildControlFragment()
+        }
+
+        val isExpired = LocalDate.now().isAfter(LocalDate.of(2027, 4, 1))
+        if (isExpired) {
+            grvCtrlBtn.isEnabled = false
+            reportCtrlBtn.isEnabled = false
+            templateCtrlBtn.isEnabled = false
         }
 
 

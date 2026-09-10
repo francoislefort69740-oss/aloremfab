@@ -16,7 +16,9 @@ sealed class StepControlGRV{
         var step3: Step3ControlGRV?,
         var step4: Step4ControlGRV?,
         var step5: Step5ControlGRV?,
-        var step6: Step6ControlGRV?
+        var step6: Step6ControlGRV?,
+        var floatX: Float,
+        var floatY: Float
     )
 
     data class Step0ControlGRV(

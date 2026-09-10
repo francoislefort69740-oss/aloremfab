@@ -76,7 +76,7 @@ val domainModule = module {
     single { GetControlGRVStepUseCase(get()) }
     single { CreateControlGRVStepUseCase(get(), get()) }
     single { CheckSaveOrNextControlGRVUseCase(get(), get()) }
-    single { GetAllStepControlGRVFortReportUseCase(get(), get(), get()) }
+    single { GetAllStepControlGRVFortReportUseCase(get(), get(), get(), get()) }
     single { GetAllTemplatesUseCase(get()) }
     single { SaveTemplateUseCase(get()) }
     single { GetTemplateUseCase(get()) }

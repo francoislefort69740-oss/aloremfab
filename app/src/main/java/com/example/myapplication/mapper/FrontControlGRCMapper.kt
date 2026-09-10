@@ -65,7 +65,9 @@ object FrontControlGRCMapper {
             step3 = controlGRVStepBusiness.controlGRVStep3?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step3ControlGRV },
             step4 = controlGRVStepBusiness.controlGRVStep4?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step4ControlGRV },
             step5 = controlGRVStepBusiness.controlGRVStep5?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step5ControlGRV },
-            step6 = controlGRVStepBusiness.controlGRVStep6?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step6ControlGRV }
+            step6 = controlGRVStepBusiness.controlGRVStep6?.let { controlGRVStepBusinessToFront(it) as StepControlGRV.Step6ControlGRV },
+            floatX = controlGRVStepBusiness.floatX,
+            floatY = controlGRVStepBusiness.floatY
         )
 
     fun controlGRVStepBusinessToFront(controlGRVStepBusiness: ControlGRVStepBusiness): StepControlGRV = when(controlGRVStepBusiness) {

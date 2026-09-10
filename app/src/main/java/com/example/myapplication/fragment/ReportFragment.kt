@@ -90,7 +90,7 @@ class ReportFragment : BaseFragment() {
 
         if (::recyclerViewExport.isInitialized) {
             mAdapterExport = ReportGRVExportAdapter(nameReport = null,
-                onShareClick = { nameReport -> viewModel.getFullReport(id = nameReport.second.toInt(), type = nameReport.first) }
+                onShareClick = { nameReport -> viewModel.getFullReport(id = nameReport.second.toInt(), type = nameReport.first, context = requireContext()) }
             )
             recyclerViewExport.adapter = mAdapterExport
         }
@@ -105,7 +105,7 @@ class ReportFragment : BaseFragment() {
         val capacity = report?.step2?.capacity20 ?: 0
         val tare = report?.step2?.tare ?: 0
         val reportName = "${type}_${capacity}_${tare}"
-        val foundReportName = reportADRView.setNameReport(reportName, serialNumberAlorem)
+        val foundReportName = reportADRView.setNameReport(name = reportName, numero = serialNumberAlorem, x = report?.floatX ?: 0F, y = report?.floatY ?: 0F)
         
         if (foundReportName != null) {
             reportADRView.generatePdf(pdfFile)

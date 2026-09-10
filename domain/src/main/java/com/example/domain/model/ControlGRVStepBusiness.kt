@@ -9,7 +9,9 @@ sealed class ControlGRVStepBusiness{
         var controlGRVStep3: ControlGRVStep3? = null,
         var controlGRVStep4: ControlGRVStep4? = null,
         var controlGRVStep5: ControlGRVStep5? = null,
-        var controlGRVStep6: ControlGRVStep6? = null
+        var controlGRVStep6: ControlGRVStep6? = null,
+        var floatX: Float = 0F,
+        var floatY: Float = 0F
     )
 
     data class ControlGRVStep0(
