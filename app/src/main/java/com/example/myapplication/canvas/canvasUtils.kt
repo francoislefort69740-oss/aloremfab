@@ -3,13 +3,17 @@ package com.example.myapplication.canvas
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
+import android.net.Uri
+import android.os.Environment
 import android.os.ParcelFileDescriptor
+import android.util.Log
 import com.example.myapplication.model.StepControlGRV
 import androidx.documentfile.provider.DocumentFile
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import androidx.core.graphics.createBitmap
+import java.io.FileNotFoundException
 
 fun getResultConformityOutside(exterieur: List<Int>): String {
     var result = "CONFORME"
@@ -79,22 +83,22 @@ fun getPdfPageAsBitmap(context: Context, fileName: String, pageIndex: Int = 0): 
     val fileDescriptor: ParcelFileDescriptor? = try {
         if (treeUriString != null) {
             val treeUri = android.net.Uri.parse(treeUriString)
-            
+
             // On vérifie les permissions de manière plus souple (comparaison de chaines)
-            val hasPermission = appContext.contentResolver.persistedUriPermissions.any { 
-                it.uri.toString() == treeUri.toString() && it.isReadPermission 
+            val hasPermission = appContext.contentResolver.persistedUriPermissions.any {
+                it.uri.toString() == treeUri.toString() && it.isReadPermission
             }
             android.util.Log.d("canvasUtils", "Has persisted permission: $hasPermission")
 
             val pickedDir = DocumentFile.fromTreeUri(appContext, treeUri)
-            
+
             // On cherche le fichier (tentative insensible à la casse si échec)
             var file = pickedDir?.findFile(cleanFileName)
             if (file == null) {
                 android.util.Log.w("canvasUtils", "File '$cleanFileName' not found directly, scanning folder...")
                 file = pickedDir?.listFiles()?.find { it.name?.equals(cleanFileName, ignoreCase = true) == true }
             }
-            
+
             if (file != null) {
                 android.util.Log.d("canvasUtils", "File found via SAF: ${file.uri}")
                 appContext.contentResolver.openFileDescriptor(file.uri, "r")
@@ -113,20 +117,80 @@ fun getPdfPageAsBitmap(context: Context, fileName: String, pageIndex: Int = 0): 
 
     if (fileDescriptor == null) {
         return try {
-            val downloadDir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
+            val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             val externalFile = File(downloadDir, "GRVTemplate/$cleanFileName")
             if (externalFile.exists()) {
                 val fd = ParcelFileDescriptor.open(externalFile, ParcelFileDescriptor.MODE_READ_ONLY)
                 renderPdfToBitmap(fd, pageIndex)
             } else {
-                throw java.io.FileNotFoundException("Fichier non trouvé sur le disque : ${externalFile.absolutePath}")
+                throw FileNotFoundException("Fichier non trouvé sur le disque : ${externalFile.absolutePath}")
             }
         } catch (e: Exception) {
-            throw java.io.FileNotFoundException("Impossible de lire le PDF: $cleanFileName")
+            throw FileNotFoundException("Impossible de lire le PDF: $cleanFileName")
         }
     }
 
     return renderPdfToBitmap(fileDescriptor, pageIndex)
+}
+
+fun getPdfPageCount(context: Context, fileName: String): Int {
+
+    val cleanFileName = fileName.trim()
+    val appContext = context.applicationContext
+
+    val sharedPrefs = appContext.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val treeUriString = sharedPrefs.getString("template_folder_uri", null)
+
+    val fileDescriptor: ParcelFileDescriptor? = try {
+
+        if (treeUriString != null) {
+            val treeUri = Uri.parse(treeUriString)
+            val pickedDir = DocumentFile.fromTreeUri(appContext, treeUri)
+            var file = pickedDir?.findFile(cleanFileName)
+
+            if (file == null) {
+                file = pickedDir?.listFiles()?.find { it.name?.equals(cleanFileName, ignoreCase = true) == true }
+            }
+
+            file?.let { appContext.contentResolver.openFileDescriptor(it.uri, "r") }
+
+        } else {
+            null
+        }
+
+    } catch (e: Exception) {
+        Log.e("ADRReportGRV", "Erreur ouverture PDF", e)
+        null
+    }
+
+    if (fileDescriptor != null) {
+
+        val renderer = PdfRenderer(fileDescriptor)
+        val pageCount = renderer.pageCount
+
+        renderer.close()
+        fileDescriptor.close()
+
+        return pageCount
+    }
+
+    val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+
+    val externalFile = File(downloadDir, "GRVTemplate/$cleanFileName")
+
+    if (!externalFile.exists()) {
+        throw FileNotFoundException("PDF introuvable : $cleanFileName")
+    }
+
+    val fd = ParcelFileDescriptor.open(externalFile, ParcelFileDescriptor.MODE_READ_ONLY)
+
+    val renderer = PdfRenderer(fd)
+    val pageCount = renderer.pageCount
+
+    renderer.close()
+    fd.close()
+
+    return pageCount
 }
 
 private fun renderPdfToBitmap(fileDescriptor: ParcelFileDescriptor, pageIndex: Int): Bitmap {

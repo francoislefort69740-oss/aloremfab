@@ -105,7 +105,7 @@ class ReportFragment : BaseFragment() {
         val capacity = report?.step2?.capacity20 ?: 0
         val tare = report?.step2?.tare ?: 0
         val reportName = "${type}_${capacity}_${tare}"
-        val foundReportName = reportADRView.setNameReport(name = reportName, numero = serialNumberAlorem, x = report?.floatX ?: 0F, y = report?.floatY ?: 0F)
+        val foundReportName = reportADRView.setNameReport(name = reportName, numero = report?.step0?.serialNumberAlorem.toString(), x = report?.floatX ?: 0F, y = report?.floatY ?: 0F)
         
         if (foundReportName != null) {
             reportADRView.generatePdf(pdfFile)

@@ -59,28 +59,27 @@ class ADRReportGRV : View {
         getDrawing(canvas = canvas, paint = paint)
     }
 
-    fun getDrawing(canvas: Canvas, paint: Paint){
-        // Fond blanc forcé pour éviter les transparences dans le PDF
+    fun getDrawing(canvas: Canvas, paint: Paint, pageIndex: Int = 0) {
         canvas.drawColor(android.graphics.Color.WHITE)
-        
+
         reportName?.let { report ->
             if (heightPx == 0F) heightPx = height.toFloat()
             if (widthPx == 0F) widthPx = width.toFloat()
-            
-            val unitY: Float = if(heightPx != 0F) heightPx* 1/100 else height.toFloat() * 1/100
-            val unitX: Float = if (widthPx != 0F) widthPx * 1/100 else width.toFloat() * 1/100
 
-            if (backgroundBitmap == null) {
-                try {
-                    val pdfFileName = if (report.lowercase().endsWith(".pdf")) report else "${report}.pdf"
-                    backgroundBitmap = getPdfPageAsBitmap(context, pdfFileName, 0)
-                } catch (e: Exception) {
-                    android.util.Log.e("ADRReportGRV", "CRITICAL: PDF Load failed", e)
-                }
+            val unitY: Float = if (heightPx != 0F) heightPx * 1 / 100 else height.toFloat() * 1 / 100
+            val unitX: Float = if (widthPx != 0F) widthPx * 1 / 100 else width.toFloat() * 1 / 100
+
+            val pdfFileName = if (report.lowercase().endsWith(".pdf")) report else "$report.pdf"
+
+            val backgroundBitmap = try {
+                getPdfPageAsBitmap(context, pdfFileName, pageIndex)
+            } catch (e: Exception) {
+                Log.e("ADRReportGRV", "CRITICAL: PDF page $pageIndex Load failed", e)
+                null
             }
 
-            backgroundBitmap?.let { backBitmap ->
-                canvas.drawBitmap(backBitmap, null, RectF(0f, 0f, widthPx, heightPx), null)
+            backgroundBitmap?.let { bitmap ->
+                canvas.drawBitmap(bitmap, null, RectF(0f, 0f, widthPx, heightPx), null)
             } ?: run {
                 paint.color = android.graphics.Color.RED
                 paint.style = Paint.Style.STROKE
@@ -88,35 +87,45 @@ class ADRReportGRV : View {
                 canvas.drawRect(10f, 10f, widthPx - 10f, heightPx - 10f, paint)
             }
 
-            definePaintStroke(R.color.black, unitY)
+            if (pageIndex == 0) {
+                definePaintStroke(R.color.black, unitY)
 
-            Log.i("ADR_REPORT_FLOAT", "Report : X : ${unitY*floatX} - Y : ${unitY*floatY}")
-            if (numAlorem != NUMERO) canvas.drawText(numAlorem,unitX * floatX, unitY * floatY, paint)
+                Log.i("ADR_REPORT_FLOAT", "Report : X : ${unitY * floatX} - Y : ${unitY * floatY}")
+                if (numAlorem != NUMERO) { canvas.drawText(numAlorem, unitX * floatX, unitY * floatY, paint)
+                }
+            }
         }
     }
 
     fun generatePdf(file: File) {
         val pdfDocument = PdfDocument()
-        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
-        val page = pdfDocument.startPage(pageInfo)
+        val pdfFileName = if (reportName?.lowercase()?.endsWith(".pdf") == true) reportName!! else "${reportName}.pdf"
 
-        widthPx = pageInfo.pageWidth.toFloat()
-        heightPx = pageInfo.pageHeight.toFloat()
-        
-        // On s'assure que le dessin utilise bien les dimensions de la page PDF
-        getDrawing(page.canvas, paint)
+        val pageCount = getPdfPageCount(context, pdfFileName)
 
-        pdfDocument.finishPage(page)
-        
-        try {
-            FileOutputStream(file).use { outputStream ->
-                pdfDocument.writeTo(outputStream)
-            }
-        } catch (e: Exception) {
-            android.util.Log.e("ADRReportGRV", "Error writing PDF file", e)
+        Log.d("ADRReportGRV", "Template : $pdfFileName - $pageCount page(s)")
+
+        for (pageIndex in 0 until pageCount) {
+            val pageInfo = PdfDocument.PageInfo.Builder(595, 842, pageIndex + 1).create()
+
+            val page = pdfDocument.startPage(pageInfo)
+
+            widthPx = pageInfo.pageWidth.toFloat()
+            heightPx = pageInfo.pageHeight.toFloat()
+
+            getDrawing(canvas = page.canvas, paint = paint, pageIndex = pageIndex)
+            pdfDocument.finishPage(page)
         }
 
-        pdfDocument.close()
+        try {
+            FileOutputStream(file).use {
+                outputStream -> pdfDocument.writeTo(outputStream)
+            }
+        } catch (e: Exception) {
+            Log.e("ADRReportGRV", "Error writing PDF file", e)
+        } finally {
+            pdfDocument.close()
+        }
     }
 
     fun setNameReport(name: String, numero: String, x: Float = 0F, y: Float = 0F): String? {
