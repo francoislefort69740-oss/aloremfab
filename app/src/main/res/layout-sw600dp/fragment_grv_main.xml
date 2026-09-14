@@ -70,12 +70,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_grv_control" />
 
+        <FrameLayout
+            android:id="@+id/container_camera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
+            <androidx.camera.view.PreviewView
+                android:id="@+id/viewFinder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_take_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="32dp"
+                android:src="@drawable/ic_camera"
+                app:backgroundTint="@color/white"
+                app:tint="@color/primary_500" />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_close_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_close"
+                app:backgroundTint="@color/white"
+                app:fabSize="mini"
+                app:tint="@color/primary_500" />
 
-
-
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

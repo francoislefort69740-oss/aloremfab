@@ -21,6 +21,7 @@ import com.example.myapplication.recycler.StepGRVListAdapter
 import com.example.myapplication.utils.CHECK_GRV
 import com.example.myapplication.utils.PERF_GRV
 import com.example.myapplication.viewmodel.ControlGRVViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
 
@@ -42,6 +43,12 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
             controlComponent =  GRVControlProcess()
             manageControlPage(view = view, arguments = arguments)
+
+            view.findViewById<FloatingActionButton>(R.id.photo_child_control_grv).setOnClickListener {
+                if (controlComponent.getControl().serialNumber != 0 && controlComponent.getControl().serialNumber != null) {
+                    mCallback?.getCameraScreen(controlComponent.getControl().serialNumber.toString())
+                }
+            }
 
             observeLiveData()
         }
