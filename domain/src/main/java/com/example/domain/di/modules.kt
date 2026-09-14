@@ -1,6 +1,7 @@
 package com.example.domain.di
 
 import com.example.domain.interactor.DomainInteractor
+import com.example.domain.usecase.CheckIfTemplateGRVExistUseCase
 import com.example.domain.usecase.CheckSaveOrNextControlGRVUseCase
 import com.example.domain.usecase.CreateControlGRVStepUseCase
 import com.example.domain.usecase.CreateControlGRVUseCase
@@ -53,6 +54,7 @@ val domainModule = module {
         get(),
         get(),
         get(),
+        get(),
         get()
     )}
 
@@ -80,4 +82,5 @@ val domainModule = module {
     single { GetAllTemplatesUseCase(get()) }
     single { SaveTemplateUseCase(get()) }
     single { GetTemplateUseCase(get()) }
+    single { CheckIfTemplateGRVExistUseCase(get(), get()) }
 }

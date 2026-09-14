@@ -21,7 +21,20 @@ class ReportGRVExportAdapter(private var nameReport: String? = null, private val
     override fun getItemCount(): Int = if (nameReport == null) 0 else 2
 
     fun updateNameReport(newNameReport: String) {
+        val wasEmpty = nameReport == null
         nameReport = newNameReport
-        notifyItemRangeChanged(0, itemCount)
+        if (wasEmpty) {
+            notifyItemRangeInserted(0, 2)
+        } else {
+            notifyItemRangeChanged(0, 2)
+        }
+    }
+
+    fun clear() {
+        val count = itemCount
+        nameReport = null
+        if (count > 0) {
+            notifyItemRangeRemoved(0, count)
+        }
     }
 }

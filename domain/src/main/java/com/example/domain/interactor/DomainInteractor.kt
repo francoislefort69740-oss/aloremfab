@@ -1,5 +1,6 @@
 package com.example.domain.interactor
 
+import com.example.domain.usecase.CheckIfTemplateGRVExistUseCase
 import com.example.domain.usecase.CheckSaveOrNextControlGRVUseCase
 import com.example.domain.usecase.CreateControlGRVStepUseCase
 import com.example.domain.usecase.CreateControlGRVUseCase
@@ -49,5 +50,6 @@ data class DomainInteractor(
     val getAllStepControlGRVForReportUseCase: GetAllStepControlGRVFortReportUseCase,
     val getAllTemplatesUseCase: GetAllTemplatesUseCase,
     val saveTemplateUseCase: SaveTemplateUseCase,
-    val getTemplateUseCase: GetTemplateUseCase
+    val getTemplateUseCase: GetTemplateUseCase,
+    val checkIfTemplateGRVExistUseCase: CheckIfTemplateGRVExistUseCase
 )

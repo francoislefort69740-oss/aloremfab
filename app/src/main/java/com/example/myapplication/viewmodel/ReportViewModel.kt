@@ -22,10 +22,13 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
     private val updateControlGRV = interactor.updateControlGRCUseCase
     private val deleteControlGRV = interactor.deleteControlGRVUseCase
     private val getReportAllSteps = interactor.getAllStepControlGRVForReportUseCase
+    private val checkIfTemplateGRVExist = interactor.checkIfTemplateGRVExistUseCase
 
     private val updateControlGRVLiveData = MutableLiveData<String>()
     private val noControlGRVExist = MutableLiveData<Boolean>()
     private val controlGRVNotFound = MutableLiveData<Boolean>()
+    private val templateGRVNotFound = MutableLiveData<Boolean>()
+    private val checkIfTemplateGRVExistLiveData = MutableLiveData<String>()
 
     // LIVEDATA
 
@@ -41,8 +44,21 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
     fun updateControlGRVLiveData() = updateControlGRVLiveData
     fun getFullReportForPeriodicLiveData() = getFullReportForPeriodicLiveData
     fun getFullReportForADRLiveData() = getFullReportForADRLiveData
+    fun noTemplateGRVExistLiveData() = templateGRVNotFound
+    fun checkIfTemplateGRVExistLiveData() = checkIfTemplateGRVExistLiveData
 
     // OBSERVATION
+
+    fun checkIfTemplateGRVExist(name: String, context: Context) {
+        viewModelScope.launch {
+            when (val result = checkIfTemplateGRVExist.invoke(name = name, context = context)) {
+                is ResultOf.Success -> checkIfTemplateGRVExistLiveData.postValue(name)
+                is ResultOf.Error -> when(result.exception) {
+                    is ErrorBusiness.TemplateGRVNotFound -> templateGRVNotFound.postValue(true)
+                }
+            }
+        }
+    }
 
     fun getAllFinishedControlGRV() {
         viewModelScope.launch {

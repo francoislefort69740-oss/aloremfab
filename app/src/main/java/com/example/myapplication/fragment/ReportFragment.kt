@@ -76,12 +76,22 @@ class ReportFragment : BaseFragment() {
         viewModel.getFullReportForADRLiveData().observe(this) {
             shareADRPdf(it)
         }
+
+        viewModel.checkIfTemplateGRVExistLiveData().observe(this) {
+            if (::mAdapterExport.isInitialized) mAdapterExport.updateNameReport(newNameReport = it)
+        }
+
+        viewModel.noTemplateGRVExistLiveData().observe(this) {
+            Toast.makeText(context, "Aucun rapport ADR à exporter", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun updateAdapter(list: List<ControlGRV>) {
         if (::recyclerViewCtrl.isInitialized) {
             mAdapterList = ReportGRVListAdapter(grvItems = list,
-                onItemClicked = { serialNumber -> if (::mAdapterExport.isInitialized) mAdapterExport.updateNameReport(serialNumber.toString()) },
+                onItemClicked = { serialNumber ->
+                    mAdapterExport.clear()
+                    viewModel.checkIfTemplateGRVExist(name = serialNumber.toString(), context = requireContext()) },
                 onReloadClick = { serialNumber -> viewModel.reloadControlGRV(id = serialNumber)},
                 onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
             )
