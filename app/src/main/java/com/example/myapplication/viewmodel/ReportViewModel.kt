@@ -13,6 +13,7 @@ import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.utils.ADR_GRV_REPORT
 import com.example.myapplication.utils.PERIODIC_GRV_REPORT
+import com.example.myapplication.utils.PHOTOS_GRV_REPORT
 import kotlinx.coroutines.launch
 
 class ReportViewModel(interactor: DomainInteractor): ViewModel() {
@@ -37,6 +38,7 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
     private val getControlGRVLiveData = MutableLiveData<ControlGRV>()
     private val getFullReportForPeriodicLiveData = MutableLiveData<StepControlGRV.StepControlGRVAll>()
     private val getFullReportForADRLiveData = MutableLiveData<StepControlGRV.StepControlGRVAll>()
+    private val getPhotoReportLiveData = MutableLiveData<String>()
 
     fun getAllFinishedControlGRVLiveData() = getAllFinishedControlGRVLiveData
     fun deleteControlGRVLiveData() = deleteControlGRVLiveData
@@ -44,6 +46,7 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
     fun updateControlGRVLiveData() = updateControlGRVLiveData
     fun getFullReportForPeriodicLiveData() = getFullReportForPeriodicLiveData
     fun getFullReportForADRLiveData() = getFullReportForADRLiveData
+    fun getPhotoReportLiveData() = getPhotoReportLiveData
     fun noTemplateGRVExistLiveData() = templateGRVNotFound
     fun checkIfTemplateGRVExistLiveData() = checkIfTemplateGRVExistLiveData
 
@@ -117,6 +120,7 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
                 is ResultOf.Success -> when(type) {
                     PERIODIC_GRV_REPORT -> getFullReportForPeriodicLiveData.postValue(FrontControlGRCMapper.fullControlGRVStepBusinessToFront(result.data.first, result.data.second))
                     ADR_GRV_REPORT -> getFullReportForADRLiveData.postValue(FrontControlGRCMapper.fullControlGRVStepBusinessToFront(result.data.first, result.data.second))
+                    PHOTOS_GRV_REPORT -> getPhotoReportLiveData.postValue(id.toString())
                 }
 
                 is ResultOf.Error -> when(result.exception) {

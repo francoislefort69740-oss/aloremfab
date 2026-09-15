@@ -26,4 +26,10 @@ const val PERF_GRV = "PERF_GRV"
 const val PERIODIC_GRV_REPORT = "PERIODIC_GRV_REPORT "
 const val ADR_GRV_REPORT = "ADR_GRV_REPORT "
 
+const val PDF_TYPE = "application/pdf"
+const val JPEG_TYPE = "image/jpeg"
+const val PHOTOS_GRV_REPORT = "PHOTOS_GRV_REPORT "
+const val ADVERTISING_NO_PHOTO_FOUND = "Aucune photo en lien avec la référence "
+const val PDF_CREATION_FAILED = "Erreur lors de la génération du fichier PDF"
+
 const val NUMERO = "NUMERO"

@@ -9,25 +9,19 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
-import androidx.core.content.ContextCompat
 import com.example.myapplication.R
 import com.example.myapplication.callback.ReportControlInterface
-import android.content.ContentValues
 import android.provider.MediaStore
-import android.widget.Button
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.example.myapplication.canvas.ADRReportGRV
 import com.example.myapplication.canvas.PeriodicReportGRV
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.recycler.ReportGRVExportAdapter
 import com.example.myapplication.recycler.ReportGRVListAdapter
+import com.example.myapplication.utils.ADVERTISING_NO_PHOTO_FOUND
+import com.example.myapplication.utils.JPEG_TYPE
+import com.example.myapplication.utils.PDF_CREATION_FAILED
+import com.example.myapplication.utils.PDF_TYPE
 import com.example.myapplication.utils.REPORT_TAG
 import com.example.myapplication.viewmodel.ReportViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -90,6 +84,10 @@ class ReportFragment : BaseFragment() {
             if (::mAdapterExport.isInitialized) mAdapterExport.updateNameReport(newNameReport = it)
         }
 
+        viewModel.getPhotoReportLiveData().observe(this) { name ->
+            sharePhotosByName(name)
+        }
+
         viewModel.noTemplateGRVExistLiveData().observe(this) {
             Toast.makeText(context, "Aucun rapport ADR à exporter", Toast.LENGTH_SHORT).show()
         }
@@ -133,16 +131,45 @@ class ReportFragment : BaseFragment() {
                 val contentUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", pdfFile)
                 val shareIntent = Intent().apply {
                     action = Intent.ACTION_SEND
-                    this.type = "application/pdf"
+                    this.type = PDF_TYPE
                     putExtra(Intent.EXTRA_STREAM, contentUri)
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
                 startActivity(Intent.createChooser(shareIntent, "Partager le rapport PDF"))
             } else {
-                Toast.makeText(context, "Erreur lors de la génération du fichier PDF", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, PDF_CREATION_FAILED, Toast.LENGTH_SHORT).show()
             }
         } else {
             Toast.makeText(context, "Erreur: Template non reconnu ($reportName). Vérifiez vos fichiers PDF.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun sharePhotosByName(name: String) {
+        val imageUris = ArrayList<android.net.Uri>()
+        val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME)
+        val selection = "${MediaStore.Images.Media.DISPLAY_NAME} LIKE ? AND ${MediaStore.Images.Media.RELATIVE_PATH} LIKE ?"
+        val selectionArgs = arrayOf("$name%", "%Pictures/Alorem%")
+
+        requireContext().contentResolver.query(collection, projection, selection, selectionArgs, null)?.use { cursor ->
+            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+            while (cursor.moveToNext()) {
+                val id = cursor.getLong(idColumn)
+                val uri = android.content.ContentUris.withAppendedId(collection, id)
+                imageUris.add(uri)
+            }
+        }
+
+        if (imageUris.isNotEmpty()) {
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND_MULTIPLE
+                putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris)
+                type = JPEG_TYPE
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(Intent.createChooser(intent, "Partager les photos de $name"))
+        } else {
+            Toast.makeText(requireContext(), "$ADVERTISING_NO_PHOTO_FOUND $name", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -158,7 +185,7 @@ class ReportFragment : BaseFragment() {
 
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            type = "application/pdf"
+            type = PDF_TYPE
             putExtra(Intent.EXTRA_STREAM, contentUri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
