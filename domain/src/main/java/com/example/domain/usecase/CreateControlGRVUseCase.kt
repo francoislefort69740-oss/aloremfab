@@ -32,7 +32,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
 
                         // UPDATE EXISTING CONTROL GRC
 
-                        if (controlGRVStepBusiness is ControlGRVStepBusiness.ControlGRVStep6) {
+                        if (controlGRVStepBusiness !is ControlGRVStepBusiness.ControlGRVStep0) {
                             controlGRVBusiness.currentlyGoingOn = false
                             controlGRVBusiness.loaded = false
                         }

@@ -146,7 +146,15 @@ sealed class ControlGRVStepBusiness{
         var controlGRVForeignId: Int
     ) : ControlGRVStepBusiness() {
         override fun isValid(): Boolean {
-            return reference != 0 && controlGRVForeignId != 0
+            return reference != 0 &&
+                    etancheiteOK1 != null &&
+                    etancheiteOK2 != null &&
+                    controlGRVForeignId != 0 &&
+                    etancheiteDate1 != "" &&
+                    etancheiteDate2 != "" &&
+                    etancheiteBar1 != 0F &&
+                    etancheiteBar2 != 0F
+
         }
     }
 

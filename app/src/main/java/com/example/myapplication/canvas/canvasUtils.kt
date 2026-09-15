@@ -23,6 +23,8 @@ fun getResultConformityOutside(exterieur: List<Int>): String {
     return result
 }
 
+fun getConformityWithBoolean(result: Boolean?): String = if (result == true) "CONFORME" else "NON CONFORME"
+
 fun getResultConformityInside(stepInside: StepControlGRV.Step4ControlGRV?): String {
     var resultat = "CONFORME"
     if (stepInside?.internalNA ?: false) {

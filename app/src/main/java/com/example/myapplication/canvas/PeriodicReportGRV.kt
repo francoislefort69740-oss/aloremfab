@@ -192,7 +192,7 @@ class PeriodicReportGRV : View {
 
         drawText(canvas = canvas, text = SITE_DE_CONTROLE, data = "",unitX * 5, unitY * (startY + section))
         drawText(canvas = canvas, text = FABRICANT, x = unitX * 5, data = "", y = unitY * (startY + section))
-        drawText(canvas = canvas, text = PROPRIETAIRE, data = "", x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = PROPRIETAIRE, data = reportData?.step0?.customer, x = unitX * 5, y = unitY * (startY + section))
         drawText(canvas = canvas, text = NUM_SERIE_ALO, data = reportData?.step0?.serialNumberAlorem.toString(), x = unitX * 5, y = unitY * (startY + section))
         drawText(canvas = canvas, text = NUM_SERIE_CLIENT, data = reportData?.step0?.customerSerialNumber.toString(), x = unitX * 5, y = unitY * (startY + section))
         drawText(canvas = canvas, text = MARQUE_PRINCIPALE, data =  reportData?.step2?.marquePrincipale, x = unitX * 5, y = unitY * (startY + section))
@@ -246,9 +246,9 @@ class PeriodicReportGRV : View {
         canvas.drawText(TITLE_INSPECTION_REGLEMENTAIRE, unitX * 10, unitY * (startY+2F), paint)
         defineTextDefault(unitY)
 
-        drawText(canvas = canvas, text = INSPECTEUR, data = "", unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = INSPECTEUR, data = reportData?.name, unitX * 5, unitY * (startY + section))
         drawText(canvas = canvas, text = DATE_INSPECTION, data = reportData?.step6?.etancheiteDate1, unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = FONCTIONNEMENT_EQUIPEMENT, data = "", unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = FONCTIONNEMENT_EQUIPEMENT, data = getConformityWithBoolean(reportData?.step1?.aloremPlate), unitX * 5, unitY * (startY + section))
         drawText(canvas = canvas, text = ETAT_EXTERIEUR, data = getResultConformityOutside(
             listOf(
                 reportData?.step3?.bottomRetentionFace ?: 0,
@@ -272,9 +272,9 @@ class PeriodicReportGRV : View {
             unitX * 5,
             unitY * (startY + section)
         )
-        drawText(canvas = canvas, text = MARQUES_REGLEMENTAIRE, data = "", unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = CONFORMITE_MODELE, data = "",unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = INSPECTION_REG, data = "",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = MARQUES_REGLEMENTAIRE, data = getConformityWithBoolean(reportData?.step1?.conformityCertificateMarking), unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = CONFORMITE_MODELE, data = getConformityWithBoolean(reportData?.step1?.certificatesADR),unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = INSPECTION_REG, data = getConformityWithBoolean(reportData?.step1?.groundingAdhesive),unitX * 5, unitY * (startY + section))
         drawText(canvas = canvas, text = OBSERVATION, data = "",unitX * 5, unitY * (startY + section))
 
         definePaintStroke(R.color.black, unitY)
@@ -317,7 +317,7 @@ class PeriodicReportGRV : View {
         canvas.drawText(TITLE_CONCLUSION, unitX * 10, unitY * (startY+2F), paint)
         defineTextDefault(unitY)
 
-        drawText(canvas = canvas, text = RESULTAT, data = "",unitX * 5, unitY * (startY + section))
+        drawText(canvas = canvas, text = RESULTAT, data = "CONFORME",unitX * 5, unitY * (startY + section))
         drawText(canvas = canvas, text = DATE_PROCHAIN_CONTROLE, data = getNextDateControl(reportData?.step6?.etancheiteDate1 ?: ""),unitX * 5, unitY * (startY + section))
         drawText(canvas = canvas, text = FAIT_A, data = "BEYNOST",unitX * 5, unitY * (startY + section))
         drawText(canvas = canvas, text = DATE_RAPPORT, data = reportData?.step6?.etancheiteDate1,unitX * 5, unitY * (startY + section))
