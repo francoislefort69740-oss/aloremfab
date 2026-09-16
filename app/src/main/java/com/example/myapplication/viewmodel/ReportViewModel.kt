@@ -34,7 +34,7 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
     // LIVEDATA
 
     private val getAllFinishedControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
-    private val deleteControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
+    private val deleteControlGRVLiveData = MutableLiveData<String>()
     private val getControlGRVLiveData = MutableLiveData<ControlGRV>()
     private val getFullReportForPeriodicLiveData = MutableLiveData<StepControlGRV.StepControlGRVAll>()
     private val getFullReportForADRLiveData = MutableLiveData<StepControlGRV.StepControlGRVAll>()
@@ -79,7 +79,7 @@ class ReportViewModel(interactor: DomainInteractor): ViewModel() {
     fun deleteControlGRV(id: Int) {
         viewModelScope.launch {
             when (val result = deleteControlGRV.invoke(id)){
-                is ResultOf.Success -> deleteControlGRVLiveData.postValue(FrontControlGRCMapper.allControlGRVBusinessToFront(result.data))
+                is ResultOf.Success -> deleteControlGRVLiveData.postValue(id.toString())
                 is ResultOf.Error -> when(result.exception) {
                     is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
                 }

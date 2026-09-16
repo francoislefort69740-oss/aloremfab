@@ -60,7 +60,8 @@ class ReportFragment : BaseFragment() {
             updateAdapter(list)
         }
 
-        viewModel.deleteControlGRVLiveData().observe(this) { list ->
+        viewModel.deleteControlGRVLiveData().observe(this) { name ->
+            deletePhotosByName(name)
             viewModel.getAllFinishedControlGRV()
         }
 
@@ -141,6 +142,18 @@ class ReportFragment : BaseFragment() {
             }
         } else {
             Toast.makeText(context, "Erreur: Template non reconnu ($reportName). Vérifiez vos fichiers PDF.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun deletePhotosByName(name: String) {
+        val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val selection = "${MediaStore.Images.Media.DISPLAY_NAME} LIKE ? AND ${MediaStore.Images.Media.RELATIVE_PATH} LIKE ?"
+        val selectionArgs = arrayOf("$name%", "%Pictures/Alorem%")
+
+        try {
+            requireContext().contentResolver.delete(collection, selection, selectionArgs)
+        } catch (e: Exception) {
+            android.util.Log.e("ReportFragment", "Error deleting photos for $name", e)
         }
     }
 
