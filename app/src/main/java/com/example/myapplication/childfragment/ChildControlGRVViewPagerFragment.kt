@@ -32,6 +32,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
     private lateinit var controlGRVPageRecyclerView: RecyclerView
     private lateinit var mAdapterControlGRVPage: StepGRVListAdapter
+    private lateinit var stepTitle: TextView
 
     private lateinit var controlComponent: GRVControlProcess
 
@@ -40,6 +41,8 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
 
             controlGRVPageRecyclerView = view.findViewById(R.id.recycler_control_area_child_control_grv)
             controlGRVPageRecyclerView.layoutManager = LinearLayoutManager(view.context)
+            
+            stepTitle = view.findViewById(R.id.step_title_child_control_grv)
 
             controlComponent =  GRVControlProcess()
             manageControlPage(view = view, arguments = arguments)
@@ -123,7 +126,7 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         viewModel.getStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
                 controlComponent.setStepControl(stepControlGRV = stepControlGRV)
-                view?.findViewById<TextView>(R.id.step_title_child_control_grv)?.text = context?.getString(stepControlGRV.title)
+                stepTitle.text = context?.getString(stepControlGRV.title)
                 viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
                 Log.d(CHECK_GRV, "loadTemplate")
                 controlComponent.setUpBackButton(stepControlGRV::class != StepControlGRV.Step0ControlGRV::class)
@@ -142,7 +145,12 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
             if (::mAdapterControlGRVPage.isInitialized) {
                 controlComponent.setUpBackButton(it != GRVControlStepEnum.STEP_0)
                 controlComponent.setUpNextButton(it != GRVControlStepEnum.STEP_6)
-                viewModel.loadTemplate(template = GRVControlStepTemplate(controlComponent.initializeStepControl(it), context = requireContext()))
+                
+                // FIX: Update the title even if the step is not yet initialized in DB
+                val initializedStep = controlComponent.initializeStepControl(it)
+                stepTitle.text = context?.getString(initializedStep.title)
+                
+                viewModel.loadTemplate(template = GRVControlStepTemplate(initializedStep, context = requireContext()))
             }
         }
 
