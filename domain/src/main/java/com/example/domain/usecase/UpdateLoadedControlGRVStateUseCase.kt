@@ -15,6 +15,8 @@ class UpdateLoadedControlGRVStateUseCase(private val controlGRVLocalRepository: 
         return if (updateId) {
             val control = controlGRVLocalRepository.getLocalControlGRVBySerialNumber(serialNumber = serialNumber)
             control.loaded = state
+            // Protection : le bouton de fermeture ne doit jamais marquer le contrôle comme terminé
+            control.currentlyGoingOn = true
             val controlCallback = controlGRVLocalRepository.updateLocalControlGRV(controlGRVBusiness = control)
             if (controlCallback != 0) {
                 val controls = controlGRVLocalRepository.getUnloaded().toMutableList()
