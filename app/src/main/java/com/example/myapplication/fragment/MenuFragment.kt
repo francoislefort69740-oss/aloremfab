@@ -46,14 +46,6 @@ class MenuFragment : BaseFragment() {
             mCallback?.loadBuildControlFragment()
         }
 
-        val isExpired = LocalDate.now().isAfter(LocalDate.of(2027, 4, 1))
-        if (isExpired) {
-            grvCtrlBtn.isEnabled = false
-            reportCtrlBtn.isEnabled = false
-            templateCtrlBtn.isEnabled = false
-        }
-
-
         viewModel.getUsers()
 
         getObservation(view = view)
