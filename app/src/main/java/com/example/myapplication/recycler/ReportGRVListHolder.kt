@@ -14,7 +14,7 @@ class ReportGRVListHolder(inflater: LayoutInflater, parent: ViewGroup) : Recycle
 
     fun setItem(item: ControlGRV, onItemClicked: (Int) -> Unit, onDeleteClick: (Int) -> Unit, onReloadClick: (Int) -> Unit){
         val name = itemView.findViewById<TextView>(R.id.item_grv_report_name)
-        name.text = item.serialNumber.toString()
+        name.text = item.title.toString()
 
         itemView.setOnClickListener {
             item.serialNumber?.let { onItemClicked(it) }

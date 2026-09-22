@@ -20,6 +20,7 @@ object FrontControlGRCMapper {
 
     fun controlGRVBusinessToFront(controlGRVBusiness: ControlGRVBusiness): ControlGRV = ControlGRV(
         uid = controlGRVBusiness.uid,
+        title = controlGRVBusiness.title,
         serialNumber = controlGRVBusiness.serialNumber,
         loaded = controlGRVBusiness.loaded,
         currentStep = GRVControlStepEnum.getStep(controlGRVBusiness.currentStep)
@@ -28,6 +29,7 @@ object FrontControlGRCMapper {
     fun controlGRVFrontToBusiness(controlGRV: ControlGRV): ControlGRVBusiness {
         val business = ControlGRVBusiness(
             uid = controlGRV.uid,
+            title = controlGRV.title,
             serialNumber = controlGRV.serialNumber,
             currentStep = controlGRV.currentStep.stepNumber,
             currentlyGoingOn = true,
