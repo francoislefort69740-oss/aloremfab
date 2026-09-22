@@ -126,7 +126,8 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
         viewModel.getStepControlGrVLiveData().observe(this) { stepControlGRV ->
             if (::mAdapterControlGRVPage.isInitialized) {
                 controlComponent.setStepControl(stepControlGRV = stepControlGRV)
-                stepTitle.text = context?.getString(stepControlGRV.title)
+                val title = "${context?.getString(stepControlGRV.title)} - ${controlComponent.getControl().serialNumber ?: " "}"
+                stepTitle.text = title
                 viewModel.loadTemplate(template = GRVControlStepTemplate(stepControlGRV, context = requireContext()))
                 Log.d(CHECK_GRV, "loadTemplate")
                 controlComponent.setUpBackButton(stepControlGRV::class != StepControlGRV.Step0ControlGRV::class)
@@ -148,7 +149,8 @@ class ChildControlGRVViewPagerFragment: BaseFragment() {
                 
                 // FIX: Update the title even if the step is not yet initialized in DB
                 val initializedStep = controlComponent.initializeStepControl(it)
-                stepTitle.text = context?.getString(initializedStep.title)
+                val title = "${context?.getString(initializedStep.title)} - ${controlComponent.getControl().serialNumber ?: " "}"
+                stepTitle.text = title
                 
                 viewModel.loadTemplate(template = GRVControlStepTemplate(initializedStep, context = requireContext()))
             }

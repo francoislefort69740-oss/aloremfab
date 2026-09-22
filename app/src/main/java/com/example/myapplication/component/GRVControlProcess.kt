@@ -18,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class GRVControlProcess {
 
     private var pageId: Int = 0
+    private var stepTitle: String? = null
     private lateinit var control: ControlGRV
     private lateinit var stepControlGRV: StepControlGRV
     private lateinit var mView: View
@@ -27,6 +28,7 @@ class GRVControlProcess {
         setUpFirstTime()
         arguments.getParcelable(GRV_CONTROL, ControlGRV::class.java)?.let {
             control = it
+            stepTitle = control.serialNumber.toString()
             if (control.serialNumber == 0) { setUpFirstTime() }
             pageId = control.pageId
         }
@@ -75,6 +77,7 @@ class GRVControlProcess {
 
     fun getControl(): ControlGRV = control
     fun getStepControl(): StepControlGRV = stepControlGRV
+    fun getStepTitle(): String? = stepTitle
 
     fun getStepControlEnum() = control.currentStep
 
@@ -91,16 +94,18 @@ class GRVControlProcess {
 
     fun translateControlStepToControlGRV(list : List<ControlGRVCheckPoint>, context: Context): Pair<ControlGRV, StepControlGRV> {
         if (control.currentStep == GRVControlStepEnum.STEP_0) {
-                var serialNUmber = returnCheckPointForEditableInt(context, R.string.control_grv_checkpoint_report_number, list)
+            var serialNUmber = returnCheckPointForEditableInt(context, R.string.control_grv_checkpoint_report_number, list)
 
-                if (serialNUmber == 0) {
-                    serialNUmber = null
-                }
+            if (serialNUmber == 0) {
+                serialNUmber = null
+            }
 
-                control.serialNumber = serialNUmber
-                control.uid = serialNUmber
+            control.serialNumber = serialNUmber
+            stepTitle = serialNUmber.toString()
+            control.uid = serialNUmber
         }
 
+        stepTitle = control.serialNumber.toString()
         stepControlGRV = grvControlProcess(control.currentStep, list, context, control.serialNumber)
         return Pair(control, stepControlGRV)
     }
