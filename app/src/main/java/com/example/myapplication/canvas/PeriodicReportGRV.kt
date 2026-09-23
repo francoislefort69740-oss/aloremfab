@@ -120,7 +120,7 @@ class PeriodicReportGRV : View {
 
     private fun drawText(canvas: Canvas, text: String, data: String?, x: Float, y: Float) {
         canvas.drawText(text, x, y, paint)
-        canvas.drawText(data ?: "", x * 10, y, paint)
+        canvas.drawText(data ?: "", x * 11, y, paint)
         section += margin
     }
 
@@ -172,8 +172,7 @@ class PeriodicReportGRV : View {
 
     private fun createFirstSection(canvas: Canvas, unitX: Float, unitY: Float, startY: Float) {
         section = 0F
-        drawText(canvas = canvas, text = "N° de rapport : CGRV-AL-", x = unitX * 5, data = "", y = unitY * (startY + section))
-        drawText(canvas = canvas, text = "N° Commande ALOREM : ${reportData?.step0?.reportNumber ?:""}", x = unitX * 5, data = "", y = unitY * (startY + section))
+        drawText(canvas = canvas, text = "N° de rapport : CGRV-AL-${reportData?.step0?.reportNumber ?: ""}", x = unitX * 5, data = "", y = unitY * (startY + section))
         drawText(canvas = canvas, text = "Type de contrôle : 5 ans", x = unitX * 5, data = "", y = unitY * (startY + section))
     }
 
@@ -191,18 +190,20 @@ class PeriodicReportGRV : View {
         defineTextDefault(unitY)
 
         drawText(canvas = canvas, text = SITE_DE_CONTROLE, data = "",unitX * 5, unitY * (startY + section))
-        drawText(canvas = canvas, text = FABRICANT, x = unitX * 5, data = "", y = unitY * (startY + section))
         drawText(canvas = canvas, text = PROPRIETAIRE, data = reportData?.step0?.customer, x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = FABRICANT, x = unitX * 5, data = "", y = unitY * (startY + section))
         drawText(canvas = canvas, text = NUM_SERIE_ALO, data = reportData?.step0?.serialNumberAlorem.toString(), x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = NUM_SERIE_WESTERN, data = "", x = unitX * 5, y = unitY * (startY + section))
         drawText(canvas = canvas, text = NUM_SERIE_CLIENT, data = reportData?.step0?.customerSerialNumber.toString(), x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = MARQUE_PRINCIPALE, data =  reportData?.step2?.marquePrincipale, x = unitX * 5, y = unitY * (startY + section))
         drawText(canvas = canvas, text = REFERENCE, data = reportData?.step0?.type.toString(), x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = CAPACITE, data = reportData?.step2?.capacity20.toString(), x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = MARQUE_PRINCIPALE, data =  reportData?.step2?.marquePrincipale, x = unitX * 5, y = unitY * (startY + section))
         drawText(canvas = canvas, text = TARE, data = reportData?.step2?.tare.toString(), x = unitX * 5, y = unitY * (startY + section))
-
         drawText(canvas = canvas, text = GROSS_MASS, data = reportData?.step2?.grossMass.toString(), x = unitX * 5, y = unitY * (startY + section))
-        canvas.drawText(MARQUES_ADDITION, unitX * 80,unitY * (startY + section), paint)
+        drawText(canvas = canvas, text = CAPACITE, data = reportData?.step2?.capacity20.toString(), x = unitX * 5, y = unitY * (startY + section))
 
+
+
+        canvas.drawText(MARQUES_ADDITION, unitX * 80,unitY * (startY + section), paint)
         drawText(canvas = canvas, text = TYPE_MATERIAU, data = reportData?.step2?.material, x = unitX * 5, y = unitY * (startY + section))
         canvas.drawText(reportData?.step2?.weightStacking.toString() + " " + KG, unitX * 80,unitY * (startY + section), paint)
 
@@ -220,14 +221,15 @@ class PeriodicReportGRV : View {
         drawRect(canvas = canvas,
             top = unitY * (startY + section) + (section * 1.5F)/2,
             left = unitX * 83,
-            bottom = unitY * (startY + section) + (section * 3)/2,
+            bottom = unitY * (startY + section) + (section * 2.9F)/2,
             right = unitX * 88
         )
 
         defineTextDefault(unitY)
         drawText(canvas = canvas, text = DATE_FAB, data = reportData?.step2?.fabricationDate, x = unitX * 5, y = unitY * (startY + section))
+        drawText(canvas = canvas, text = PRESSION_MAX, data = "NA", x = unitX * 5, y = unitY * (startY + section))
         drawText(canvas = canvas, text = PICTO_GERBAGE, data =  affirmation(reportData?.step2?.pictogramStacking), x = unitX * 5, y = unitY * (startY + section))
-        drawText(canvas = canvas, text = PRESSION_MAX, data = "", x = unitX * 5, y = unitY * (startY + section))
+
 
         definePaintStroke(R.color.black, unitY)
         drawRect( canvas = canvas, top = unitY * startY, left = unitX * 2, bottom = unitY * (startY+ section), right = unitX * 98)
