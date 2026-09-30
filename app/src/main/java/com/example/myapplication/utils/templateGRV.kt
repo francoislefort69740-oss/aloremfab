@@ -21,8 +21,8 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
         reference = serialNumber,
         reportNumber = serialNumber,
         customer = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_customer_name, list = list),
-        customerSerialNumber = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_customer_serial_number, list = list) ?: 0,
-        serialNumberAlorem = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_alorem_serial_number, list = list) ?: 0,
+        customerSerialNumber = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_customer_serial_number, list = list),
+        serialNumberAlorem = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_alorem_serial_number, list = list),
         type = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_tank_category, list = list),
         controlGRVForeignId = serialNumber
     )

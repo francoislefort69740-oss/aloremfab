@@ -26,8 +26,8 @@ sealed class StepControlGRV{
         var reference: Int? = null,
         var reportNumber: Int? = null,
         var customer: String? = null,
-        var customerSerialNumber: Int? = null,
-        var serialNumberAlorem: Int? = null,
+        var customerSerialNumber: String? = null,
+        var serialNumberAlorem: String? = null,
         var type: String? = null,
         var controlGRVForeignId: Int? = null
     ) : StepControlGRV()

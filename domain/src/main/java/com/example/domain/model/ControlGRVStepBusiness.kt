@@ -18,19 +18,13 @@ sealed class ControlGRVStepBusiness{
         override val reference: Int,
         var reportNumber: Int,
         var customer: String,
-        var customerSerialNumber: Int,
-        var serialNumberAlorem: Int,
+        var customerSerialNumber: String,
+        var serialNumberAlorem: String,
         var type: String,
         var controlGRVForeignId: Int
     ) : ControlGRVStepBusiness() {
         override fun isValid(): Boolean {
-            return  reference != 0 &&
-                    reportNumber != 0 &&
-                    customer != "" &&
-                    customerSerialNumber != 0 &&
-                    serialNumberAlorem != 0 &&
-                    type != "" &&
-                    controlGRVForeignId != 0
+            return  reference != 0 && controlGRVForeignId != 0
         }
     }
 

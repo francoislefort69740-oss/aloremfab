@@ -25,8 +25,8 @@ data class ControlGRVStep0Local(
     @ColumnInfo(name = REFERENCE) val reference: Int,
     @ColumnInfo(name = REPORT_NUMBER) val reportNumber: Int,
     @ColumnInfo(name = CUSTOMER) val customer: String,
-    @ColumnInfo(name = CUSTOMER_SERIAL_NUMBER) val customerSerialNumber: Int,
-    @ColumnInfo(name = SERIAL_NUMBER_ALOREM) val serialNumberAlorem: Int,
+    @ColumnInfo(name = CUSTOMER_SERIAL_NUMBER) val customerSerialNumber: String,
+    @ColumnInfo(name = SERIAL_NUMBER_ALOREM) val serialNumberAlorem: String,
     @ColumnInfo(name = TYPE) val type: String,
     @ColumnInfo(name = GRV_CONTROL_UID, index = true) val foreignKey: Int
 ) {

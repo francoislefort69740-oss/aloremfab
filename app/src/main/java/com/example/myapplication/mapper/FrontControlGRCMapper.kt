@@ -175,8 +175,8 @@ object FrontControlGRCMapper {
             reference = stepControlGRV.reference ?: 0,
             reportNumber = stepControlGRV.reportNumber ?: 0,
             customer = stepControlGRV.customer ?: "",
-            customerSerialNumber = stepControlGRV.customerSerialNumber ?: 0,
-            serialNumberAlorem = stepControlGRV.serialNumberAlorem ?: 0,
+            customerSerialNumber = stepControlGRV.customerSerialNumber ?: "",
+            serialNumberAlorem = stepControlGRV.serialNumberAlorem ?: "",
             type = stepControlGRV.type ?: "",
             controlGRVForeignId = stepControlGRV.reference ?: 0
         )

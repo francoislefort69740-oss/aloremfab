@@ -30,19 +30,11 @@ fun getStep0RecyclerItem(data: StepControlGRV.Step0ControlGRV?, mContext: Contex
 
         ControlGRVCheckPoint.EditableCheckPoint(
             name = mContext.getString(R.string.control_grv_checkpoint_customer_serial_number),
-            value = data?.customerSerialNumber
-                ?.takeIf { it != 0 }
-                ?.toString()
-                .orEmpty(),
-            inputType = InputType.TYPE_CLASS_NUMBER
+            value = data?.customerSerialNumber.orEmpty()
         ),
 
         ControlGRVCheckPoint.EditableCheckPoint(
             name = mContext.getString(R.string.control_grv_checkpoint_alorem_serial_number),
-            value = data?.serialNumberAlorem
-                ?.takeIf { it != 0 }
-                ?.toString()
-                .orEmpty(),
-            inputType = InputType.TYPE_CLASS_NUMBER
+            value = data?.serialNumberAlorem.orEmpty()
         )
     )
