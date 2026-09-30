@@ -18,14 +18,10 @@ import kotlinx.coroutines.launch
 
 class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
 
-    private val getAllControlGRV = interactor.getAllControlGRVUseCase
     private val getCurrentlyGoingOnControlGRV = interactor.getCurrentlyGoingOnControlGRVUseCase
-    private val getLoadedControlGRV = interactor.getLoadedControlGRVUseCase
     private val getUnLoadedControlGRV = interactor.getUnLoadedControlGRVUseCase
     private val createControlGRV = interactor.createControlGRVUseCase
-    private val getControlGRV = interactor.getControlGRVUseCase
     private val deleteControlGRV = interactor.deleteControlGRVUseCase
-    private val updateControlGRV = interactor.updateControlGRCUseCase
     private val updateLoadedControlGRVState = interactor.updateLoadedControlGRVStateUseCase
     private val getStepControlGrV = interactor.getControlGRVStepUseCase
     private val createStepControlGrV = interactor.createControlGRVStepUseCase
@@ -35,18 +31,15 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
 
     private val updateLoadedControlGRVStateLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val getControlGRVLiveData = MutableLiveData<ControlGRV>()
-    private val getAllControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
     private val getCurrentlyGoingOnControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
     private val getLoadedControlGRVLiveData = MutableLiveData<List<ControlGRV>>()
     private val injectExistingControlLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
-    private val rejectExistingControlLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val createControlGRVLiveData = MutableLiveData<Pair<List<ControlGRV>, ControlGRV>>()
     private val createStepAlsoNextControlGRVLiveData = MutableLiveData< Pair<Int, Boolean>>()
     private val updateControlGRVLiveData = MutableLiveData<String>()
     private val getStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
     private val createStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
     private val checkSaveOrNextControlGRVLiveData = MutableLiveData<Triple<Boolean, Boolean, Boolean>>()
-
 
     private val controlGRVNotFound = MutableLiveData<Boolean>()
     private val noControlGRVExist = MutableLiveData<Boolean>()
@@ -57,7 +50,6 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
 
     fun updateLoadedControlGRVStateLiveData() = updateLoadedControlGRVStateLiveData
     fun getControlGRVLiveData() = getControlGRVLiveData
-    fun getAllControlGRVLiveData() = getAllControlGRVLiveData
     fun getCurrentlyGoingOnControlGRVLiveData() = getCurrentlyGoingOnControlGRVLiveData
     fun getLoadedControlGRVLiveData() = getLoadedControlGRVLiveData
     fun getPushListOfAddingPageLiveData() = injectExistingControlLiveData
@@ -69,11 +61,7 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     fun createStepControlGrVLiveData() = createStepControlGrVLiveData
     fun checkSaveOrNextControlGRVLiveData() = checkSaveOrNextControlGRVLiveData
 
-
     fun getControlStepGrvNotInitialized() = controlStepGrvNotInitialized
-    fun getControlGRVNotFound() = controlGRVNotFound
-    fun getNoControlGRVExist() = noControlGRVExist
-    fun getControlGRVUidFieldEmpty() = controlGRVUidFieldEmpty
     fun wrongSerialNumber() = wrongSerialNumber
 
     // DATA
@@ -159,30 +147,6 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
         }
     }
 
-    fun updateControlGRV(controlGRV: ControlGRV?, trigger: String) {
-        viewModelScope.launch {
-            val businessControl = controlGRV?.let { FrontControlGRCMapper.controlGRVFrontToBusiness(controlGRV = it) }
-            when (val result = updateControlGRV.invoke(businessControl, trigger = trigger)){
-                is ResultOf.Success -> updateControlGRVLiveData.postValue(trigger)
-                is ResultOf.Error -> when(result.exception) {
-                    is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
-                }
-            }
-        }
-    }
-
-    fun getControlGRV(id: Int) {
-        viewModelScope.launch {
-            when (val result = getControlGRV.invoke(id)){
-                is ResultOf.Success -> getControlGRVLiveData.postValue(FrontControlGRCMapper.controlGRVBusinessToFront(result.data))
-                is ResultOf.Error -> when(result.exception) {
-                    is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
-                }
-            }
-
-        }
-    }
-
     fun deleteControlGRV(id: Int) {
         viewModelScope.launch {
             when (val result = deleteControlGRV.invoke(id)){
@@ -260,18 +224,6 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
                 is ResultOf.Success -> injectExistingControlLiveData.postValue(Pair(
                     FrontControlGRCMapper.allControlGRVBusinessToFront(result.data.first),
                     FrontControlGRCMapper.controlGRVBusinessToFront(result.data.second)))
-                is ResultOf.Error -> when(result.exception) {
-                    is ErrorBusiness.NoControlGRVExist -> noControlGRVExist.postValue(true)
-                    is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
-                }
-            }
-        }
-    }
-
-    fun getLoadedControls(){
-        viewModelScope.launch {
-            when (val result = getLoadedControlGRV.invoke()){
-                is ResultOf.Success -> getLoadedControlGRVLiveData.postValue(FrontControlGRCMapper.allControlGRVBusinessToFront(result.data))
                 is ResultOf.Error -> when(result.exception) {
                     is ErrorBusiness.NoControlGRVExist -> noControlGRVExist.postValue(true)
                     is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)

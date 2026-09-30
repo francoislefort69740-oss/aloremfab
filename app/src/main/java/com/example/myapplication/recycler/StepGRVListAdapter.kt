@@ -41,18 +41,18 @@ class StepGRVListAdapter(
         when (val item = getItem(position)) {
             is ControlGRVCheckPoint.EditableCheckPoint -> {
                 (holder as EditableCheckPointHolder).setItem(
-                        item = item,
-                        onItemClicked = onItemClicked,
-                        onDeleteClick = onDeleteClick,
-                        onValueChanged = onValueChanged
+                    item = item,
+                    onItemClicked = onItemClicked,
+                    onDeleteClick = onDeleteClick,
+                    onValueChanged = onValueChanged
                 )
             }
             is ControlGRVCheckPoint.CheckBoxCheckPoint -> {
                 (holder as CheckBoxCheckPointHolder).setItem(
-                        item = item,
-                        onItemClicked = onItemClicked,
-                        onDeleteClick = onDeleteClick,
-                        onValueChanged = onValueChanged
+                    item = item,
+                    onItemClicked = onItemClicked,
+                    onDeleteClick = onDeleteClick,
+                    onValueChanged = onValueChanged
                 )
             }
             is ControlGRVCheckPoint.FourStateCheckPoint -> {

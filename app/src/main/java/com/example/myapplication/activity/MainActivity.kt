@@ -78,5 +78,4 @@ class MainActivity : BaseActivity(),
         buildInterface(UpdateUserFragment.TAG, obj = activeId)
     }
 
-
 }

@@ -122,14 +122,7 @@ object ControlGRVStepMapper {
             controlGRVForeignId = controlGRVStep6Local.foreignKey
         )
 
-
-
-
-
-
-
     /// ---> BUSINESS TO LOCAL
-
 
     fun controlGRVStepBusinessToLocal0(controlGRVStepBusiness: ControlGRVStepBusiness.ControlGRVStep0): ControlGRVStep0Local =
         ControlGRVStep0Local(

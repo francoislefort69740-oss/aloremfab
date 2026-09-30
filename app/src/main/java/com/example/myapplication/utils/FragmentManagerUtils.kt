@@ -17,20 +17,17 @@ fun fragmentManagerBusinessByTAG(tag: String, supportFragmentManager: FragmentMa
     REGISTRATION_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, RegistrationFragment.newInstance(), REGISTRATION_TAG).commit()
     TEMPLATE_TAG ->
         if (obj is String) {
-            supportFragmentManager.beginTransaction()
-                .replace(fragmentLayout, TemplateFragment.newInstance(obj), TEMPLATE_TAG).commit()
+            supportFragmentManager.beginTransaction().replace(fragmentLayout, TemplateFragment.newInstance(obj), TEMPLATE_TAG).commit()
         }
         else Log.i("FAIL", "Fragment manager error : no Fragment to load")
     REGISTRATION_CREATE_USER_TAG ->
         if (obj is Boolean) {
-            supportFragmentManager.beginTransaction()
-                .replace(fragmentLayout, CreateUserFragment.newInstance(obj), REGISTRATION_CREATE_USER_TAG).commit()
+            supportFragmentManager.beginTransaction().replace(fragmentLayout, CreateUserFragment.newInstance(obj), REGISTRATION_CREATE_USER_TAG).commit()
         }
         else Log.i("FAIL", "Fragment manager error : no Fragment to load")
     REGISTRATION_UPDATE_USER_TAG ->
         if (obj is Int) {
-            supportFragmentManager.beginTransaction()
-                .replace(fragmentLayout, UpdateUserFragment.newInstance(obj), REGISTRATION_UPDATE_USER_TAG).commit()
+            supportFragmentManager.beginTransaction().replace(fragmentLayout, UpdateUserFragment.newInstance(obj), REGISTRATION_UPDATE_USER_TAG).commit()
         }
         else Log.i("FAIL", "Fragment manager error : no Fragment to load")
     MAIN_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, MainFragment.newInstance(), MAIN_TAG).commit()
