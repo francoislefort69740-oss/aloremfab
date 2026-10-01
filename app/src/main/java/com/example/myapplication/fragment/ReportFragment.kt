@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.callback.ReportControlInterface
 import android.provider.MediaStore
+import androidx.appcompat.app.AlertDialog
 import com.example.myapplication.canvas.ADRReportGRV
 import com.example.myapplication.canvas.PeriodicReportGRV
 import com.example.myapplication.model.ControlGRV
@@ -101,7 +102,7 @@ class ReportFragment : BaseFragment() {
                     mAdapterExport.clear()
                     viewModel.checkIfTemplateGRVExist(name = serialNumber.toString(), context = requireContext()) },
                 onReloadClick = { serialNumber -> viewModel.reloadControlGRV(id = serialNumber)},
-                onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
+                onDeleteClick = { serialNumber -> createAlertDialog(serialNumber = serialNumber)}
             )
             recyclerViewCtrl.adapter = mAdapterList
         }
@@ -112,6 +113,17 @@ class ReportFragment : BaseFragment() {
             )
             recyclerViewExport.adapter = mAdapterExport
         }
+    }
+
+    private fun createAlertDialog(serialNumber: Int) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Attention")
+            .setMessage("Voulez-vous supprimer ce control ?")
+            .setNegativeButton("Annuler") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton("Supprimer") { dialog, _ ->
+                dialog.dismiss()
+                viewModel.deleteControlGRV(id = serialNumber)
+            }.show()
     }
 
     private fun shareADRPdf(report: StepControlGRV.StepControlGRVAll?) {

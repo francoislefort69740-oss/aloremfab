@@ -3,6 +3,7 @@ package com.example.myapplication.childfragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -50,7 +51,7 @@ class ChildAddingPageGRVViewPager: BaseFragment() {
 
         mAdapterAddingPage = ControlGRVListAdapter(controlsGRV = emptyList(),
             onItemClicked = { serialNumber -> viewModel.moveExistingControlToControlPage(serialNumber = serialNumber, state = true)},
-            onDeleteClick = { serialNumber -> viewModel.deleteControlGRV(id = serialNumber)}
+            onDeleteClick = { serialNumber -> createAlertDialog(serialNumber = serialNumber) }
         )
 
         addingPageRecyclerView.adapter = mAdapterAddingPage
@@ -90,11 +91,16 @@ class ChildAddingPageGRVViewPager: BaseFragment() {
 
     }
 
-
-
-
-
-
+    private fun createAlertDialog(serialNumber: Int) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Attention")
+            .setMessage("Voulez-vous supprimer ce control ?")
+            .setNegativeButton("Annuler") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton("Supprimer") { dialog, _ ->
+                dialog.dismiss()
+                viewModel.deleteControlGRV(id = serialNumber)
+            }.show()
+    }
 
     companion object {
         fun newInstance() = ChildAddingPageGRVViewPager()
