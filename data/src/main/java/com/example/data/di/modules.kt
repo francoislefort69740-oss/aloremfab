@@ -1,5 +1,7 @@
 package com.example.data.di
 
+import com.example.data.api.AloremWebServiceAPI
+import com.example.data.api.AuthInterceptor
 import com.example.data.database.MyDatabase
 import com.example.data.database.repository.ActiveIdLocalDataSource
 import com.example.data.database.repository.ActiveIdLocalDataSourceImpl
@@ -35,10 +37,29 @@ import com.example.domain.repository.db.ControlGRVLocalRepository
 import com.example.domain.repository.db.ControlGRVStepLocalRepository
 import com.example.domain.repository.db.UserLocalRepository
 import com.example.domain.repository.serialize.TemplateGRVLocalRepository
+import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+import kotlin.coroutines.EmptyCoroutineContext.get
 
 val dataModule = module {
+
+    // WEBSERVICE
+
+    single { AloremWebServiceAPI(get()) }
+
+    single { OkHttpClient.Builder()
+        .readTimeout(1, TimeUnit.MINUTES)
+        .connectTimeout(1, TimeUnit.MINUTES)
+        .addInterceptor(get<AuthInterceptor>())
+        .build()
+    }
+
+    single { AuthInterceptor() }
 
     // DATABASE
     single { MyDatabase.getDatabase(androidApplication()) }
