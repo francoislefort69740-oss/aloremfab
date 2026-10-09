@@ -14,6 +14,7 @@ import com.example.myapplication.fragment.CreateUserFragment
 import com.example.myapplication.fragment.GRVMainFragment
 import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.fragment.RegistrationFragment
+import com.example.myapplication.fragment.RemoteFragment
 import com.example.myapplication.fragment.ReportFragment
 import com.example.myapplication.fragment.TemplateFragment
 import com.example.myapplication.fragment.UpdateUserFragment
@@ -56,6 +57,10 @@ class MainActivity : BaseActivity(),
 
     override fun loadBuildControlFragment() {
         buildInterface(BuildFragment.TAG)
+    }
+
+    override fun loadRemoteControlFragment() {
+        buildInterface(RemoteFragment.TAG)
     }
 
     override fun loadMenuFragment() {

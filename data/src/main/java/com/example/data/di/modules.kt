@@ -2,6 +2,8 @@ package com.example.data.di
 
 import com.example.data.api.AloremWebServiceAPI
 import com.example.data.api.AuthInterceptor
+import com.example.data.api.repository.GetControlsRemoteDataSource
+import com.example.data.api.repository.GetControlsRemoteDataSourceImpl
 import com.example.data.database.MyDatabase
 import com.example.data.database.repository.ActiveIdLocalDataSource
 import com.example.data.database.repository.ActiveIdLocalDataSourceImpl
@@ -60,6 +62,8 @@ val dataModule = module {
     }
 
     single { AuthInterceptor() }
+
+    factory<GetControlsRemoteDataSource> { GetControlsRemoteDataSourceImpl(get()) }
 
     // DATABASE
     single { MyDatabase.getDatabase(androidApplication()) }

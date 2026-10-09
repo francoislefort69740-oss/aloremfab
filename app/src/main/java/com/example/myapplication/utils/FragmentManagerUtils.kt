@@ -8,6 +8,7 @@ import com.example.myapplication.fragment.GRVMainFragment
 import com.example.myapplication.fragment.MainFragment
 import com.example.myapplication.fragment.MenuFragment
 import com.example.myapplication.fragment.RegistrationFragment
+import com.example.myapplication.fragment.RemoteFragment
 import com.example.myapplication.fragment.ReportFragment
 import com.example.myapplication.fragment.TemplateFragment
 import com.example.myapplication.fragment.UpdateUserFragment
@@ -34,5 +35,6 @@ fun fragmentManagerBusinessByTAG(tag: String, supportFragmentManager: FragmentMa
     BUILD_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, BuildFragment.newInstance(), BUILD_TAG).commit()
     REPORT_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, ReportFragment.newInstance(), REPORT_TAG).commit()
     GRV_CONTROL_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, GRVMainFragment.newInstance(), GRV_CONTROL_TAG).commit()
+    REMOTE_TAG -> supportFragmentManager.beginTransaction().replace(fragmentLayout, RemoteFragment.newInstance(), REMOTE_TAG).commit()
     else -> Log.i("FAIL", "Fragment manager error : no Fragment to load")
 }
