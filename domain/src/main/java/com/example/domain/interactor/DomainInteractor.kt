@@ -10,6 +10,7 @@ import com.example.domain.usecase.DeleteUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
 import com.example.domain.usecase.GetAllControlGRVUseCase
 import com.example.domain.usecase.GetAllFinishedControlGRVUseCase
+import com.example.domain.usecase.GetAllRemoteAndLocalControlGRVUseCase
 import com.example.domain.usecase.GetAllStepControlGRVFortReportUseCase
 import com.example.domain.usecase.GetAllTemplatesUseCase
 import com.example.domain.usecase.GetAllUsersUseCase
@@ -51,5 +52,6 @@ data class DomainInteractor(
     val getAllTemplatesUseCase: GetAllTemplatesUseCase,
     val saveTemplateUseCase: SaveTemplateUseCase,
     val getTemplateUseCase: GetTemplateUseCase,
-    val checkIfTemplateGRVExistUseCase: CheckIfTemplateGRVExistUseCase
+    val checkIfTemplateGRVExistUseCase: CheckIfTemplateGRVExistUseCase,
+    val getAllRemoteAndLocalControlGRVUseCase: GetAllRemoteAndLocalControlGRVUseCase
 )

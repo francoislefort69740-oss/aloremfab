@@ -82,7 +82,7 @@ val dataModule = module {
     factory { TemplateGRVDao() }
     factory<ControlGRVLocalDataSource> { ControlGRVLocalDataSourceImpl(get()) }
     factory<TemplateGRVLocalDataSource> { TemplateGRVLocalDataSourceImpl(get()) }
-    factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get()) }
+    factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get(), get()) }
     factory<TemplateGRVLocalRepository> { TemplateGRVLocalRepositoryImpl(get()) }
 
     factory<ControlGRVStep0LocalDataSource> { ControlGRVStep0LocalDataSourceImpl(get()) }

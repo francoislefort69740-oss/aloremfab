@@ -1,10 +1,16 @@
 package com.example.data.repository
 
+import com.example.data.api.repository.GetControlsRemoteDataSource
 import com.example.data.database.repository.ControlGRVLocalDataSource
+import com.example.domain.doIfFailure
+import com.example.domain.doIfSuccess
 import com.example.domain.model.ControlGRVBusiness
 import com.example.domain.repository.db.ControlGRVLocalRepository
 
-class ControlGRVRepositoryImpl(private val controlGRVLocalDataSource: ControlGRVLocalDataSource): ControlGRVLocalRepository  {
+class ControlGRVRepositoryImpl(private val controlGRVLocalDataSource: ControlGRVLocalDataSource,
+                               private val remoteDataSource: GetControlsRemoteDataSource): ControlGRVLocalRepository
+{
+
     override suspend fun createLocalControlGRV(controlGRVBusiness: ControlGRVBusiness): Int {
         return controlGRVLocalDataSource.createLocalControlGRV(controlGRVBusiness = controlGRVBusiness)
     }
@@ -27,6 +33,16 @@ class ControlGRVRepositoryImpl(private val controlGRVLocalDataSource: ControlGRV
 
     override suspend fun getAllControlGRV(): List<ControlGRVBusiness> {
         return controlGRVLocalDataSource.getAllControlGRV()
+    }
+
+    override suspend fun getAllRemoteAndLocalControlGRV(baseUrl: String): Pair<List<ControlGRVBusiness>, List<ControlGRVBusiness>> {
+        val remote = remoteDataSource.getControlsFromApi(baseUrl = baseUrl)
+        var remoteList = mutableListOf<ControlGRVBusiness>()
+
+        remote.doIfSuccess { remoteList = it.list.toMutableList() }
+        remote.doIfFailure { remoteList = emptyList<ControlGRVBusiness>().toMutableList() }
+
+        return remoteList to controlGRVLocalDataSource.getAllControlGRV()
     }
 
     override suspend fun getLoaded(): List<ControlGRVBusiness> {

@@ -11,6 +11,7 @@ import com.example.domain.usecase.DeleteUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
 import com.example.domain.usecase.GetAllControlGRVUseCase
 import com.example.domain.usecase.GetAllFinishedControlGRVUseCase
+import com.example.domain.usecase.GetAllRemoteAndLocalControlGRVUseCase
 import com.example.domain.usecase.GetAllStepControlGRVFortReportUseCase
 import com.example.domain.usecase.GetAllTemplatesUseCase
 import com.example.domain.usecase.GetAllUsersUseCase
@@ -31,6 +32,7 @@ import org.koin.dsl.module
 val domainModule = module {
 
     single { DomainInteractor(
+        get(),
         get(),
         get(),
         get(),
@@ -83,4 +85,5 @@ val domainModule = module {
     single { SaveTemplateUseCase(get()) }
     single { GetTemplateUseCase(get()) }
     single { CheckIfTemplateGRVExistUseCase(get(), get()) }
+    single { GetAllRemoteAndLocalControlGRVUseCase(get()) }
 }
