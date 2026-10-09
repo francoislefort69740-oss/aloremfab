@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import com.example.domain.model.ErrorBusiness
 import com.example.myapplication.R
 import com.example.myapplication.callback.RegistrationInterface
 import com.example.myapplication.utils.REGISTRATION_CREATE_USER_TAG
@@ -32,7 +31,7 @@ class CreateUserFragment: BaseFragment() {
 
         view.findViewById<Button>(R.id.button_validate_create_user).setOnClickListener {
             viewModel.createUser(
-                name = view.findViewById<EditText>(R.id.nameInput_create_user).text.toString(),
+                name = view.findViewById<EditText>(R.id.addressInput_remote).text.toString(),
                 firstName = view.findViewById<EditText>(R.id.forenameInput_create_user).text.toString(),
                 email = view.findViewById<EditText>(R.id.emailInput_create_user).text.toString()
             )

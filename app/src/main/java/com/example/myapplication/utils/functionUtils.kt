@@ -12,6 +12,7 @@ import com.example.myapplication.recycler.FourStateCheckPointHolder
 import com.example.myapplication.recycler.SingleCheckCheckPointHolder
 import com.example.myapplication.recycler.StepGRVListHolder
 import org.koin.core.qualifier.named
+import androidx.core.content.edit
 
 fun returnCheckPointForFourState(context: Context, resId: Int, list: List<ControlGRVCheckPoint>): Int? {
     val checkpoint = list.filterIsInstance<ControlGRVCheckPoint.FourStateCheckPoint>()
@@ -112,4 +113,16 @@ fun returnItemViewType(item: ControlGRVCheckPoint): Int = when(item) {
         CheckPointHolderEnum.getStepNumber(CheckPointHolderEnum.VIEW_TYPE_FOUR_STATE)
     is ControlGRVCheckPoint.SingleCheckCheckPoint ->
         CheckPointHolderEnum.getStepNumber(CheckPointHolderEnum.VIEW_TYPE_SINGLE_STATE)
+}
+
+// SHARED PREFERENCES
+
+fun getRemoteAddress(context: Context): String {
+    val preferences = context.getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE)
+    return preferences.getString(BASE_URL, "http://10.0.121.61:8080/") ?: ""
+}
+
+fun saveRemoteAddress(context: Context, address: String) {
+    val preferences = context.getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE)
+    preferences.edit { putString(BASE_URL, address) }
 }

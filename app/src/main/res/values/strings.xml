@@ -141,6 +141,10 @@
     <string name="control_grv_checkpoint_main_conclusion">CONCLUSION DU CONTROLE PERIODIQUE</string>
 
     <string name="remote_connexion_title">CONNEXION RESEAU</string>
+    <string name="remote_server_address_title">ADRESSE RESEAU</string>
+    <string name="remote_tab_title">TABLETTE</string>
+    <string name="remote_server_title">RESEAU</string>
+    <string name="remote_change">CHANGER</string>
     "
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -8,9 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.callback.GRVControlInterface
+import com.example.myapplication.recycler.RemoteListAdapter
 import com.example.myapplication.utils.REMOTE_TAG
+import com.example.myapplication.utils.getRemoteAddress
+import com.example.myapplication.utils.saveRemoteAddress
 import com.example.myapplication.viewmodel.ControlGRVViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
@@ -20,31 +25,41 @@ class RemoteFragment : BaseFragment() {
     override fun getLayout(): Int = R.layout.fragment_remote
 
     private val viewModel: ControlGRVViewModel by viewModel()
+    private lateinit var tabRecycler: RecyclerView
+    private lateinit var tabAdapter: RemoteListAdapter
+    private lateinit var serverAdapter: RemoteListAdapter
+    private lateinit var serverRecycler: RecyclerView
 
     override fun getBody(view: View, savedInstanceState: Bundle?) {
         view.findViewById<ImageView>(R.id.imageView_alorem_remote_grv).setOnClickListener {
             mCallback?.loadMenuFragment()
         }
 
-        viewModel.getAllRemoteAndLocalControlGRV(baseUrl = "http://10.0.121.61:8080/")
+        val addressInput = view.findViewById<TextView>(R.id.addressInput_remote)
+        addressInput.text = getRemoteAddress(context = requireContext())
+
+        view.findViewById<TextView>(R.id.changeBtn_remote).setOnClickListener {
+            saveRemoteAddress(context = requireContext(), address = addressInput.text.toString())
+        }
+
+        serverRecycler = view.findViewById(R.id.server_recycler_remote_grv)
+        tabRecycler = view.findViewById(R.id.tab_recycler_remote_grv)
+
+        viewModel.getAllRemoteAndLocalControlGRV(baseUrl = getRemoteAddress(context = requireContext()))
         getObservations(view= view)
     }
 
     private fun getObservations(view: View) {
         viewModel.remoteControlGRVLiveData().observe(this) { lists ->
+            serverAdapter = RemoteListAdapter(lists.first, onItemClicked = { })
+            serverRecycler.adapter = serverAdapter
+            serverRecycler.layoutManager = LinearLayoutManager(view.context)
 
-            var firstList = ""
-            var secondList = ""
 
-            lists.first.forEach {
-                firstList += it.serialNumber.toString() + "\n"
-            }
-            lists.second.forEach {
-                secondList += it.serialNumber.toString() + "\n"
-            }
+            tabAdapter = RemoteListAdapter(lists.second, onItemClicked = { })
+            tabRecycler.adapter = tabAdapter
+            tabRecycler.layoutManager = LinearLayoutManager(view.context)
 
-            val tempText = firstList + "\n\n" + secondList
-            view.findViewById<TextView>(R.id.temp_remote_grv).text = tempText
         }
     }
 

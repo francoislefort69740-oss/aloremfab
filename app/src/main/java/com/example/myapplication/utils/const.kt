@@ -34,3 +34,6 @@ const val ADVERTISING_NO_PHOTO_FOUND = "Aucune photo en lien avec la référence
 const val PDF_CREATION_FAILED = "Erreur lors de la génération du fichier PDF"
 
 const val NUMERO = "NUMERO"
+
+const val MY_PREFERENCES = "MY_PREFERENCES"
+const val BASE_URL = "BASE_URL"
