@@ -7,9 +7,9 @@ import com.example.domain.model.ControlGRVBusiness
 
 object RemoteControlGRVMapper {
 
-    fun getAllRemoteControlGRVToBusiness(remoteListGRVControl: RemoteListGRVControl): BusinessRemoteListGRVControl {
+    fun getAllRemoteControlGRVToBusiness(remoteListGRVControl: List<RemoteGRVControl>): BusinessRemoteListGRVControl {
         val result = mutableListOf<ControlGRVBusiness>()
-        remoteListGRVControl.list.forEach() {
+        remoteListGRVControl.forEach() {
             result.add(remoteControlGRVToBusiness(it))
         }
         return BusinessRemoteListGRVControl(list = result)

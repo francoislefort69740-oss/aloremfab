@@ -139,6 +139,8 @@
     <string name="control_grv_checkpoint_etancheite_bar_2">BAR 2</string>
     <string name="control_grv_checkpoint_conclusion_running_equipment">FONCTIONNEMENT EQUIPEMENT DE SERVICE</string>
     <string name="control_grv_checkpoint_main_conclusion">CONCLUSION DU CONTROLE PERIODIQUE</string>
+
+    <string name="remote_connexion_title">CONNEXION RESEAU</string>
     "
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

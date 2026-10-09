@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.example.myapplication.R
 import com.example.myapplication.callback.GRVControlInterface
 import com.example.myapplication.utils.REMOTE_TAG
@@ -24,7 +25,29 @@ class RemoteFragment : BaseFragment() {
         view.findViewById<ImageView>(R.id.imageView_alorem_remote_grv).setOnClickListener {
             mCallback?.loadMenuFragment()
         }
+
+        viewModel.getAllRemoteAndLocalControlGRV(baseUrl = "http://10.0.121.61:8080/")
+        getObservations(view= view)
     }
+
+    private fun getObservations(view: View) {
+        viewModel.remoteControlGRVLiveData().observe(this) { lists ->
+
+            var firstList = ""
+            var secondList = ""
+
+            lists.first.forEach {
+                firstList += it.serialNumber.toString() + "\n"
+            }
+            lists.second.forEach {
+                secondList += it.serialNumber.toString() + "\n"
+            }
+
+            val tempText = firstList + "\n\n" + secondList
+            view.findViewById<TextView>(R.id.temp_remote_grv).text = tempText
+        }
+    }
+
 
     companion object {
         fun newInstance() = RemoteFragment()
