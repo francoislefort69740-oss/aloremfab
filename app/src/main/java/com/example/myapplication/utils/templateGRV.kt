@@ -24,6 +24,8 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
         customerSerialNumber = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_customer_serial_number, list = list),
         serialNumberAlorem = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_alorem_serial_number, list = list),
         type = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_tank_category, list = list),
+        period = returnCheckPointForCheckBox(context = context, resId = R.string.control_grv_checkpoint_periodic, list = list),
+        isRepaired = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_is_repaired, list = list),
         controlGRVForeignId = serialNumber
     )
     GRVControlStepEnum.STEP_1-> StepControlGRV.Step1ControlGRV(
@@ -41,6 +43,7 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
     GRVControlStepEnum.STEP_2 -> StepControlGRV.Step2ControlGRV(
         reference = serialNumber!!,
         marquePrincipale = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_marque_principale, list = list),
+        western = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_western, list = list),
         tare = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_tare, list = list) ?: 0,
         material = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_material, list = list),
         capacity20 = returnCheckPointForEditableInt(context = context, resId = R.string.control_grv_checkpoint_capacity_20, list = list) ?: 0,
@@ -71,6 +74,7 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
         internalClean = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_internal_clean, list = list),
         internalObjectInside = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_internal_object_inside, list = list),
         internalPollution = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_internal_pollution, list = list),
+        observationInspection = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_observation, list = list),
         controlGRVForeignId = serialNumber
     )
     GRVControlStepEnum.STEP_5 -> StepControlGRV.Step5ControlGRV(
@@ -110,6 +114,7 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
         etancheiteDate2 = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_etancheite_date_2, list = list),
         etancheiteBar1 = returnCheckPointForEditableFloat(context = context, resId = R.string.control_grv_checkpoint_etancheite_bar_1, list = list) ?: 0f,
         etancheiteBar2 = returnCheckPointForEditableFloat(context = context, resId = R.string.control_grv_checkpoint_etancheite_bar_2, list = list) ?: 0f,
+        finalObservation = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_observation, list = list),
         controlGRVForeignId = serialNumber
     )
     else -> throw IllegalArgumentException("Invalid type")

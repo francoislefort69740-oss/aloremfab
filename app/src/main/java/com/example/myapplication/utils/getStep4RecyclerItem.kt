@@ -27,5 +27,9 @@ fun getStep4RecyclerItem(data: StepControlGRV.Step4ControlGRV?, mContext: Contex
         ControlGRVCheckPoint.SingleCheckCheckPoint(
             name = mContext.getString(R.string.control_grv_checkpoint_internal_pollution),
             value = data?.internalPollution ?: false,
-        )
+        ),
+        ControlGRVCheckPoint.EditableCheckPoint(
+            name = mContext.getString(R.string.control_grv_observation),
+            value = data?.observationInspection.orEmpty(),
+        ),
     )

@@ -28,6 +28,7 @@ data class ControlGRVStep4Local(
     @ColumnInfo(name = INTERNAL_OK) val internalOK: Boolean?,
     @ColumnInfo(name = INTERNAL_CLEAN) val internalClean: Boolean,
     @ColumnInfo(name = INTERNAL_OBJECT_INSIDE) val internalObjectInside: Boolean,
+    @ColumnInfo(name = OBSERVATION_INSPECTION) val observationInspection: String,
     @ColumnInfo(name = INTERNAL_POLLUTION) val internalPollution: Boolean
 ) {
 
@@ -40,6 +41,7 @@ data class ControlGRVStep4Local(
         const val INTERNAL_OBJECT_INSIDE = "internal_object_inside"
         const val INTERNAL_POLLUTION = "internal_pollution"
         const val GRV_CONTROL_UID = "GRV_control_uid"
+        const val OBSERVATION_INSPECTION = "observation_inspection"
     }
 
 }

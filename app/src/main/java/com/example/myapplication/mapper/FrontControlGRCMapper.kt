@@ -80,6 +80,8 @@ object FrontControlGRCMapper {
             customerSerialNumber = controlGRVStepBusiness.customerSerialNumber,
             serialNumberAlorem = controlGRVStepBusiness.serialNumberAlorem,
             type = controlGRVStepBusiness.type,
+            period = controlGRVStepBusiness.period,
+            isRepaired = controlGRVStepBusiness.isRepaired,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
         is ControlGRVStepBusiness.ControlGRVStep1 -> StepControlGRV.Step1ControlGRV(
@@ -97,6 +99,7 @@ object FrontControlGRCMapper {
         is ControlGRVStepBusiness.ControlGRVStep2 -> StepControlGRV.Step2ControlGRV(
             reference = controlGRVStepBusiness.reference,
             marquePrincipale = controlGRVStepBusiness.marquePrincipale,
+            western = controlGRVStepBusiness.western,
             tare = controlGRVStepBusiness.tare,
             material = controlGRVStepBusiness.material,
             capacity20 = controlGRVStepBusiness.capacity20,
@@ -127,6 +130,7 @@ object FrontControlGRCMapper {
             internalClean = controlGRVStepBusiness.internalClean,
             internalObjectInside = controlGRVStepBusiness.internalObjectInside,
             internalPollution = controlGRVStepBusiness.internalPollution,
+            observationInspection = controlGRVStepBusiness.observationInspection,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
         is ControlGRVStepBusiness.ControlGRVStep5 -> StepControlGRV.Step5ControlGRV(
@@ -166,6 +170,7 @@ object FrontControlGRCMapper {
             etancheiteConforme2 = controlGRVStepBusiness.etancheiteOK2,
             etancheiteDate2 = controlGRVStepBusiness.etancheiteDate2,
             etancheiteBar2 = controlGRVStepBusiness.etancheiteBar2,
+            finalObservation = controlGRVStepBusiness.finalObservation,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
     }
@@ -178,6 +183,8 @@ object FrontControlGRCMapper {
             customerSerialNumber = stepControlGRV.customerSerialNumber ?: "",
             serialNumberAlorem = stepControlGRV.serialNumberAlorem ?: "",
             type = stepControlGRV.type ?: "",
+            period = stepControlGRV.period,
+            isRepaired = stepControlGRV.isRepaired,
             controlGRVForeignId = stepControlGRV.reference ?: 0
         )
         is StepControlGRV.Step1ControlGRV -> ControlGRVStepBusiness.ControlGRVStep1(
@@ -203,6 +210,7 @@ object FrontControlGRCMapper {
             shellThickness = stepControlGRV.shellThickness ?: 0,
             pictogramStacking = stepControlGRV.pictogramStacking,
             weightStacking = stepControlGRV.weightStacking ?: 0,
+            western = stepControlGRV.western ?: "",
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
         is StepControlGRV.Step3ControlGRV -> ControlGRVStepBusiness.ControlGRVStep3(
@@ -225,6 +233,7 @@ object FrontControlGRCMapper {
             internalClean = stepControlGRV.internalClean,
             internalObjectInside = stepControlGRV.internalObjectInside,
             internalPollution = stepControlGRV.internalPollution,
+            observationInspection = stepControlGRV.observationInspection ?: "",
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
         is StepControlGRV.Step5ControlGRV -> ControlGRVStepBusiness.ControlGRVStep5(
@@ -264,6 +273,7 @@ object FrontControlGRCMapper {
             etancheiteOK2 = stepControlGRV.etancheiteConforme2,
             etancheiteDate2 = stepControlGRV.etancheiteDate2 ?: "",
             etancheiteBar2 = stepControlGRV.etancheiteBar2 ?: 0F,
+            finalObservation = stepControlGRV.finalObservation ?: "",
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
     }

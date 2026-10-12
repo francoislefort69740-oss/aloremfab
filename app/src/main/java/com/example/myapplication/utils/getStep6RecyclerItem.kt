@@ -46,6 +46,10 @@ fun getStep6RecyclerItem(data: StepControlGRV.Step6ControlGRV?, mContext: Contex
                 ?.toString()
                 .orEmpty(),
             inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        )
+        ),
+        ControlGRVCheckPoint.EditableCheckPoint(
+            name = mContext.getString(R.string.control_grv_observation),
+            value = data?.finalObservation.orEmpty(),
+        ),
 
     )

@@ -63,6 +63,8 @@
     <string name="control_grv_checkpoint_tank_category">TYPE CUVE</string>
     <string name="control_grv_checkpoint_customer_serial_number">N° SERIE CLIENT</string>
     <string name="control_grv_checkpoint_alorem_serial_number">N° ALOREM</string>
+    <string name="control_grv_checkpoint_periodic">Type de contrôle: 5 ans OK - 2.5 ans NOK</string>
+    <string name="control_grv_checkpoint_is_repaired">REPARE</string>
 
     <string name="control_grv_checkpoint_step1_title">DOCUMENTATION ET MARQUAGE REGLEMENTAIRE</string>
     <string name="control_grv_checkpoint_plate_adr">Plaque ADR</string>
@@ -76,6 +78,7 @@
 
     <string name="control_grv_checkpoint_step2_title">INFORMATION PLAQUE</string>
     <string name="control_grv_checkpoint_marque_principale">Marque principale</string>
+    <string name="control_grv_checkpoint_western">Western</string>
     <string name="control_grv_checkpoint_tare">Tare (kg)</string>
     <string name="control_grv_checkpoint_material">Matériau</string>
     <string name="control_grv_checkpoint_capacity_20">Capacité 20°C</string>
@@ -102,6 +105,7 @@
     <string name="control_grv_checkpoint_internal_clean">PROPRE</string>
     <string name="control_grv_checkpoint_internal_object_inside">OBJET DANS LA CUVE</string>
     <string name="control_grv_checkpoint_internal_pollution">POLLUTION</string>
+    <string name="control_grv_observation">Observation</string>
 
     <string name="control_grv_checkpoint_step5_title">MESURE D\'EPAISSEUR</string>
     <string name="control_grv_checkpoint_epaisseur_na">CONTROLE EPAISSEUR N/A</string>

@@ -21,6 +21,8 @@ sealed class ControlGRVStepBusiness{
         var customerSerialNumber: String,
         var serialNumberAlorem: String,
         var type: String,
+        var period: Boolean?,
+        var isRepaired: Boolean,
         var controlGRVForeignId: Int
     ) : ControlGRVStepBusiness() {
         override fun isValid(): Boolean {
@@ -48,6 +50,7 @@ sealed class ControlGRVStepBusiness{
     data class ControlGRVStep2(
         override val reference: Int,
         var marquePrincipale: String,
+        var western: String,
         var tare: Int,
         var material: String,
         var capacity20: Int,
@@ -88,6 +91,7 @@ sealed class ControlGRVStepBusiness{
         var internalClean: Boolean,
         var internalObjectInside: Boolean,
         var internalPollution: Boolean,
+        var observationInspection: String,
         var controlGRVForeignId: Int
     ) : ControlGRVStepBusiness() {
         override fun isValid(): Boolean {
@@ -137,6 +141,7 @@ sealed class ControlGRVStepBusiness{
         var etancheiteOK2: Boolean?,
         var etancheiteDate2: String,
         var etancheiteBar2: Float,
+        var finalObservation: String,
         var controlGRVForeignId: Int
     ) : ControlGRVStepBusiness() {
         override fun isValid(): Boolean {
