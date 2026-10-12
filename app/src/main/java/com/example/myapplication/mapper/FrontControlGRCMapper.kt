@@ -7,6 +7,9 @@ import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.model.TemplateGRV
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import kotlin.collections.forEach
 
 object FrontControlGRCMapper {
@@ -268,7 +271,7 @@ object FrontControlGRCMapper {
         is StepControlGRV.Step6ControlGRV -> ControlGRVStepBusiness.ControlGRVStep6(
             reference = stepControlGRV.reference ?: 0,
             etancheiteOK1 = stepControlGRV.etancheiteConforme1,
-            etancheiteDate1 = stepControlGRV.etancheiteDate1 ?: "",
+            etancheiteDate1 = stepControlGRV.etancheiteDate1 ?: LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE)),
             etancheiteBar1 = stepControlGRV.etancheiteBar1 ?: 0F,
             etancheiteOK2 = stepControlGRV.etancheiteConforme2,
             etancheiteDate2 = stepControlGRV.etancheiteDate2 ?: "",
