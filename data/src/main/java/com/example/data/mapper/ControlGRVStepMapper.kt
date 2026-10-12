@@ -22,6 +22,7 @@ object ControlGRVStepMapper {
             serialNumberAlorem = controlGRVStep0Local.serialNumberAlorem,
             type = controlGRVStep0Local.type,
             period = controlGRVStep0Local.period,
+            manufacturer = controlGRVStep0Local.manufacturer,
             isRepaired = controlGRVStep0Local.isRepaired,
             controlGRVForeignId = controlGRVStep0Local.foreignKey
         )
@@ -139,6 +140,7 @@ object ControlGRVStepMapper {
             type = controlGRVStepBusiness.type,
             period = controlGRVStepBusiness.period,
             isRepaired = controlGRVStepBusiness.isRepaired,
+            manufacturer = controlGRVStepBusiness.manufacturer,
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 

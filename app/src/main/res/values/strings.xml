@@ -63,7 +63,8 @@
     <string name="control_grv_checkpoint_tank_category">TYPE CUVE</string>
     <string name="control_grv_checkpoint_customer_serial_number">N° SERIE CLIENT</string>
     <string name="control_grv_checkpoint_alorem_serial_number">N° ALOREM</string>
-    <string name="control_grv_checkpoint_periodic">Type de contrôle: 5 ans OK - 2.5 ans NOK</string>
+    <string name="control_grv_checkpoint_periodic">Type de contrôle -> 2.5 ans Check - 5 ans : not Check</string>
+    <string name="control_grv_checkpoint_period_manufacturer">Fabricant -> Western : Check - Alorem : not Check</string>"
     <string name="control_grv_checkpoint_is_repaired">REPARE</string>
 
     <string name="control_grv_checkpoint_step1_title">DOCUMENTATION ET MARQUAGE REGLEMENTAIRE</string>

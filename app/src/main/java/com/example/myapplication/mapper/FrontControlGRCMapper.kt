@@ -85,6 +85,7 @@ object FrontControlGRCMapper {
             type = controlGRVStepBusiness.type,
             period = controlGRVStepBusiness.period,
             isRepaired = controlGRVStepBusiness.isRepaired,
+            manufacturer = controlGRVStepBusiness.manufacturer,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
         is ControlGRVStepBusiness.ControlGRVStep1 -> StepControlGRV.Step1ControlGRV(
@@ -188,6 +189,7 @@ object FrontControlGRCMapper {
             type = stepControlGRV.type ?: "",
             period = stepControlGRV.period,
             isRepaired = stepControlGRV.isRepaired,
+            manufacturer = stepControlGRV.manufacturer,
             controlGRVForeignId = stepControlGRV.reference ?: 0
         )
         is StepControlGRV.Step1ControlGRV -> ControlGRVStepBusiness.ControlGRVStep1(

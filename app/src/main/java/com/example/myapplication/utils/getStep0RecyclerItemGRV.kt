@@ -37,10 +37,13 @@ fun getStep0RecyclerItem(data: StepControlGRV.Step0ControlGRV?, mContext: Contex
             name = mContext.getString(R.string.control_grv_checkpoint_alorem_serial_number),
             value = data?.serialNumberAlorem.orEmpty()
         ),
-        ControlGRVCheckPoint.CheckBoxCheckPoint(
+        ControlGRVCheckPoint.SingleCheckCheckPoint(
             name = mContext.getString(R.string.control_grv_checkpoint_periodic),
-            value = data?.period,
-            isChecked = data?.period != null
+            value = data?.period ?: false
+        ),
+        ControlGRVCheckPoint.SingleCheckCheckPoint(
+            name = mContext.getString(R.string.control_grv_checkpoint_period_manufacturer),
+            value = data?.manufacturer ?: false
         ),
         ControlGRVCheckPoint.SingleCheckCheckPoint(
             name = mContext.getString(R.string.control_grv_checkpoint_is_repaired),

@@ -24,8 +24,9 @@ fun grvControlProcess(currentStep: GRVControlStepEnum, list : List<ControlGRVChe
         customerSerialNumber = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_customer_serial_number, list = list),
         serialNumberAlorem = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_alorem_serial_number, list = list),
         type = returnCheckPointForEditableString(context = context, resId = R.string.control_grv_checkpoint_tank_category, list = list),
-        period = returnCheckPointForCheckBox(context = context, resId = R.string.control_grv_checkpoint_periodic, list = list),
+        period = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_periodic, list = list),
         isRepaired = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_is_repaired, list = list),
+        manufacturer = returnCheckPointForSingleCheck(context = context, resId = R.string.control_grv_checkpoint_period_manufacturer, list = list),
         controlGRVForeignId = serialNumber
     )
     GRVControlStepEnum.STEP_1-> StepControlGRV.Step1ControlGRV(

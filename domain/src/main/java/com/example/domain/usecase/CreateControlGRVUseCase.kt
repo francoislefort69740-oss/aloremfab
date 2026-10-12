@@ -102,6 +102,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     type = controlGRVStepBusiness.type,
                     period = controlGRVStepBusiness.period,
                     isRepaired = controlGRVStepBusiness.isRepaired,
+                    manufacturer = controlGRVStepBusiness.manufacturer,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -226,6 +227,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     type = controlGRVStepBusiness.type,
                     period = controlGRVStepBusiness.period,
                     isRepaired = controlGRVStepBusiness.isRepaired,
+                    manufacturer = controlGRVStepBusiness.manufacturer,
                     controlGRVForeignId = serialNumber
                 )
             )

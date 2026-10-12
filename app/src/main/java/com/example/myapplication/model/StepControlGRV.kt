@@ -29,7 +29,8 @@ sealed class StepControlGRV{
         var customerSerialNumber: String? = null,
         var serialNumberAlorem: String? = null,
         var type: String? = null,
-        var period: Boolean? = null,
+        var period: Boolean = false,
+        var manufacturer: Boolean = false,
         var isRepaired: Boolean = false,
         var controlGRVForeignId: Int? = null
     ) : StepControlGRV()

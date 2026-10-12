@@ -13,7 +13,8 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         customerSerialNumber = "",
         serialNumberAlorem = "",
         type = "",
-        period = null,
+        period = false,
+        manufacturer = false,
         isRepaired = false,
         controlGRVForeignId = reference
     )

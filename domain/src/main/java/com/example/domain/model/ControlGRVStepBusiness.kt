@@ -21,7 +21,8 @@ sealed class ControlGRVStepBusiness{
         var customerSerialNumber: String,
         var serialNumberAlorem: String,
         var type: String,
-        var period: Boolean?,
+        var period: Boolean,
+        var manufacturer: Boolean,
         var isRepaired: Boolean,
         var controlGRVForeignId: Int
     ) : ControlGRVStepBusiness() {
