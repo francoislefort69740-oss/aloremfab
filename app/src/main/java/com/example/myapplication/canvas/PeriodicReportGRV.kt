@@ -93,6 +93,18 @@ class PeriodicReportGRV : View {
         paint.strokeWidth = 1F
     }
 
+    private fun defineGraphStroke(unitY: Float): Paint = paint.apply {
+        color = Color.BLACK
+        paint.strokeWidth = unitY * 0.1F
+        style = Paint.Style.STROKE
+    }
+
+    private fun defineGraphFillAndStroke(unitY: Float): Paint = paint.apply {
+        color = Color.BLACK
+        paint.strokeWidth = unitY * 0.1F
+        style = Paint.Style.FILL_AND_STROKE
+    }
+
     private fun defineGraph(unitY: Float): Paint = paint.apply {
         color = Color.BLACK
         paint.strokeWidth = unitY * 0.1F
@@ -209,25 +221,63 @@ class PeriodicReportGRV : View {
 
         canvas.drawText(MARQUES_ADDITION, unitX * 80,unitY * (startY + section), paint)
         drawText(canvas = canvas, text = TYPE_MATERIAU, data = reportData?.step2?.material, x = unitX * 5, y = unitY * (startY + section))
-        canvas.drawText(reportData?.step2?.weightStacking.toString() + " " + KG, unitX * 80,unitY * (startY + section), paint)
+        if (reportData?.step2?.pictogramStacking == true) {
+            canvas.drawText(reportData?.step2?.weightStacking.toString() + " " + KG, unitX * 80,unitY * (startY + section), paint)
+        }
 
         drawText(canvas = canvas, text = EPAISSEUR_PAROI, data = reportData?.step2?.shellThickness.toString(), x = unitX * 5, y = unitY * (startY + section))
 
         // GRAPH
-        defineGraph(unitY)
-        drawLineGraph(canvas = canvas, unitX = unitX, unitY = unitY, floatY = unitY * (startY + section))
-        drawRect(canvas = canvas,
-            top = unitY * (startY + section) + section/2,
-            left = unitX * 83,
-            bottom = unitY * (startY + section) + (section * 1.25F)/2,
-            right = unitX * 88
-        )
-        drawRect(canvas = canvas,
-            top = unitY * (startY + section) + (section * 1.5F)/2,
-            left = unitX * 83,
-            bottom = unitY * (startY + section) + (section * 2.9F)/2,
-            right = unitX * 88
-        )
+        if (reportData?.step2?.pictogramStacking == true) {
+            defineGraph(unitY)
+            drawLineGraph(
+                canvas = canvas,
+                unitX = unitX,
+                unitY = unitY,
+                floatY = unitY * (startY + section)
+            )
+            drawRect(
+                canvas = canvas,
+                top = unitY * (startY + section) + section / 2,
+                left = unitX * 83,
+                bottom = unitY * (startY + section) + (section * 1.25F) / 2,
+                right = unitX * 88
+            )
+            drawRect(
+                canvas = canvas,
+                top = unitY * (startY + section) + (section * 1.5F) / 2,
+                left = unitX * 83,
+                bottom = unitY * (startY + section) + (section * 2.9F) / 2,
+                right = unitX * 88
+            )
+        } else {
+            defineGraphStroke(unitY)
+            drawRect(
+                canvas = canvas,
+                top = unitY * (startY + section),
+                left = unitX * 83,
+                bottom = unitY * (startY + section) + (section * 1.35F) / 2,
+                right = unitX * 86
+            )
+            canvas.drawLine(
+                unitX * 82.7F,
+                unitY * (startY + section),
+                unitX * 86.5F,
+                unitY * (startY + section) + (section * 1.55F) / 2, paint)
+            canvas.drawLine(
+                unitX * 82.5F,
+                unitY * (startY + section) + (section * 1.30F) / 2,
+                unitX * 86.5F,
+                unitY * (startY + section) + (section * 0.35F) / 2, paint)
+            defineGraphFillAndStroke(unitY)
+            drawRect(
+                canvas = canvas,
+                top = unitY * (startY + section) + (section * 1.55F) / 2,
+                left = unitX * 83,
+                bottom = unitY * (startY + section) + (section * 2.9F) / 2,
+                right = unitX * 86
+            )
+        }
 
         defineTextDefault(unitY)
         drawText(canvas = canvas, text = DATE_FAB, data = reportData?.step2?.fabricationDate, x = unitX * 5, y = unitY * (startY + section))
