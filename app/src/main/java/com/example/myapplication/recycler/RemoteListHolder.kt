@@ -10,13 +10,15 @@ import com.example.myapplication.model.ControlGRV
 class RemoteListHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(
     inflater.inflate(R.layout.item_remote, parent, false)) {
 
-    fun setItem(item: ControlGRV, onItemClicked: (Int) -> Unit) {
+    fun setItem(item: ControlGRV, onItemClicked: (Int, Int) -> Unit) {
         val name = itemView.findViewById<TextView>(R.id.item_id_remote)
-        val nameValue = item.serialNumber.toString()
-        name.text = nameValue
+        name.text = item.serialNumber.toString()
 
-        this.itemView.setOnClickListener {
-            onItemClicked(item.serialNumber!!)
+        itemView.setOnClickListener {
+            val position = bindingAdapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                onItemClicked(position, item.serialNumber!!)
+            }
         }
     }
 }

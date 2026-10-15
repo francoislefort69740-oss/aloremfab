@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -51,15 +52,24 @@ class RemoteFragment : BaseFragment() {
 
     private fun getObservations(view: View) {
         viewModel.remoteControlGRVLiveData().observe(this) { lists ->
-            serverAdapter = RemoteListAdapter(lists.first, onItemClicked = { })
+            serverAdapter = RemoteListAdapter(lists.first.toMutableList(), onItemClicked = { position, serialNumber ->
+
+            })
             serverRecycler.adapter = serverAdapter
             serverRecycler.layoutManager = LinearLayoutManager(view.context)
 
 
-            tabAdapter = RemoteListAdapter(lists.second, onItemClicked = { })
+            tabAdapter = RemoteListAdapter(lists.second.toMutableList(), onItemClicked = { position, serialNumber ->
+                tabAdapter.removeItem(position = position)
+                viewModel.sendControlToPostgresSql(reference = serialNumber, list = lists.first, baseUrl = getRemoteAddress(context = requireContext()))
+            })
             tabRecycler.adapter = tabAdapter
             tabRecycler.layoutManager = LinearLayoutManager(view.context)
 
+        }
+
+        viewModel.sendControlGRVToRemoteLiveData().observe(this) {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
     }
 

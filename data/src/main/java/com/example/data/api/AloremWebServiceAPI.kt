@@ -6,9 +6,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class AloremWebServiceAPI(private val client: OkHttpClient) {
     fun getAloremService(baseUrl: String): AloremApi {
+        val formattedUrl = if (baseUrl.endsWith("/")) baseUrl else "$baseUrl/"
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(formattedUrl)
             .client(client)
             .addConverterFactory(
                 GsonConverterFactory.create()

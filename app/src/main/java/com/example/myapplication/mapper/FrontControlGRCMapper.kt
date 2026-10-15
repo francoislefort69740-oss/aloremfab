@@ -21,6 +21,14 @@ object FrontControlGRCMapper {
         return result
     }
 
+    fun allControlGRVFrontToBusiness(controlGRV: List<ControlGRV>): List<ControlGRVBusiness> {
+        val result = mutableListOf<ControlGRVBusiness>()
+        controlGRV.forEach {
+            result.add(controlGRVFrontToBusiness(it))
+        }
+        return result
+    }
+
     fun controlGRVBusinessToFront(controlGRVBusiness: ControlGRVBusiness): ControlGRV = ControlGRV(
         uid = controlGRVBusiness.uid,
         title = controlGRVBusiness.title,

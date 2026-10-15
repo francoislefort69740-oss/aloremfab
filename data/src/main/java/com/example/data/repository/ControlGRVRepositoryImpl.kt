@@ -67,7 +67,7 @@ class ControlGRVRepositoryImpl(private val controlGRVLocalDataSource: ControlGRV
         var message = ""
 
         remote.doIfSuccess { message = it.message }
-        remote.doIfFailure { message = "Error" }
+        remote.doIfFailure { message = it.localizedMessage ?: it.message ?: "Erreur lors de la création distante" }
 
         return RemoteMessageBusiness(message = message)
     }
@@ -77,7 +77,7 @@ class ControlGRVRepositoryImpl(private val controlGRVLocalDataSource: ControlGRV
         var message = ""
 
         remote.doIfSuccess { message = it.message }
-        remote.doIfFailure { message = "Error" }
+        remote.doIfFailure { message = it.localizedMessage ?: it.message ?: "Erreur lors de la mise à jour distante" }
 
         return RemoteMessageBusiness(message = message)
     }
