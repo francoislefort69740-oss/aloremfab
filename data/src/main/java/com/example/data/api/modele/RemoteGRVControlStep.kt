@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class RemoteGRVControlStep(
     @SerializedName("step") val step: Int,
-    @SerializedName("commandeUid") val commandeUid: Int,
+    @SerializedName("commandeUid") val commandeUid: Int? = null,
     @SerializedName("reference") val reference: Int,
     @SerializedName("reportNumber") val reportNumber: Int? = null,
     @SerializedName("customer") val customer: String? = null,

@@ -2,8 +2,14 @@ package com.example.data.di
 
 import com.example.data.api.AloremWebServiceAPI
 import com.example.data.api.AuthInterceptor
+import com.example.data.api.repository.CreateControlRemoteDataSource
+import com.example.data.api.repository.CreateControlRemoteDataSourceImpl
+import com.example.data.api.repository.DeleteControlRemoteDataSource
+import com.example.data.api.repository.DeleteControlRemoteDataSourceImpl
 import com.example.data.api.repository.GetControlsRemoteDataSource
 import com.example.data.api.repository.GetControlsRemoteDataSourceImpl
+import com.example.data.api.repository.UpdateControlRemoteDataSource
+import com.example.data.api.repository.UpdateControlRemoteDataSourceImpl
 import com.example.data.database.MyDatabase
 import com.example.data.database.repository.ActiveIdLocalDataSource
 import com.example.data.database.repository.ActiveIdLocalDataSourceImpl
@@ -64,6 +70,9 @@ val dataModule = module {
     single { AuthInterceptor() }
 
     factory<GetControlsRemoteDataSource> { GetControlsRemoteDataSourceImpl(get()) }
+    factory<CreateControlRemoteDataSource> { CreateControlRemoteDataSourceImpl(get()) }
+    factory<UpdateControlRemoteDataSource> { UpdateControlRemoteDataSourceImpl(get()) }
+    factory<DeleteControlRemoteDataSource> { DeleteControlRemoteDataSourceImpl(get()) }
 
     // DATABASE
     single { MyDatabase.getDatabase(androidApplication()) }
@@ -86,7 +95,7 @@ val dataModule = module {
     factory { TemplateGRVDao() }
     factory<ControlGRVLocalDataSource> { ControlGRVLocalDataSourceImpl(get()) }
     factory<TemplateGRVLocalDataSource> { TemplateGRVLocalDataSourceImpl(get()) }
-    factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get(), get()) }
+    factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get(), get(), get(), get(), get()) }
     factory<TemplateGRVLocalRepository> { TemplateGRVLocalRepositoryImpl(get()) }
 
     factory<ControlGRVStep0LocalDataSource> { ControlGRVStep0LocalDataSourceImpl(get()) }
