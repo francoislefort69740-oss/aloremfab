@@ -6,6 +6,8 @@ import com.example.data.api.repository.CreateControlRemoteDataSource
 import com.example.data.api.repository.CreateControlRemoteDataSourceImpl
 import com.example.data.api.repository.DeleteControlRemoteDataSource
 import com.example.data.api.repository.DeleteControlRemoteDataSourceImpl
+import com.example.data.api.repository.GetControlByIdRemoteDataSource
+import com.example.data.api.repository.GetControlByIdRemoteDataSourceImpl
 import com.example.data.api.repository.GetControlsRemoteDataSource
 import com.example.data.api.repository.GetControlsRemoteDataSourceImpl
 import com.example.data.api.repository.UpdateControlRemoteDataSource
@@ -70,6 +72,7 @@ val dataModule = module {
     single { AuthInterceptor() }
 
     factory<GetControlsRemoteDataSource> { GetControlsRemoteDataSourceImpl(get()) }
+    factory<GetControlByIdRemoteDataSource> { GetControlByIdRemoteDataSourceImpl(get()) }
     factory<CreateControlRemoteDataSource> { CreateControlRemoteDataSourceImpl(get()) }
     factory<UpdateControlRemoteDataSource> { UpdateControlRemoteDataSourceImpl(get()) }
     factory<DeleteControlRemoteDataSource> { DeleteControlRemoteDataSourceImpl(get()) }
@@ -95,7 +98,7 @@ val dataModule = module {
     factory { TemplateGRVDao() }
     factory<ControlGRVLocalDataSource> { ControlGRVLocalDataSourceImpl(get()) }
     factory<TemplateGRVLocalDataSource> { TemplateGRVLocalDataSourceImpl(get()) }
-    factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get(), get(), get(), get(), get()) }
+    factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get(), get(), get(), get(), get(), get()) }
     factory<TemplateGRVLocalRepository> { TemplateGRVLocalRepositoryImpl(get()) }
 
     factory<ControlGRVStep0LocalDataSource> { ControlGRVStep0LocalDataSourceImpl(get()) }

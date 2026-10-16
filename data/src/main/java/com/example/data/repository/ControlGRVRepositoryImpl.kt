@@ -2,9 +2,12 @@ package com.example.data.repository
 
 import com.example.data.api.repository.CreateControlRemoteDataSource
 import com.example.data.api.repository.DeleteControlRemoteDataSource
+import com.example.data.api.repository.GetControlByIdRemoteDataSource
 import com.example.data.api.repository.GetControlsRemoteDataSource
 import com.example.data.api.repository.UpdateControlRemoteDataSource
 import com.example.data.database.repository.ControlGRVLocalDataSource
+import com.example.data.mapper.RemoteControlGRVMapper
+import com.example.domain.ResultOf
 import com.example.domain.doIfFailure
 import com.example.domain.doIfSuccess
 import com.example.domain.model.ControlGRVBusiness
@@ -12,13 +15,14 @@ import com.example.domain.model.ControlGRVStepBusiness
 import com.example.domain.model.RemoteMessageBusiness
 import com.example.domain.repository.db.ControlGRVLocalRepository
 
-class ControlGRVRepositoryImpl(private val controlGRVLocalDataSource: ControlGRVLocalDataSource,
-                               private val getRemoteDataSource: GetControlsRemoteDataSource,
-                               private val createRemoteDataSource: CreateControlRemoteDataSource,
-                               private val updateRemoteDataSource: UpdateControlRemoteDataSource,
-                               private val deleteRemoteDataSource: DeleteControlRemoteDataSource
-    ): ControlGRVLocalRepository
-{
+class ControlGRVRepositoryImpl(
+    private val controlGRVLocalDataSource: ControlGRVLocalDataSource,
+    private val getRemoteDataSource: GetControlsRemoteDataSource,
+    private val createRemoteDataSource: CreateControlRemoteDataSource,
+    private val updateRemoteDataSource: UpdateControlRemoteDataSource,
+    private val deleteRemoteDataSource: DeleteControlRemoteDataSource,
+    private val getControlByIdRemoteDataSource: GetControlByIdRemoteDataSource
+) : ControlGRVLocalRepository {
 
     override suspend fun createLocalControlGRV(controlGRVBusiness: ControlGRVBusiness): Int {
         return controlGRVLocalDataSource.createLocalControlGRV(controlGRVBusiness = controlGRVBusiness)
@@ -86,6 +90,26 @@ class ControlGRVRepositoryImpl(private val controlGRVLocalDataSource: ControlGRV
         TODO("Not yet implemented")
     }
 
+    override suspend fun getRemoteControlById(id: Int, baseUrl: String): ResultOf<Pair<ControlGRVBusiness, ControlGRVStepBusiness.ControlGRVAllStep>> {
+        val result = getControlByIdRemoteDataSource.getControlById(baseUrl = baseUrl, id = id)
+        var pair: Pair<ControlGRVBusiness, ControlGRVStepBusiness.ControlGRVAllStep>? = null
+        var error: Throwable? = null
+
+        result.doIfSuccess {
+            pair = RemoteControlGRVMapper.remoteControlToAllSteps(it)
+        }
+        result.doIfFailure {
+            error = it
+        }
+
+        val finalPair = pair
+        return if (finalPair != null) {
+            ResultOf.Success(finalPair)
+        } else {
+            val ex = (error as? Exception) ?: Exception(error?.message ?: "Erreur lors de la récupération distante")
+            ResultOf.Error(ex)
+        }
+    }
 
     override suspend fun updateLocalControlGRV(controlGRVBusiness: ControlGRVBusiness): Int {
         return controlGRVLocalDataSource.updateLocalControlGRV(controlGRVBusiness = controlGRVBusiness)

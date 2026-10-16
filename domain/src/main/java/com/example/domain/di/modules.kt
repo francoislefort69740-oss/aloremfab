@@ -19,6 +19,7 @@ import com.example.domain.usecase.GetControlGRVStepUseCase
 import com.example.domain.usecase.GetControlGRVUseCase
 import com.example.domain.usecase.GetCurrentlyGoingOnControlGRVUseCase
 import com.example.domain.usecase.GetLoadedControlGRVUseCase
+import com.example.domain.usecase.GetRemoteControlByIdUseCase
 import com.example.domain.usecase.GetTemplateUseCase
 import com.example.domain.usecase.GetUnLoadedControlGRVUseCase
 import com.example.domain.usecase.GetUserUseCase
@@ -33,6 +34,7 @@ import org.koin.dsl.module
 val domainModule = module {
 
     single { DomainInteractor(
+        get(),
         get(),
         get(),
         get(),
@@ -89,4 +91,5 @@ val domainModule = module {
     single { CheckIfTemplateGRVExistUseCase(get(), get()) }
     single { GetAllRemoteAndLocalControlGRVUseCase(get()) }
     single { SendControlGRVToRemoteUseCase(get(), get()) }
+    single { GetRemoteControlByIdUseCase(get(), get()) }
 }

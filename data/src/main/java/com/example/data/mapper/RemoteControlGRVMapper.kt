@@ -42,10 +42,7 @@ object RemoteControlGRVMapper {
         )
     }
 
-    fun businessStepToStepRemote(
-        allSteps: ControlGRVStepBusiness.ControlGRVAllStep,
-        reference: Int
-    ): List<RemoteGRVControlStep> {
+    fun businessStepToStepRemote(allSteps: ControlGRVStepBusiness.ControlGRVAllStep, reference: Int): List<RemoteGRVControlStep> {
 
         val s0 = allSteps.controlGRVStep0
         val s1 = allSteps.controlGRVStep1
@@ -191,4 +188,121 @@ object RemoteControlGRVMapper {
     fun getMessage(remoteMessage: RemoteMessage): RemoteMessageBusiness = RemoteMessageBusiness(
         message = remoteMessage.message
     )
+
+    fun remoteControlToAllSteps(remoteControl: RemoteGRVControl): Pair<ControlGRVBusiness, ControlGRVStepBusiness.ControlGRVAllStep> {
+        val controlBusiness = remoteControlGRVToBusiness(remoteControl)
+        val ref = remoteControl.serialNumber ?: 0
+        controlBusiness.uid = ref
+        val foreignId = ref
+
+        val allSteps = ControlGRVStepBusiness.ControlGRVAllStep()
+
+        remoteControl.steps?.forEach { step ->
+            when (step.step) {
+                0 -> allSteps.controlGRVStep0 = ControlGRVStepBusiness.ControlGRVStep0(
+                    reference = ref,
+                    reportNumber = step.reportNumber ?: 0,
+                    customer = step.customer ?: "",
+                    customerSerialNumber = step.customerSerialNumber ?: "",
+                    serialNumberAlorem = step.serialNumberAlorem ?: "",
+                    type = step.type ?: "",
+                    period = false,
+                    manufacturer = false,
+                    isRepaired = false,
+                    controlGRVForeignId = foreignId
+                )
+                1 -> allSteps.controlGRVStep1 = ControlGRVStepBusiness.ControlGRVStep1(
+                    reference = ref,
+                    fabricationPlateAdr = step.fabricationPlateAdr,
+                    aloremPlate = step.aloremPlate,
+                    bookletPouch = step.bookletPouch,
+                    userManual = step.userManual,
+                    instructionOfUse = step.instructionOfUse,
+                    certificatesADR = step.certificatesADR,
+                    groundingAdhesive = step.groundingAdhesive,
+                    conformityCertificateMarking = step.conformityCertificateMarking,
+                    controlGRVForeignId = foreignId
+                )
+                2 -> allSteps.controlGRVStep2 = ControlGRVStepBusiness.ControlGRVStep2(
+                    reference = ref,
+                    marquePrincipale = step.marquePrincipale ?: "",
+                    western = "",
+                    tare = step.tare ?: 0,
+                    material = step.material ?: "",
+                    capacity20 = step.capacity20 ?: 0,
+                    grossMass = step.grossMass ?: 0,
+                    fabricationDate = step.fabricationDate ?: "",
+                    shellThickness = step.shellThickness ?: 0,
+                    pictogramStacking = step.pictogramStacking,
+                    weightStacking = step.weightStacking ?: 0,
+                    controlGRVForeignId = foreignId
+                )
+                3 -> allSteps.controlGRVStep3 = ControlGRVStepBusiness.ControlGRVStep3(
+                    reference = ref,
+                    bottomRetentionFace = step.bottomRetentionFace,
+                    bottomRetentionRight = step.bottomRetentionRight,
+                    bottomRetentionLeft = step.bottomRetentionLeft,
+                    bottomRetentionBehind = step.bottomRetentionBehind,
+                    upperRetention = step.upperRetention,
+                    liftingRings = step.liftingRings,
+                    forkliftPass = step.forkliftPass,
+                    dashboard = step.dashboard,
+                    unauthorizedRepair = step.unauthorizedRepair ?: false,
+                    controlGRVForeignId = foreignId
+                )
+                4 -> allSteps.controlGRVStep4 = ControlGRVStepBusiness.ControlGRVStep4(
+                    reference = ref,
+                    internalNA = step.internalNA ?: false,
+                    internalOK = step.internalOK,
+                    internalClean = step.internalClean ?: false,
+                    internalObjectInside = step.internalObjectInside ?: false,
+                    internalPollution = step.internalPollution ?: false,
+                    observationInspection = "",
+                    controlGRVForeignId = foreignId
+                )
+                5 -> allSteps.controlGRVStep5 = ControlGRVStepBusiness.ControlGRVStep5(
+                    reference = ref,
+                    epaisseurNA = step.epaisseurNA ?: false,
+                    epaisseurMinSideFront = step.epaisseurMinSideFront ?: 0,
+                    epaisseurMinSideBack = step.epaisseurMinSideBack ?: 0,
+                    epaisseurMinSideRight = step.epaisseurMinSideRight ?: 0,
+                    epaisseurMinSideLeft = step.epaisseurMinSideLeft ?: 0,
+                    epaisseurSideFrontResult1 = step.epaisseurSideFrontResult1 ?: 0,
+                    epaisseurSideFrontResult2 = step.epaisseurSideFrontResult2 ?: 0,
+                    epaisseurSideFrontResult3 = step.epaisseurSideFrontResult3 ?: 0,
+                    epaisseurSideFrontResult4 = step.epaisseurSideFrontResult4 ?: 0,
+                    epaisseurSideFrontResult5 = step.epaisseurSideFrontResult5 ?: 0,
+                    epaisseurSideBackResult1 = step.epaisseurSideBackResult1 ?: 0,
+                    epaisseurSideBackResult2 = step.epaisseurSideBackResult2 ?: 0,
+                    epaisseurSideBackResult3 = step.epaisseurSideBackResult3 ?: 0,
+                    epaisseurSideBackResult4 = step.epaisseurSideBackResult4 ?: 0,
+                    epaisseurSideBackResult5 = step.epaisseurSideBackResult5 ?: 0,
+                    epaisseurSideRightResult1 = step.epaisseurSideRightResult1 ?: 0,
+                    epaisseurSideRightResult2 = step.epaisseurSideRightResult2 ?: 0,
+                    epaisseurSideRightResult3 = step.epaisseurSideRightResult3 ?: 0,
+                    epaisseurSideRightResult4 = step.epaisseurSideRightResult4 ?: 0,
+                    epaisseurSideRightResult5 = step.epaisseurSideRightResult5 ?: 0,
+                    epaisseurSideLeftResult1 = step.epaisseurSideLeftResult1 ?: 0,
+                    epaisseurSideLeftResult2 = step.epaisseurSideLeftResult2 ?: 0,
+                    epaisseurSideLeftResult3 = step.epaisseurSideLeftResult3 ?: 0,
+                    epaisseurSideLeftResult4 = step.epaisseurSideLeftResult4 ?: 0,
+                    epaisseurSideLeftResult5 = step.epaisseurSideLeftResult5 ?: 0,
+                    controlGRVForeignId = foreignId
+                )
+                6 -> allSteps.controlGRVStep6 = ControlGRVStepBusiness.ControlGRVStep6(
+                    reference = ref,
+                    etancheiteOK1 = step.etancheiteOK1,
+                    etancheiteDate1 = step.etancheiteDate1 ?: "",
+                    etancheiteBar1 = step.etancheiteBar1 ?: 0f,
+                    etancheiteOK2 = step.etancheiteOK2,
+                    etancheiteDate2 = step.etancheiteDate2 ?: "",
+                    etancheiteBar2 = step.etancheiteBar2 ?: 0f,
+                    finalObservation = "",
+                    controlGRVForeignId = foreignId
+                )
+            }
+        }
+
+        return Pair(controlBusiness, allSteps)
+    }
 }

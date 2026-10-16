@@ -53,7 +53,9 @@ class RemoteFragment : BaseFragment() {
     private fun getObservations(view: View) {
         viewModel.remoteControlGRVLiveData().observe(this) { lists ->
             serverAdapter = RemoteListAdapter(lists.first.toMutableList(), onItemClicked = { position, serialNumber ->
-
+                val item = lists.first[position]
+                val uidToFetch = item.uid ?: serialNumber
+                viewModel.getControlFromRemote(id = uidToFetch, baseUrl = getRemoteAddress(context = requireContext()))
             })
             serverRecycler.adapter = serverAdapter
             serverRecycler.layoutManager = LinearLayoutManager(view.context)
@@ -69,6 +71,10 @@ class RemoteFragment : BaseFragment() {
         }
 
         viewModel.sendControlGRVToRemoteLiveData().observe(this) {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.importRemoteControlLiveData().observe(this) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
     }

@@ -1,7 +1,6 @@
 package com.example.data.api
 
 import com.example.data.api.modele.RemoteGRVControl
-import com.example.data.api.modele.RemoteListGRVControl
 import com.example.data.api.modele.RemoteMessage
 import retrofit2.Response
 import retrofit2.http.Body
@@ -15,12 +14,15 @@ interface AloremApi {
     @GET("api/commandes")
     suspend fun getControls(): Response<List<RemoteGRVControl>>
 
+    @GET("api/commandes/{id}")
+    suspend fun getControlById(@Path("id") id: Int): Response<RemoteGRVControl>
+
     @PUT("api/commandes/{id}")
-    suspend fun updateControl(@Path("id") id : Int, @Body control: RemoteGRVControl): Response<RemoteMessage>
+    suspend fun updateControl(@Path("id") id: Int, @Body control: RemoteGRVControl): Response<RemoteMessage>
 
     @POST("api/commandes")
     suspend fun createControl(@Body control: RemoteGRVControl): Response<RemoteMessage>
 
     @DELETE("api/commandes/{id}")
-    suspend fun deleteControl(@Path("id") id : Int): Response<RemoteMessage>
+    suspend fun deleteControl(@Path("id") id: Int): Response<RemoteMessage>
 }
