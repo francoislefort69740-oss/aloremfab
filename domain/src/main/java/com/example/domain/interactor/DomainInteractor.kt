@@ -10,6 +10,7 @@ import com.example.domain.usecase.DeleteUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
 import com.example.domain.usecase.GetAllControlGRVUseCase
 import com.example.domain.usecase.GetAllFinishedControlGRVUseCase
+import com.example.domain.usecase.GetAllRemoteAndLocalControlGRVUseCase
 import com.example.domain.usecase.GetAllStepControlGRVFortReportUseCase
 import com.example.domain.usecase.GetAllTemplatesUseCase
 import com.example.domain.usecase.GetAllUsersUseCase
@@ -21,9 +22,11 @@ import com.example.domain.usecase.UpdateActivateIdUseCase
 import com.example.domain.usecase.UpdateControlGRCUseCase
 import com.example.domain.usecase.UpdateUserUseCase
 import com.example.domain.usecase.GetLoadedControlGRVUseCase
+import com.example.domain.usecase.GetRemoteControlByIdUseCase
 import com.example.domain.usecase.GetTemplateUseCase
 import com.example.domain.usecase.GetUnLoadedControlGRVUseCase
 import com.example.domain.usecase.SaveTemplateUseCase
+import com.example.domain.usecase.SendControlGRVToRemoteUseCase
 import com.example.domain.usecase.UpdateLoadedControlGRVStateUseCase
 
 data class DomainInteractor(
@@ -51,5 +54,8 @@ data class DomainInteractor(
     val getAllTemplatesUseCase: GetAllTemplatesUseCase,
     val saveTemplateUseCase: SaveTemplateUseCase,
     val getTemplateUseCase: GetTemplateUseCase,
-    val checkIfTemplateGRVExistUseCase: CheckIfTemplateGRVExistUseCase
+    val checkIfTemplateGRVExistUseCase: CheckIfTemplateGRVExistUseCase,
+    val getAllRemoteAndLocalControlGRVUseCase: GetAllRemoteAndLocalControlGRVUseCase,
+    val sendControlGRVToRemoteUseCase: SendControlGRVToRemoteUseCase,
+    val getRemoteControlByIdUseCase: GetRemoteControlByIdUseCase
 )

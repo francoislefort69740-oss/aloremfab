@@ -29,6 +29,9 @@ sealed class StepControlGRV{
         var customerSerialNumber: String? = null,
         var serialNumberAlorem: String? = null,
         var type: String? = null,
+        var period: Boolean = false,
+        var manufacturer: Boolean = false,
+        var isRepaired: Boolean = false,
         var controlGRVForeignId: Int? = null
     ) : StepControlGRV()
 
@@ -49,6 +52,7 @@ sealed class StepControlGRV{
     data class Step2ControlGRV(
         override val title: Int = R.string.control_grv_checkpoint_step2_title,
         val reference: Int? = null,
+        val western: String? = null,
         var marquePrincipale: String? = null,
         var tare: Int? = null,
         var material: String? = null,
@@ -84,6 +88,7 @@ sealed class StepControlGRV{
         var internalClean: Boolean = false,
         var internalObjectInside: Boolean = false,
         var internalPollution: Boolean = false,
+        var observationInspection: String? = null,
         var controlGRVForeignId: Int? = null
     ) : StepControlGRV()
 
@@ -127,6 +132,7 @@ sealed class StepControlGRV{
         var etancheiteDate2: String? = null,
         var etancheiteBar1: Float? = null,
         var etancheiteBar2: Float? = null,
+        var finalObservation: String? = null,
         var controlGRVForeignId: Int? = null
     ) : StepControlGRV()
 

@@ -5,6 +5,9 @@ import android.text.InputType
 import com.example.myapplication.R
 import com.example.myapplication.model.ControlGRVCheckPoint
 import com.example.myapplication.model.StepControlGRV
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 fun getStep6RecyclerItem(data: StepControlGRV.Step6ControlGRV?, mContext: Context): List<ControlGRVCheckPoint> =
     listOf(
@@ -16,7 +19,7 @@ fun getStep6RecyclerItem(data: StepControlGRV.Step6ControlGRV?, mContext: Contex
 
         ControlGRVCheckPoint.EditableCheckPoint(
             name = mContext.getString(R.string.control_grv_checkpoint_etancheite_date_1),
-            value = data?.etancheiteDate1.orEmpty()
+            value = data?.etancheiteDate1 ?: LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE))
         ),
 
         ControlGRVCheckPoint.EditableCheckPoint(
@@ -46,6 +49,10 @@ fun getStep6RecyclerItem(data: StepControlGRV.Step6ControlGRV?, mContext: Contex
                 ?.toString()
                 .orEmpty(),
             inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        )
+        ),
+        ControlGRVCheckPoint.EditableCheckPoint(
+            name = mContext.getString(R.string.control_grv_observation),
+            value = data?.finalObservation.orEmpty(),
+        ),
 
     )

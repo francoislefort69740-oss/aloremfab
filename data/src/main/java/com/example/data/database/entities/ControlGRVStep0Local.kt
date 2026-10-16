@@ -28,6 +28,9 @@ data class ControlGRVStep0Local(
     @ColumnInfo(name = CUSTOMER_SERIAL_NUMBER) val customerSerialNumber: String,
     @ColumnInfo(name = SERIAL_NUMBER_ALOREM) val serialNumberAlorem: String,
     @ColumnInfo(name = TYPE) val type: String,
+    @ColumnInfo(name = PERIODIC) val period: Boolean,
+    @ColumnInfo(name = IS_REPAIRED) val isRepaired: Boolean,
+    @ColumnInfo(name = MANUFACTURER) val manufacturer: Boolean,
     @ColumnInfo(name = GRV_CONTROL_UID, index = true) val foreignKey: Int
 ) {
 
@@ -39,7 +42,10 @@ data class ControlGRVStep0Local(
         const val CUSTOMER_SERIAL_NUMBER = "customer_serial_number"
         const val SERIAL_NUMBER_ALOREM = "serial_number_alorem"
         const val TYPE = "GRV_type"
+        const val PERIODIC = "periodic"
+        const val IS_REPAIRED = "is_repaired"
         const val GRV_CONTROL_UID = "GRV_control_uid"
+        const val MANUFACTURER = "manufacturer"
     }
 
 }

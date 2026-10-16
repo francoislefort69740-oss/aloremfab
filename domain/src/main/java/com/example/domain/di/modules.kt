@@ -11,6 +11,7 @@ import com.example.domain.usecase.DeleteUserUseCase
 import com.example.domain.usecase.GetActiveIdUseCase
 import com.example.domain.usecase.GetAllControlGRVUseCase
 import com.example.domain.usecase.GetAllFinishedControlGRVUseCase
+import com.example.domain.usecase.GetAllRemoteAndLocalControlGRVUseCase
 import com.example.domain.usecase.GetAllStepControlGRVFortReportUseCase
 import com.example.domain.usecase.GetAllTemplatesUseCase
 import com.example.domain.usecase.GetAllUsersUseCase
@@ -18,10 +19,12 @@ import com.example.domain.usecase.GetControlGRVStepUseCase
 import com.example.domain.usecase.GetControlGRVUseCase
 import com.example.domain.usecase.GetCurrentlyGoingOnControlGRVUseCase
 import com.example.domain.usecase.GetLoadedControlGRVUseCase
+import com.example.domain.usecase.GetRemoteControlByIdUseCase
 import com.example.domain.usecase.GetTemplateUseCase
 import com.example.domain.usecase.GetUnLoadedControlGRVUseCase
 import com.example.domain.usecase.GetUserUseCase
 import com.example.domain.usecase.SaveTemplateUseCase
+import com.example.domain.usecase.SendControlGRVToRemoteUseCase
 import com.example.domain.usecase.UpdateActivateIdUseCase
 import com.example.domain.usecase.UpdateControlGRCUseCase
 import com.example.domain.usecase.UpdateLoadedControlGRVStateUseCase
@@ -31,6 +34,9 @@ import org.koin.dsl.module
 val domainModule = module {
 
     single { DomainInteractor(
+        get(),
+        get(),
+        get(),
         get(),
         get(),
         get(),
@@ -83,4 +89,7 @@ val domainModule = module {
     single { SaveTemplateUseCase(get()) }
     single { GetTemplateUseCase(get()) }
     single { CheckIfTemplateGRVExistUseCase(get(), get()) }
+    single { GetAllRemoteAndLocalControlGRVUseCase(get()) }
+    single { SendControlGRVToRemoteUseCase(get(), get()) }
+    single { GetRemoteControlByIdUseCase(get(), get()) }
 }

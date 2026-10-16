@@ -13,6 +13,9 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         customerSerialNumber = "",
         serialNumberAlorem = "",
         type = "",
+        period = false,
+        manufacturer = false,
+        isRepaired = false,
         controlGRVForeignId = reference
     )
     GRVControlStepEnum.STEP_1 -> ControlGRVStepBusiness.ControlGRVStep1(
@@ -38,6 +41,7 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         shellThickness = 0,
         pictogramStacking = null,
         weightStacking = 0,
+        western = "",
         controlGRVForeignId = reference
     )
     GRVControlStepEnum.STEP_3 -> ControlGRVStepBusiness.ControlGRVStep3(
@@ -60,6 +64,7 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         internalClean = false,
         internalObjectInside = false,
         internalPollution = false,
+        observationInspection = "",
         controlGRVForeignId = reference
     )
     GRVControlStepEnum.STEP_5 -> ControlGRVStepBusiness.ControlGRVStep5(
@@ -99,6 +104,7 @@ fun getEmptyControlGRVStep(stepNumber: GRVControlStepEnum, reference: Int): Cont
         etancheiteOK2 = false,
         etancheiteDate2 = "",
         etancheiteBar2 = 0f,
+        finalObservation = "",
         controlGRVForeignId = reference
     )
 }

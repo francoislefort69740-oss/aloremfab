@@ -29,6 +29,7 @@ data class ControlGRVStep6Local(
     @ColumnInfo(name = ETANCHEITE_BAR_1) val etancheiteBar1: Float,
     @ColumnInfo(name = ETANCHEITE_OK_2) val etancheiteOK2: Boolean?,
     @ColumnInfo(name = ETANCHEITE_DATE_2) val etancheiteDate2: String,
+    @ColumnInfo(name = FINAL_OBSERVATION) val finalObservation: String,
     @ColumnInfo(name = ETANCHEITE_BAR_2) val etancheiteBar2: Float
 ){
 
@@ -42,6 +43,7 @@ data class ControlGRVStep6Local(
         const val ETANCHEITE_DATE_2 = "etancheite_date_2"
         const val ETANCHEITE_BAR_2 = "etancheite_bar_2"
         const val GRV_CONTROL_UID = "GRV_control_uid"
+        const val FINAL_OBSERVATION = "final_observation"
     }
 
 }

@@ -19,6 +19,7 @@ const val TEMPLATE_TAG = "TEMPLATE_TAG"
 const val REGISTRATION_CREATE_USER_TAG = "REGISTRATION_CREATE_USER_TAG"
 const val REGISTRATION_UPDATE_USER_TAG = "REGISTRATION_UPDATE_USER_TAG"
 const val GRV_CONTROL_TAG = "GRV_CONTROL_TAG"
+const val REMOTE_TAG = "REMOTE_TAG"
 
 const val CHECK_GRV = "CHECK_GRV"
 const val PERF_GRV = "PERF_GRV"
@@ -33,3 +34,6 @@ const val ADVERTISING_NO_PHOTO_FOUND = "Aucune photo en lien avec la référence
 const val PDF_CREATION_FAILED = "Erreur lors de la génération du fichier PDF"
 
 const val NUMERO = "NUMERO"
+
+const val MY_PREFERENCES = "MY_PREFERENCES"
+const val BASE_URL = "BASE_URL"

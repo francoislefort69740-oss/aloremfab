@@ -26,6 +26,9 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val getStepControlGrV = interactor.getControlGRVStepUseCase
     private val createStepControlGrV = interactor.createControlGRVStepUseCase
     private val checkSaveOrNextControlGRV = interactor.checkSaveOrNextControlGRVUseCase
+    private val remoteControlGRV = interactor.getAllRemoteAndLocalControlGRVUseCase
+    private val sendControlGRVToRemote = interactor.sendControlGRVToRemoteUseCase
+    private val getRemoteControlById = interactor.getRemoteControlByIdUseCase
 
     // LIVEDATA
 
@@ -40,6 +43,9 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     private val getStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
     private val createStepControlGrVLiveData = MutableLiveData<StepControlGRV>()
     private val checkSaveOrNextControlGRVLiveData = MutableLiveData<Triple<Boolean, Boolean, Boolean>>()
+    private val remoteControlGRVLiveData = MutableLiveData<Pair<List<ControlGRV>, List<ControlGRV>>>()
+    private val sendControlGRVToRemoteLiveData = MutableLiveData<String>()
+    private val importRemoteControlLiveData = MutableLiveData<String>()
 
     private val controlGRVNotFound = MutableLiveData<Boolean>()
     private val noControlGRVExist = MutableLiveData<Boolean>()
@@ -60,6 +66,9 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
     fun getStepControlGrVLiveData() = getStepControlGrVLiveData
     fun createStepControlGrVLiveData() = createStepControlGrVLiveData
     fun checkSaveOrNextControlGRVLiveData() = checkSaveOrNextControlGRVLiveData
+    fun remoteControlGRVLiveData() = remoteControlGRVLiveData
+    fun sendControlGRVToRemoteLiveData() = sendControlGRVToRemoteLiveData
+    fun importRemoteControlLiveData() = importRemoteControlLiveData
 
     fun getControlStepGrvNotInitialized() = controlStepGrvNotInitialized
     fun wrongSerialNumber() = wrongSerialNumber
@@ -109,6 +118,39 @@ class ControlGRVViewModel(interactor: DomainInteractor) : ViewModel() {
 
 
     // OBSERVATION
+
+    fun sendControlToPostgresSql(reference: Int, list : List<ControlGRV>, baseUrl: String) {
+        viewModelScope.launch {
+            when (val result = sendControlGRVToRemote.invoke(reference = reference, list = FrontControlGRCMapper.allControlGRVFrontToBusiness(list), baseUrl = baseUrl)) {
+                is ResultOf.Success -> sendControlGRVToRemoteLiveData.postValue(result.data)
+                else -> noControlGRVExist.postValue(true)
+            }
+        }
+    }
+
+    fun getControlFromRemote(id: Int, baseUrl: String) {
+        viewModelScope.launch {
+            when (val result = getRemoteControlById.invoke(id = id, baseUrl = baseUrl)) {
+                is ResultOf.Success -> importRemoteControlLiveData.postValue(result.data)
+                is ResultOf.Error -> importRemoteControlLiveData.postValue(result.exception.localizedMessage ?: "Erreur d'importation")
+            }
+        }
+    }
+
+    fun getAllRemoteAndLocalControlGRV(baseUrl: String) {
+        viewModelScope.launch {
+            when (val result = remoteControlGRV.invoke(baseUrl = baseUrl)) {
+                is ResultOf.Success -> remoteControlGRVLiveData.postValue(
+                    FrontControlGRCMapper.allControlGRVBusinessToFront(result.data.first)
+                            to FrontControlGRCMapper.allControlGRVBusinessToFront(result.data.second)
+                )
+                is ResultOf.Error -> when (result.exception) {
+                    is ErrorBusiness.NoControlGRVExist -> noControlGRVExist.postValue(true)
+                    is ErrorBusiness.ControlGRVNotFound -> controlGRVNotFound.postValue(true)
+                }
+            }
+        }
+    }
 
     fun checkSaveOrNextControlGRV(reference: Int?, currentStep : GRVControlStepEnum){
         viewModelScope.launch {

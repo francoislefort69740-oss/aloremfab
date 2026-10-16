@@ -1,5 +1,17 @@
 package com.example.data.di
 
+import com.example.data.api.AloremWebServiceAPI
+import com.example.data.api.AuthInterceptor
+import com.example.data.api.repository.CreateControlRemoteDataSource
+import com.example.data.api.repository.CreateControlRemoteDataSourceImpl
+import com.example.data.api.repository.DeleteControlRemoteDataSource
+import com.example.data.api.repository.DeleteControlRemoteDataSourceImpl
+import com.example.data.api.repository.GetControlByIdRemoteDataSource
+import com.example.data.api.repository.GetControlByIdRemoteDataSourceImpl
+import com.example.data.api.repository.GetControlsRemoteDataSource
+import com.example.data.api.repository.GetControlsRemoteDataSourceImpl
+import com.example.data.api.repository.UpdateControlRemoteDataSource
+import com.example.data.api.repository.UpdateControlRemoteDataSourceImpl
 import com.example.data.database.MyDatabase
 import com.example.data.database.repository.ActiveIdLocalDataSource
 import com.example.data.database.repository.ActiveIdLocalDataSourceImpl
@@ -35,10 +47,35 @@ import com.example.domain.repository.db.ControlGRVLocalRepository
 import com.example.domain.repository.db.ControlGRVStepLocalRepository
 import com.example.domain.repository.db.UserLocalRepository
 import com.example.domain.repository.serialize.TemplateGRVLocalRepository
+import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+import kotlin.coroutines.EmptyCoroutineContext.get
 
 val dataModule = module {
+
+    // WEBSERVICE
+
+    single { AloremWebServiceAPI(get()) }
+
+    single { OkHttpClient.Builder()
+        .readTimeout(1, TimeUnit.MINUTES)
+        .connectTimeout(1, TimeUnit.MINUTES)
+        .addInterceptor(get<AuthInterceptor>())
+        .build()
+    }
+
+    single { AuthInterceptor() }
+
+    factory<GetControlsRemoteDataSource> { GetControlsRemoteDataSourceImpl(get()) }
+    factory<GetControlByIdRemoteDataSource> { GetControlByIdRemoteDataSourceImpl(get()) }
+    factory<CreateControlRemoteDataSource> { CreateControlRemoteDataSourceImpl(get()) }
+    factory<UpdateControlRemoteDataSource> { UpdateControlRemoteDataSourceImpl(get()) }
+    factory<DeleteControlRemoteDataSource> { DeleteControlRemoteDataSourceImpl(get()) }
 
     // DATABASE
     single { MyDatabase.getDatabase(androidApplication()) }
@@ -61,7 +98,7 @@ val dataModule = module {
     factory { TemplateGRVDao() }
     factory<ControlGRVLocalDataSource> { ControlGRVLocalDataSourceImpl(get()) }
     factory<TemplateGRVLocalDataSource> { TemplateGRVLocalDataSourceImpl(get()) }
-    factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get()) }
+    factory<ControlGRVLocalRepository> { ControlGRVRepositoryImpl(get(), get(), get(), get(), get(), get()) }
     factory<TemplateGRVLocalRepository> { TemplateGRVLocalRepositoryImpl(get()) }
 
     factory<ControlGRVStep0LocalDataSource> { ControlGRVStep0LocalDataSourceImpl(get()) }

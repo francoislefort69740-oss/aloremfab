@@ -12,6 +12,10 @@ fun getStep2RecyclerItem(data: StepControlGRV.Step2ControlGRV?, mContext: Contex
             name = mContext.getString(R.string.control_grv_checkpoint_marque_principale),
             value = data?.marquePrincipale.orEmpty(),
         ),
+        ControlGRVCheckPoint.EditableCheckPoint(
+            name = mContext.getString(R.string.control_grv_checkpoint_western),
+            value = data?.western.orEmpty(),
+        ),
 
         ControlGRVCheckPoint.EditableCheckPoint(
             name = mContext.getString(R.string.control_grv_checkpoint_tare),

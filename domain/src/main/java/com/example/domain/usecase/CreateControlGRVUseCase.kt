@@ -100,6 +100,9 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     customerSerialNumber = controlGRVStepBusiness.customerSerialNumber,
                     serialNumberAlorem = controlGRVStepBusiness.serialNumberAlorem,
                     type = controlGRVStepBusiness.type,
+                    period = controlGRVStepBusiness.period,
+                    isRepaired = controlGRVStepBusiness.isRepaired,
+                    manufacturer = controlGRVStepBusiness.manufacturer,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -131,6 +134,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     shellThickness = controlGRVStepBusiness.shellThickness,
                     pictogramStacking = controlGRVStepBusiness.pictogramStacking,
                     weightStacking = controlGRVStepBusiness.weightStacking,
+                    western = controlGRVStepBusiness.western,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -159,6 +163,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     internalClean = controlGRVStepBusiness.internalClean,
                     internalObjectInside = controlGRVStepBusiness.internalObjectInside,
                     internalPollution = controlGRVStepBusiness.internalPollution,
+                    observationInspection = controlGRVStepBusiness.observationInspection,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -204,6 +209,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     etancheiteOK2 = controlGRVStepBusiness.etancheiteOK2,
                     etancheiteDate2 = controlGRVStepBusiness.etancheiteDate2,
                     etancheiteBar2 = controlGRVStepBusiness.etancheiteBar2,
+                    finalObservation = controlGRVStepBusiness.finalObservation,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -219,6 +225,9 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     customerSerialNumber = controlGRVStepBusiness.customerSerialNumber,
                     serialNumberAlorem = controlGRVStepBusiness.serialNumberAlorem,
                     type = controlGRVStepBusiness.type,
+                    period = controlGRVStepBusiness.period,
+                    isRepaired = controlGRVStepBusiness.isRepaired,
+                    manufacturer = controlGRVStepBusiness.manufacturer,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -250,6 +259,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     shellThickness = controlGRVStepBusiness.shellThickness,
                     pictogramStacking = controlGRVStepBusiness.pictogramStacking,
                     weightStacking = controlGRVStepBusiness.weightStacking,
+                    western = controlGRVStepBusiness.western,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -278,6 +288,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     internalClean = controlGRVStepBusiness.internalClean,
                     internalObjectInside = controlGRVStepBusiness.internalObjectInside,
                     internalPollution = controlGRVStepBusiness.internalPollution,
+                    observationInspection = controlGRVStepBusiness.observationInspection,
                     controlGRVForeignId = serialNumber
                 )
             )
@@ -323,6 +334,7 @@ class CreateControlGRVUseCase(private val controlGRVLocalRepository: ControlGRVL
                     etancheiteOK2 = controlGRVStepBusiness.etancheiteOK2,
                     etancheiteDate2 = controlGRVStepBusiness.etancheiteDate2,
                     etancheiteBar2 = controlGRVStepBusiness.etancheiteBar2,
+                    finalObservation = controlGRVStepBusiness.finalObservation,
                     controlGRVForeignId = serialNumber
                 )
             )

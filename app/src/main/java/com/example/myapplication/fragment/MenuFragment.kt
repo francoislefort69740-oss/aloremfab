@@ -46,6 +46,12 @@ class MenuFragment : BaseFragment() {
             mCallback?.loadBuildControlFragment()
         }
 
+        val remoteCtrlBtn = view.findViewById<ImageView>(R.id.RemoteControlBtn_menu)
+        remoteCtrlBtn.setOnClickListener {
+            mCallback?.loadRemoteControlFragment()
+        }
+
+
         viewModel.getUsers()
 
         getObservation(view = view)

@@ -32,6 +32,7 @@ data class ControlGRVStep2Local(
     @ColumnInfo(name = SHELL_THICKNESS) val shellThickness: Int,
     @ColumnInfo(name = PICTOGRAM_STACKING) val pictogramStacking: Boolean?,
     @ColumnInfo(name = WEIGHT_STACKING) val weightStacking: Int,
+    @ColumnInfo(name = WESTERN) val western: String,
     @ColumnInfo(name = GRV_CONTROL_UID, index = true) val foreignKey: Int
 ){
     companion object {
@@ -47,5 +48,6 @@ data class ControlGRVStep2Local(
         const val PICTOGRAM_STACKING = "pictogram_stacking"
         const val WEIGHT_STACKING = "weight_stacking"
         const val GRV_CONTROL_UID = "GRV_control_uid"
+        const val WESTERN = "western"
     }
 }

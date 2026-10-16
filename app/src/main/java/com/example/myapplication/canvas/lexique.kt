@@ -2,6 +2,8 @@ package com.example.myapplication.canvas
 
 const val TITLE_IDENTIFICATION = "IDENTIFICATION"
 const val SITE_DE_CONTROLE = "Site du contrôle (Nom & Adresse) :  ALOREM - 350 ROUTE DE THIL - D61B - 01700 BEYNOST - FRANCE"
+const val ALOREM_ADDRESS = "ALOREM - 350 ROUTE DE THIL - D61B - 01700 BEYNOST - FRANCE"
+const val SITE_WESTERN = "WESTERN GLOBAL - BROAD LANE - YATE - BS37 L7B - ANGLETERRE"
 const val PROPRIETAIRE = "Propriétaire (Nom & Adresse) : "
 const val FABRICANT = "Fabricant (Nom & Adresse) : "
 const val NUM_SERIE_ALO = "N° de série ALOREM : "

@@ -7,6 +7,9 @@ import com.example.domain.utils.GRVControlStepEnum
 import com.example.myapplication.model.ControlGRV
 import com.example.myapplication.model.StepControlGRV
 import com.example.myapplication.model.TemplateGRV
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import kotlin.collections.forEach
 
 object FrontControlGRCMapper {
@@ -14,6 +17,14 @@ object FrontControlGRCMapper {
         val result = mutableListOf<ControlGRV>()
         controlGRVBusiness.forEach {
             result.add(controlGRVBusinessToFront(it))
+        }
+        return result
+    }
+
+    fun allControlGRVFrontToBusiness(controlGRV: List<ControlGRV>): List<ControlGRVBusiness> {
+        val result = mutableListOf<ControlGRVBusiness>()
+        controlGRV.forEach {
+            result.add(controlGRVFrontToBusiness(it))
         }
         return result
     }
@@ -80,6 +91,9 @@ object FrontControlGRCMapper {
             customerSerialNumber = controlGRVStepBusiness.customerSerialNumber,
             serialNumberAlorem = controlGRVStepBusiness.serialNumberAlorem,
             type = controlGRVStepBusiness.type,
+            period = controlGRVStepBusiness.period,
+            isRepaired = controlGRVStepBusiness.isRepaired,
+            manufacturer = controlGRVStepBusiness.manufacturer,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
         is ControlGRVStepBusiness.ControlGRVStep1 -> StepControlGRV.Step1ControlGRV(
@@ -97,6 +111,7 @@ object FrontControlGRCMapper {
         is ControlGRVStepBusiness.ControlGRVStep2 -> StepControlGRV.Step2ControlGRV(
             reference = controlGRVStepBusiness.reference,
             marquePrincipale = controlGRVStepBusiness.marquePrincipale,
+            western = controlGRVStepBusiness.western,
             tare = controlGRVStepBusiness.tare,
             material = controlGRVStepBusiness.material,
             capacity20 = controlGRVStepBusiness.capacity20,
@@ -127,6 +142,7 @@ object FrontControlGRCMapper {
             internalClean = controlGRVStepBusiness.internalClean,
             internalObjectInside = controlGRVStepBusiness.internalObjectInside,
             internalPollution = controlGRVStepBusiness.internalPollution,
+            observationInspection = controlGRVStepBusiness.observationInspection,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
         is ControlGRVStepBusiness.ControlGRVStep5 -> StepControlGRV.Step5ControlGRV(
@@ -166,6 +182,7 @@ object FrontControlGRCMapper {
             etancheiteConforme2 = controlGRVStepBusiness.etancheiteOK2,
             etancheiteDate2 = controlGRVStepBusiness.etancheiteDate2,
             etancheiteBar2 = controlGRVStepBusiness.etancheiteBar2,
+            finalObservation = controlGRVStepBusiness.finalObservation,
             controlGRVForeignId = controlGRVStepBusiness.controlGRVForeignId
         )
     }
@@ -178,6 +195,9 @@ object FrontControlGRCMapper {
             customerSerialNumber = stepControlGRV.customerSerialNumber ?: "",
             serialNumberAlorem = stepControlGRV.serialNumberAlorem ?: "",
             type = stepControlGRV.type ?: "",
+            period = stepControlGRV.period,
+            isRepaired = stepControlGRV.isRepaired,
+            manufacturer = stepControlGRV.manufacturer,
             controlGRVForeignId = stepControlGRV.reference ?: 0
         )
         is StepControlGRV.Step1ControlGRV -> ControlGRVStepBusiness.ControlGRVStep1(
@@ -203,6 +223,7 @@ object FrontControlGRCMapper {
             shellThickness = stepControlGRV.shellThickness ?: 0,
             pictogramStacking = stepControlGRV.pictogramStacking,
             weightStacking = stepControlGRV.weightStacking ?: 0,
+            western = stepControlGRV.western ?: "",
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
         is StepControlGRV.Step3ControlGRV -> ControlGRVStepBusiness.ControlGRVStep3(
@@ -225,6 +246,7 @@ object FrontControlGRCMapper {
             internalClean = stepControlGRV.internalClean,
             internalObjectInside = stepControlGRV.internalObjectInside,
             internalPollution = stepControlGRV.internalPollution,
+            observationInspection = stepControlGRV.observationInspection ?: "",
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
         is StepControlGRV.Step5ControlGRV -> ControlGRVStepBusiness.ControlGRVStep5(
@@ -259,11 +281,12 @@ object FrontControlGRCMapper {
         is StepControlGRV.Step6ControlGRV -> ControlGRVStepBusiness.ControlGRVStep6(
             reference = stepControlGRV.reference ?: 0,
             etancheiteOK1 = stepControlGRV.etancheiteConforme1,
-            etancheiteDate1 = stepControlGRV.etancheiteDate1 ?: "",
+            etancheiteDate1 = stepControlGRV.etancheiteDate1 ?: LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE)),
             etancheiteBar1 = stepControlGRV.etancheiteBar1 ?: 0F,
             etancheiteOK2 = stepControlGRV.etancheiteConforme2,
             etancheiteDate2 = stepControlGRV.etancheiteDate2 ?: "",
             etancheiteBar2 = stepControlGRV.etancheiteBar2 ?: 0F,
+            finalObservation = stepControlGRV.finalObservation ?: "",
             controlGRVForeignId = stepControlGRV.controlGRVForeignId ?: 0
         )
     }

@@ -5,5 +5,6 @@ interface MenuInterface {
     fun loadGRVControlFragment()
     fun loadReportControlFragment()
     fun loadBuildControlFragment()
+    fun loadRemoteControlFragment()
     fun createRegistrationFragment(noUserExist: Boolean? = null)
 }

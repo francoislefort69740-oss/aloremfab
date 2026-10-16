@@ -95,7 +95,7 @@
             app:layout_constraintTop_toTopOf="@+id/menu_guideline_22_create_user" />
 
         <EditText
-            android:id="@+id/nameInput_create_user"
+            android:id="@+id/addressInput_remote"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="personFamilyName"
@@ -104,6 +104,7 @@
             android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@+id/nameTitle_create_user"
             app:layout_constraintEnd_toStartOf="@+id/menu_guideline_6_create_user"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/menu_guideline_start_inputs_create_user" />
 
         <TextView
@@ -127,7 +128,7 @@
             android:inputType="textPersonName"
             android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@+id/forenameTitle_create_user"
-            app:layout_constraintEnd_toEndOf="@+id/nameInput_create_user"
+            app:layout_constraintEnd_toEndOf="@+id/addressInput_remote"
             app:layout_constraintStart_toStartOf="@+id/menu_guideline_start_inputs_create_user" />
 
         <TextView
@@ -150,7 +151,7 @@
             android:inputType="textEmailAddress"
             android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@+id/emailTitle_create_user"
-            app:layout_constraintEnd_toEndOf="@+id/nameInput_create_user"
+            app:layout_constraintEnd_toEndOf="@+id/addressInput_remote"
             app:layout_constraintStart_toStartOf="@+id/menu_guideline_start_inputs_create_user" />
 
         <TextView

@@ -21,6 +21,9 @@ object ControlGRVStepMapper {
             customerSerialNumber = controlGRVStep0Local.customerSerialNumber,
             serialNumberAlorem = controlGRVStep0Local.serialNumberAlorem,
             type = controlGRVStep0Local.type,
+            period = controlGRVStep0Local.period,
+            manufacturer = controlGRVStep0Local.manufacturer,
+            isRepaired = controlGRVStep0Local.isRepaired,
             controlGRVForeignId = controlGRVStep0Local.foreignKey
         )
 
@@ -50,6 +53,7 @@ object ControlGRVStepMapper {
             shellThickness = controlGRVStep2Local.shellThickness,
             pictogramStacking = controlGRVStep2Local.pictogramStacking,
             weightStacking = controlGRVStep2Local.weightStacking,
+            western = controlGRVStep2Local.western,
             controlGRVForeignId = controlGRVStep2Local.foreignKey
         )
 
@@ -76,6 +80,7 @@ object ControlGRVStepMapper {
             internalClean = controlGRVStep4Local.internalClean,
             internalObjectInside = controlGRVStep4Local.internalObjectInside,
             internalPollution = controlGRVStep4Local.internalPollution,
+            observationInspection = controlGRVStep4Local.observationInspection,
             controlGRVForeignId = controlGRVStep4Local.foreignKey
         )
 
@@ -119,6 +124,7 @@ object ControlGRVStepMapper {
             etancheiteOK2 = controlGRVStep6Local.etancheiteOK2,
             etancheiteDate2 = controlGRVStep6Local.etancheiteDate2,
             etancheiteBar2 = controlGRVStep6Local.etancheiteBar2,
+            finalObservation = controlGRVStep6Local.finalObservation,
             controlGRVForeignId = controlGRVStep6Local.foreignKey
         )
 
@@ -132,6 +138,9 @@ object ControlGRVStepMapper {
             customerSerialNumber = controlGRVStepBusiness.customerSerialNumber,
             serialNumberAlorem = controlGRVStepBusiness.serialNumberAlorem,
             type = controlGRVStepBusiness.type,
+            period = controlGRVStepBusiness.period,
+            isRepaired = controlGRVStepBusiness.isRepaired,
+            manufacturer = controlGRVStepBusiness.manufacturer,
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 
@@ -161,6 +170,7 @@ object ControlGRVStepMapper {
             shellThickness = controlGRVStepBusiness.shellThickness,
             pictogramStacking = controlGRVStepBusiness.pictogramStacking,
             weightStacking = controlGRVStepBusiness.weightStacking,
+            western = controlGRVStepBusiness.western,
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 
@@ -187,6 +197,7 @@ object ControlGRVStepMapper {
             internalClean = controlGRVStepBusiness.internalClean,
             internalObjectInside = controlGRVStepBusiness.internalObjectInside,
             internalPollution = controlGRVStepBusiness.internalPollution,
+            observationInspection = controlGRVStepBusiness.observationInspection,
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 
@@ -230,6 +241,7 @@ object ControlGRVStepMapper {
             etancheiteOK2 = controlGRVStepBusiness.etancheiteOK2,
             etancheiteDate2 = controlGRVStepBusiness.etancheiteDate2,
             etancheiteBar2 = controlGRVStepBusiness.etancheiteBar2,
+            finalObservation = controlGRVStepBusiness.finalObservation,
             foreignKey = controlGRVStepBusiness.controlGRVForeignId
         )
 }

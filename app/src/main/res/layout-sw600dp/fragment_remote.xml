@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.RemoteFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/background"
+        tools:context=".activity.MainActivity">
+
+        <ImageView
+            android:id="@+id/white_remote_grv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_remote_grv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView_alorem_remote_grv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_item_border"
+            android:src="@drawable/alorem"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_remote_grv"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_1_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_2_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_3_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.4"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_4_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.45"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_5_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.55"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_6_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.6"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_7_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_10_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_8_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/menu_guideline_9_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.99"/>
+
+        <EditText
+            android:id="@+id/addressInput_remote"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="personFamilyName"
+            android:hint="@string/remote_server_address_title"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/title_tab_remote_grv"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_10_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_2_remote_grv"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_remote_grv" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/changeBtn_remote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/iaphotologo"
+            android:padding="20dp"
+            android:text="@string/remote_change"
+            android:textColor="@color/black"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toTopOf="@+id/title_tab_remote_grv"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_7_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_10_remote_grv"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_1_remote_grv" />
+
+        <TextView
+            android:id="@+id/title_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remote_connexion_title"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_1_remote_grv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView_alorem_remote_grv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title_tab_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/remote_tab_title"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_8_remote_grv"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_4_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_2_remote_grv" />
+
+        <TextView
+            android:id="@+id/title_server_remote_grv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/remote_server_title"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_8_remote_grv"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_7_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_remote_grv" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tab_recycler_remote_grv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/rounded_item_selector"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_9_remote_grv"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_4_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_2_remote_grv"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_8_remote_grv" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/server_recycler_remote_grv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/rounded_item_selector"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/menu_guideline_9_remote_grv"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_7_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_remote_grv"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_8_remote_grv" />
+
+        <ProgressBar
+            android:id="@+id/tab_progress_remote_grv"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:indeterminateTint="@color/primary_color"
+            app:layout_constraintBottom_toBottomOf="@+id/tab_recycler_remote_grv"
+            app:layout_constraintEnd_toEndOf="@+id/tab_recycler_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/tab_recycler_remote_grv"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_8_remote_grv" />
+
+        <ProgressBar
+            android:id="@+id/remote_progress_remote_grv"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:indeterminateTint="@color/primary_color"
+            app:layout_constraintBottom_toBottomOf="@+id/tab_recycler_remote_grv"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_7_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_remote_grv"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_8_remote_grv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
