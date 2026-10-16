@@ -17,4 +17,9 @@ class RemoteListAdapter(private var controls: MutableList<ControlGRV>, private v
         controls.removeAt(position)
         notifyItemRemoved(position)
     }
+
+    fun addItem(item: ControlGRV) {
+        controls.add(item)
+        notifyItemInserted(controls.lastIndex)
+    }
 }

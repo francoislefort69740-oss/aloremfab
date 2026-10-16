@@ -193,6 +193,32 @@
             app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_remote_grv"
             app:layout_constraintTop_toTopOf="@+id/menu_guideline_8_remote_grv" />
 
+        <ProgressBar
+            android:id="@+id/tab_progress_remote_grv"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:indeterminateTint="@color/primary_color"
+            app:layout_constraintBottom_toBottomOf="@+id/tab_recycler_remote_grv"
+            app:layout_constraintEnd_toEndOf="@+id/tab_recycler_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/tab_recycler_remote_grv"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_8_remote_grv" />
+
+        <ProgressBar
+            android:id="@+id/remote_progress_remote_grv"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:indeterminateTint="@color/primary_color"
+            app:layout_constraintBottom_toBottomOf="@+id/tab_recycler_remote_grv"
+            app:layout_constraintEnd_toStartOf="@+id/menu_guideline_7_remote_grv"
+            app:layout_constraintStart_toStartOf="@+id/menu_guideline_5_remote_grv"
+            app:layout_constraintTop_toTopOf="@+id/menu_guideline_8_remote_grv" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

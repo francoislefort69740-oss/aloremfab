@@ -2,11 +2,9 @@ package com.example.myapplication.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,32 +49,47 @@ class RemoteFragment : BaseFragment() {
     }
 
     private fun getObservations(view: View) {
-        viewModel.remoteControlGRVLiveData().observe(this) { lists ->
-            serverAdapter = RemoteListAdapter(lists.first.toMutableList(), onItemClicked = { position, serialNumber ->
-                val item = lists.first[position]
-                val uidToFetch = item.uid ?: serialNumber
-                viewModel.getControlFromRemote(id = uidToFetch, baseUrl = getRemoteAddress(context = requireContext()))
-            })
-            serverRecycler.adapter = serverAdapter
-            serverRecycler.layoutManager = LinearLayoutManager(view.context)
+        val progressTab = view.findViewById<ProgressBar>(R.id.tab_progress_remote_grv)
+        val progressServer = view.findViewById<ProgressBar>(R.id.remote_progress_remote_grv)
 
+        viewModel.remoteControlGRVLiveData().observe(this) { lists ->
 
             tabAdapter = RemoteListAdapter(lists.second.toMutableList(), onItemClicked = { position, serialNumber ->
+                progressAnimation(view = view, progressShow = true)
                 tabAdapter.removeItem(position = position)
                 viewModel.sendControlToPostgresSql(reference = serialNumber, list = lists.first, baseUrl = getRemoteAddress(context = requireContext()))
             })
             tabRecycler.adapter = tabAdapter
             tabRecycler.layoutManager = LinearLayoutManager(view.context)
 
+            serverAdapter = RemoteListAdapter(lists.first.toMutableList(), onItemClicked = { position, serialNumber ->
+                progressAnimation(view = view, progressShow = true)
+                val item = lists.first[position]
+                val uidToFetch = item.uid ?: serialNumber
+                tabAdapter.addItem(item = item)
+                viewModel.getControlFromRemote(id = uidToFetch, baseUrl = getRemoteAddress(context = requireContext()))
+            })
+            serverRecycler.adapter = serverAdapter
+            serverRecycler.layoutManager = LinearLayoutManager(view.context)
+
         }
 
         viewModel.sendControlGRVToRemoteLiveData().observe(this) {
+            progressAnimation(view = view, progressShow = false)
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
         viewModel.importRemoteControlLiveData().observe(this) {
+            progressAnimation(view = view, progressShow = false)
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun progressAnimation(view: View, progressShow: Boolean) {
+        view.findViewById<ProgressBar>(R.id.tab_progress_remote_grv).visibility = if (progressShow) View.VISIBLE else View.GONE
+        view.findViewById<ProgressBar>(R.id.remote_progress_remote_grv).visibility = if (progressShow) View.VISIBLE else View.GONE
+        tabRecycler.visibility = if (progressShow) View.GONE else View.VISIBLE
+        serverRecycler.visibility = if (progressShow) View.GONE else View.VISIBLE
     }
 
 
